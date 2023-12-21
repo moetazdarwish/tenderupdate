@@ -1,0 +1,87 @@
+{% load static  %}
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+
+<body onload="date_time()">
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        {% if request.user.is_authenticated %}
+        <div class="container-fluid page-body-wrapper">
+
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Attendence</h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            <div class="row"><div class="col-md-3"><select name="mnth" class="form-control" ><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
+                                                            
+                                                            <div class="col-md-5"><div class="row"><div class="col-md-8"> <input type="text " name="emp_id" value="" placeholder="Search By Name or Code" class="form-control " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'attendenceList' %}" hx-vals='{"action":"get"}'
+                                                                hx-trigger="keyup changed delay:500ms"
+                                                                hx-target="#lstdat" hx-swap="innerHTML" hx-include="[name='mnth']" required></div> </div></div>
+                                                                
+                                                                <div class="row" style="padding-top: 20px;"><div class="table-responsive col-md-12">
+                                                                    <table class="table ">
+                                                                        <thead><tr class=" text-center "><th>Name</th><th>Date</th><th>Coming Time</th><th>Leaving Time</th><th>Duration</th><th>Remark</th></tr></thead>
+                                                                        <tbody id="lstdat">
+                                                                            {% for i in empy%}
+                                                                            <tr style="text-align: center;">
+                                                                                <td>{{i.name}}</td>
+                                                                                <td>{{i.date}}</td>
+                                                                                <td>{{i.in_time}}</td>
+                                                                                <td>{{i.out_time}}</td>
+                                                                                <td>{{i.duration|duration}}</td>
+                                                                                <td>{{i.action}}</td>
+                                                                            </tr>
+                                                                            {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                    </div>
+                                                                </div> 
+                                                        </div>
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+        </div>
+       {% endif %}
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>

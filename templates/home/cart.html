@@ -1,0 +1,202 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/homehead.html" %}
+
+<body>
+
+    <!-- Spinner Start -->
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar start -->
+    <div class="container-fluid nav-bar">
+        {% include "navs/homenav.html" %}
+    </div>
+    <!-- Navbar End -->
+
+    <div class="container-fluid bg-light py-6 my-4 mt-0">
+        <div class="container text-center animated bounceInDown">
+            <h1 class="display-1 mb-4">Cart</h1>
+            
+        </div>
+    </div>
+
+        <!-- About Satrt -->
+        <div class="container-fluid py-6">
+            <div class="container">
+                <div class="row g-5 ">
+                   
+                    <div class="col-md-6 " style="padding: 20px;" id="cst">
+                        {% if cp.name %}
+                        <div class="row g-4 text-dark mb-5" style="padding: 10px;">
+                            <div class="col-md-12">
+                                <h4  >Welcome Back  : &nbsp<span> {{cp.name}}</span></h4>
+                               
+                            </div>
+                            
+                        </div>
+                        {% else %}
+                        <div class=" border " style="padding: 20px;">
+                            <div class="row">
+                            <div class="col-md-12">
+                                <h5>Returning Customer Write Your Phone</h5>
+                                <input type="number" name="phone" class="form-control border-primary p-2" placeholder="Your Phone " >
+                                
+                            </div>
+                            
+                        </div>
+                        <div class="row" style="padding: 20px; flex-direction: row-reverse">
+                            <div class="col-md-4">
+                                <button class="d-flex py-2 mx-2 border border-primary bg-white rounded-pill " hx-include="[name='phone']" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"fnd"}'  hx-target="#cst"><span class="text-dark" style="width: 150px;" > Find</span></button>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row " style="padding: 10px;">
+                            <div class="col-md-12">
+                                <h5 class="display-5 mb-4">Or</h5>
+                                
+                            </div>
+                        </div>
+                        
+                           
+                        
+                        <div class="border border-primary" style="padding: 20px;" id="">
+                        <form hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"paycut","val":"{{obj.id}}"}' hx-trigger="submit" hx-target="#cst"  >
+                        <div class="row" style="padding: 10px;">
+                            <div class="col-md-6">
+                                <h5>Full Name</h5>
+                                <input type="text" name="name" class="form-control border-primary p-2" placeholder="Your Name " required>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Phone</h5>
+                                <input type="number" name="phone" class="form-control border-primary p-2" placeholder="Your Phone " required>
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 10px;">
+                            <div class="col-md-6">
+                                <h5>E-mail</h5>
+                                <input type="email" name="mail" class="form-control border-primary p-2" placeholder="Your Email ">
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Special Date</h5>
+                                <input type="date" name="date" class="form-control border-primary p-2" placeholder="Special Date ">
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 10px;">
+                            <div class="col-md-6">
+                                <h5>How You Know Us</h5>
+                                <input type="text" name="know" class="form-control border-primary p-2" placeholder="How You Know Us ">
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Special Note</h5>
+                                <input type="text" name="note" class="form-control border-primary p-2" placeholder="Special Note ">
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 10px;">
+                            <div class="col-md-12">
+                                <h5>First Address</h5>
+                                <input type="text" name="add1" class="form-control border-primary p-2" placeholder="Main Address " required>
+                            </div>
+                        
+                        </div>
+                        <div class="row" style="padding: 10px;">
+                            <div class="col-md-12">
+                                <h5>Second Address</h5>
+                                <input type="text" name="add2" class="form-control border-primary p-2" placeholder="Second Address ">
+                            </div>
+                        
+                        </div>
+                        <div class="row" style="padding: 10px;">
+                            <div class="col-md-12">
+                                <h5>Third Address</h5>
+                                <input type="text" name="add3" class="form-control border-primary p-2" placeholder="Third Address">
+                            </div>
+                        
+                        </div>
+                        <div class="row" style="flex-direction: row-reverse;">
+                            <div class="col-md-4">
+                                <button class="d-flex py-2 mx-2 border border-primary bg-white rounded-pill" type="submit" ><span class="text-dark" style="width: 150px;" > Add</span></button>
+                            </div>
+                        </div>
+                    </form>
+                      </div> 
+                      {% endif %}
+                    </div> 
+                    
+                  <div class="col-md-6 " style="padding: 20px;">
+                    <table class="table">
+                        <thead>
+                        <tr style="text-align: center;">
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbdy">
+
+                        
+                        {% for item in obj.get_orderlst %}
+                        <tr style="text-align: center;">
+                            <td>{{item.product.name.name}}</td>
+                            <td><button class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-2 py-1 mb-1" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"mins","val":"{{item.id}}"}' hx-target="#tbdy"><i class="fas fa-minus"></i></button><small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-3 py-2 mb-1">{{item.quantity}}</small><button class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-2 py-1 mb-1" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"add","val":"{{item.id}}"}' hx-target="#tbdy" ><i class="fas fa-plus" ></i></button></td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.get_total}}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr style="text-align: center;">
+                            <td colspan="3">Sub Total</td>
+                            <td>{{obj.get_cart_sub_total}}</td>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <td colspan="3"><select class="form-select border-primary p-2" name="slarea" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"ara","val":"{{obj.id}}"}' hx-target="#dsparea" hx-trigger="change">
+                                <option selected="">Select Delivery Area</option>
+                                {% for i in area %}
+                                <option value="{{i.id}}">{{i.area}}</option>
+                               {% endfor %}
+                            </select></td>
+                            <td id="dsparea">{{obj.get_delivery}}</td>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <td colspan="3">Tax VAT</td>
+                            <td>{{obj.get_VAT}}</td>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <td colspan="3">Total</td>
+                            <td>{{obj.get_cart_total}}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <div class="row" style="flex-direction: row-reverse;">
+                        <div class="col-md-4">
+                            <button class="d-flex py-2 mx-2 border border-primary bg-white rounded-pill" type="submit" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"pay","val":"{{obj.id}}"}' ><span class="text-dark" style="width: 150px;"  > Confirm Order</span></button>
+                        </div>
+                    </div>
+                    
+                    
+                  </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+ 
+  
+
+       
+        {% include "navs/homefooter.html" %}
+
+        <!-- Back to Top -->
+        <a href="https://wa.me/6281228430523?text=Hi%20Qiscus" class="floating" target="_blank">
+            <i class="fab fa-whatsapp fab-icon"></i> 
+            </a> 
+
+        
+        {% include "navs/homedown.html" %}
+    </body>
+</html>

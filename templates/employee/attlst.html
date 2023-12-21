@@ -1,0 +1,11 @@
+{% load custom_tags %}
+{% for i in empy%}
+<tr style="text-align: center;">
+	<td>{{i.name}}</td>
+	<td>{{i.date}}</td>
+	<td>{{i.in_time}}</td>
+	<td>{{i.out_time}}</td>
+	<td>{{i.duration|duration}}</td>
+	<td>{{i.action}}</td>
+</tr>
+{% endfor %}

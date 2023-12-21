@@ -1,0 +1,92 @@
+{% if sts == 'selct' %}
+<div class="row" style="flex-direction: row-reverse">
+	<div class="col-md-2"> <button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-get="{% url 'accRequest' %}" hx-target="body">Back</button></div>
+</div>
+<div class="row">
+<div class="col-md-4"><span><h4>Display / Edit Record</h4></span></div>
+</div>
+
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Refrence</h5></label>
+			<input type="text" class="form-control" value="{{jr.ref}}" name="ref" disabled>
+		</div>
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Date*</h5></label>
+			<input type="text" class="form-control" value="{{jr.e_date}}" name="date" disabled>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Description</h5></label>
+		   <input cols="30" rows="4" name="description"
+		   class="form-control" value="{{jr.description}}"  disabled >
+		</div>
+		
+	</div>
+	<div id="entr">
+	<div class="row" style="padding-top: 10px;">
+		<div class="col-md-12">
+			<div class="row" style="padding: 10px;"><div class="col-md-4"><span><h4>Debit Side</h4></span></div>
+				<div class="col-md-4"><h5>Est Total Amount : {{amount}}</h5></div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"edred","val":"{{jr.id}}"}' hx-target="#recd" hx-swap="beforeend"> Add Entry</button>
+				</div>
+				
+			</div>
+			<div >
+				<table class="table">
+					<thead>
+					<tr>
+						<th>Code</th>
+						<th>Acc Name</th>
+						<th>Amount</th>
+						<th>Ref</th>
+						<th colspan="2">Action</th>
+					</tr>
+					</thead>
+					<tbody id="recd">
+						
+					</tbody>
+				</table>
+			   
+			</div>
+		</div>
+	</div>
+	<div class="row" style="padding-top: 10px;">
+		<div class="col-md-12">
+			<div class="row" style="padding: 10px;">
+				<div class="col-md-4"><span><h4>Credit Side</h4></span></div>
+				<div class="col-md-4"><h5>Est Total Amount : {{amount}}</h5></div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"edrec","val":"{{jr.id}}"}' hx-target="#reccr" hx-swap="beforeend"> Add Entry</button>
+				</div>
+				
+			</div>
+			<div >
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Code</th>
+							<th>Acc Name</th>
+							<th>Amount</th>
+							<th>Ref</th>
+							<th colspan="2">Action</th>
+						</tr>
+						</thead>
+					<tbody id="reccr">
+						
+					</tbody>
+				</table>
+			   
+			</div>
+		</div>
+	</div>
+	</div>
+	
+
+{% endif %}

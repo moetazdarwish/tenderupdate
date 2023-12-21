@@ -1,0 +1,410 @@
+{% if sts == 'key' %}
+<div class="card" id="adct" >
+	<div class="card-body " style="background-color:#79dda8ba;border-radius: 15px ;margin: 10px;">
+		<div class="row" style="padding: 2%;">
+				<div class="col-md-3">
+					<input type="text" class="form-control" placeholder="Account Name" id="name" name="name" required >
+				</div>
+
+
+				<div class="col-md-3">
+					<input type="number" class="form-control" placeholder="Account Code" id="code" name="code" required >
+				</div>
+				<div class="col-md-3">
+					<select name="prnt" id="prnt" class="form-control">
+						{% for i in ap %}
+			<option value="{{i.id}}">{{i.code}}-{{i.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+		</div>
+	
+
+		<div class="row" style="padding: 2%;">
+			<div class="col-md-2">
+				<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'creatAccount' %}" hx-vals='{"action":"add"}' hx-trigger="acc" hx-target="body" hx-include="[name='name'],[name='code'],[name='prnt']" _= "on click
+				if #name's value is empty Swal.fire({title: 'Missing Data', 
+				text:'Hey!  There are Missing Data!!! '}) then halt end if #code's value is empty Swal.fire({title: 'Missing Data', 
+				text:'Hey!  There are Missing Data!!! '}) then halt end
+				trigger acc"> Add</button>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+			</div>
+		</div>
+	</div>
+	
+</div>
+{% endif %}
+
+{% if sts == 'dred' %}
+
+
+	<td><input type="number" class="form-control" value="{{ak.0.code}}" name="dkey"></td>
+	<td><input type="text" class="form-control" value="{{ak.0.name}}" disabled></td>
+	<td><input type="number" class="form-control" placeholder="Amount" name="damount" required></td>
+	<td><input type="text" class="form-control" value=" " placeholder="Amount" name="drf" required></td>
+	<td> <button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-delete="{% url 'delete' %}" hx-target="closest tr">Remove</button></td>
+
+
+{% endif %}
+
+{% if sts == 'cred' %}
+
+
+	<td><input type="number" class="form-control" value="{{ak.0.code}}" name="ckey"></td>
+	<td><input type="text" class="form-control" value="{{ak.0.name}}" disabled></td>
+	<td><input type="number" class="form-control" placeholder="Amount" name="camount" required></td>
+	<td><input type="text" class="form-control" value=" " placeholder="Amount" name="crf" ></td>
+	<td> <button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-delete="{% url 'delete' %}" hx-target="closest tr">Remove</button></td>
+
+
+{% endif %}
+
+{% if sts == 'recd' %}
+<tr>
+	<td><input type="number" class="form-control" placeholder="Account Key" name="key" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'creatAccount' %}" hx-vals='{"action":"getkey"}' hx-target="closest tr" hx-trigger="change" ></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+{% endif %}
+{% if sts == 'rec' %}
+<tr>
+	<td><input type="number" class="form-control" placeholder="Account Key" name="key" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'creatAccount' %}" hx-vals='{"action":"cgetkey"}' hx-target="closest tr" hx-trigger="change" ></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+{% endif %}
+
+{% if sts == 'new' %}
+<div class="row" style="flex-direction: row-reverse">
+	<div class="col-md-2"> <button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-get="{% url 'journal' %}" hx-target="body">Cancel</button></div>
+</div>
+<div class="row">
+<div class="col-md-4"><span><h4>New Record</h4></span></div>
+</div>
+<form hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"add"}' hx-target="body">
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Refrence</h5></label>
+			<input type="text" class="form-control" placeholder="Entry Refrence .." name="ref" required>
+		</div>
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Date*</h5></label>
+			<input type="date" class="form-control" placeholder="Entry Date" name="date" required>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Description</h5></label>
+		   <textarea cols="30" rows="4" name="dec"
+		   class="form-control"  placeholder="Description" required></textarea>
+		</div>
+		
+	</div>
+	<div class="row" style="padding-top: 10px;">
+		<div class="col-md-12">
+			<div class="row" style="padding: 10px;"><span><h4>Debit Side</h4></span></div>
+			<div class="row">
+				<div class="col-md-4">
+					<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"recd"}' hx-target="#recd" hx-swap="beforeend"> Add Entry</button>
+				</div>
+				
+			</div>
+			<div >
+				<table class="table">
+					<tbody id="recd">
+						<tr>
+											
+							<td><input type="number" class="form-control" placeholder="Account Key" name="key" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'creatAccount' %}" hx-vals='{"action":"getkey"}' hx-target="closest tr" hx-trigger="change" ></td>
+							<td></td>
+							<td></td>
+							<td></td>
+					
+						</tr>
+					</tbody>
+				</table>
+			   
+			</div>
+		</div>
+	</div>
+	<div class="row" style="padding-top: 10px;">
+		<div class="col-md-12">
+			<div class="row" style="padding: 10px;"><span><h4>Credit Side</h4></span></div>
+			<div class="row">
+				<div class="col-md-4">
+					<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"reccr"}' hx-target="#reccr" hx-swap="beforeend"> Add Entry</button>
+				</div>
+				
+			</div>
+			<div >
+				<table class="table">
+					<tbody id="reccr">
+						<tr>
+							<td><input type="number" class="form-control" placeholder="Account Key" name="key" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'creatAccount' %}" hx-vals='{"action":"cgetkey"}' hx-target="closest tr" hx-trigger="change" ></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			   
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<button class="btn btn-primary btn-sm">Save Record</button>
+		</div>
+	</div>
+</form>
+{% endif %}
+
+{% if sts == 'edit' %}
+<div class="row" style="flex-direction: row-reverse">
+	<div class="col-md-2"> <button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-get="{% url 'journal' %}" hx-target="body">Back</button></div>
+</div>
+<div class="row">
+<div class="col-md-4"><span><h4>Display / Edit Record</h4></span></div>
+</div>
+
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Refrence</h5></label>
+			<input type="text" class="form-control" value="{{jr.ref}}" name="ref" disabled>
+		</div>
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Date*</h5></label>
+			<input type="date" class="form-control" value="{{jr.e_date}}" name="date" disabled>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Description</h5></label>
+		   <input cols="30" rows="4" name="description"
+		   class="form-control" value="{{jr.description}}"  disabled >
+		</div>
+		
+	</div>
+	<div id="entr">
+		<div class="row" style="padding-top: 10px;">
+			<div class="col-md-12">
+				<div class="row" style="padding: 10px;"><span><h4>Debit Side</h4></span></div>
+				<div class="row">
+					<div class="col-md-4">
+						<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"edred","val":"{{jr.id}}"}' hx-target="#recd" hx-swap="beforeend"> Add Entry</button>
+					</div>
+					
+				</div>
+				<div >
+					<table class="table">
+						<thead>
+						<tr>
+							<th>Code</th>
+							<th>Acc Name</th>
+							<th>Amount</th>
+							<th>Ref</th>
+							<th colspan="2">Date</th>
+						</tr>
+						</thead>
+						<tbody id="recd">
+							{% for i in jr.get_debit %}	
+							<tr>
+											
+								<td><input type="text" class="form-control" value="{{i.key.code}}" disabled></td>
+								<td><input type="text" class="form-control" value="{{i.key.name}}" disabled></td>
+								<td><input type="text" class="form-control" value="{{i.amount}}" disabled></td>
+								<td><input type="text" class="form-control" value="{{i.ex_ref}}" disabled></td>
+								<td> <input type="text" class="form-control" value="{{i.date}}" disabled></td>
+							
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				   
+				</div>
+			</div>
+		</div>
+		<div class="row" style="padding-top: 10px;">
+			<div class="col-md-12">
+				<div class="row" style="padding: 10px;"><span><h4>Credit Side</h4></span></div>
+				<div class="row">
+					<div class="col-md-4">
+						<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"edrec","val":"{{jr.id}}"}' hx-target="#reccr" hx-swap="beforeend"> Add Entry</button>
+					</div>
+					
+				</div>
+				<div >
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Code</th>
+								<th>Acc Name</th>
+								<th>Amount</th>
+								<th>Ref</th>
+								<th colspan="2">Date</th>
+							</tr>
+							</thead>
+						<tbody id="reccr">
+							{% for i in jr.get_credit %}
+							<tr>
+												
+								<td><input type="text" class="form-control" value="{{i.key.code}}" disabled></td>
+								<td><input type="text" class="form-control" value="{{i.key.name}}" disabled></td>
+								<td><input type="text" class="form-control" value="{{i.amount}}" disabled></td>
+								<td><input type="text" class="form-control" value="{{i.ex_ref}}" disabled></td>
+								<td> <input type="text" class="form-control" value="{{i.date}}" disabled></td>
+							
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				   
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+{% endif %}
+{% if sts == 'edupd' %}
+<div class="row" style="padding-top: 10px;">
+	<div class="col-md-12">
+		<div class="row" style="padding: 10px;"><span><h4>Debit Side</h4></span></div>
+		<div class="row">
+			<div class="col-md-4">
+				<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"edred","val":"{{jr.id}}"}' hx-target="#recd" hx-swap="beforeend"> Add Entry</button>
+			</div>
+			
+		</div>
+		<div >
+			<table class="table">
+				<thead>
+				<tr>
+					<th>Code</th>
+					<th>Acc Name</th>
+					<th>Amount</th>
+					<th>Ref</th>
+					<th colspan="2">Date</th>
+				</tr>
+				</thead>
+				<tbody id="recd">
+					{% for i in jr.get_debit %}	
+					<tr>
+									
+						<td><input type="text" class="form-control" value="{{i.key.code}}" disabled></td>
+						<td><input type="text" class="form-control" value="{{i.key.name}}" disabled></td>
+						<td><input type="text" class="form-control" value="{{i.amount}}" disabled></td>
+						<td><input type="text" class="form-control" value="{{i.ex_ref}}" disabled></td>
+						<td> <input type="text" class="form-control" value="{{i.date}}" disabled></td>
+					
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		   
+		</div>
+	</div>
+</div>
+<div class="row" style="padding-top: 10px;">
+	<div class="col-md-12">
+		<div class="row" style="padding: 10px;"><span><h4>Credit Side</h4></span></div>
+		<div class="row">
+			<div class="col-md-4">
+				<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"edrec","val":"{{jr.id}}"}' hx-target="#reccr" hx-swap="beforeend"> Add Entry</button>
+			</div>
+			
+		</div>
+		<div >
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Acc Name</th>
+						<th>Amount</th>
+						<th>Ref</th>
+						<th colspan="2">Date</th>
+					</tr>
+					</thead>
+				<tbody id="reccr">
+					{% for i in jr.get_credit %}
+					<tr>
+										
+						<td><input type="text" class="form-control" value="{{i.key.code}}" disabled></td>
+						<td><input type="text" class="form-control" value="{{i.key.name}}" disabled></td>
+						<td><input type="text" class="form-control" value="{{i.amount}}" disabled></td>
+						<td><input type="text" class="form-control" value="{{i.ex_ref}}" disabled></td>
+						<td> <input type="text" class="form-control" value="{{i.date}}" disabled></td>
+					
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		   
+		</div>
+	</div>
+</div>
+{% endif %}
+{% if sts == 'edred' %}
+<tr>
+	<td><input type="number" class="form-control" placeholder="Account Key" name="key" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'creatAccount' %}" hx-vals='{"action":"edred","val":"{{val}}"}' hx-target="closest tr" hx-trigger="change" ></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+{% endif %}
+{% if sts == 'edrec' %}
+<tr>
+	<td><input type="number" class="form-control" placeholder="Account Key" name="key" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'creatAccount' %}" hx-vals='{"action":"edrec","val":"{{val}}"}' hx-target="closest tr" hx-trigger="change" ></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+{% endif %}
+{% if sts == 'dbedt' %}
+
+
+	<td><input type="number" class="form-control" value="{{ak.0.code}}" name="dkey"></td>
+	<td><input type="text" class="form-control" value="{{ak.0.name}}" disabled></td>
+	<td><input type="number" class="form-control" placeholder="Amount" name="damount" required></td>
+	<td><input type="text" class="form-control" value=" " placeholder="Amount" name="drf" ></td>
+	<td> <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} 'hx-post="{% url 'journal' %}" hx-vals='{"action":"dbedit","val":"{{val}}"}' hx-target="#entr" hx-include="[name='dkey'],[name='damount'],[name='drf']">Add</button></td>
+	<td>  <button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-delete="{% url 'delete' %}" hx-target="closest tr">Remove</button></td>
+
+
+{% endif %}
+
+{% if sts == 'ecred' %}
+
+
+	<td><input type="number" class="form-control" value="{{ak.0.code}}" name="ckey"></td>
+	<td><input type="text" class="form-control" value="{{ak.0.name}}" disabled></td>
+	<td><input type="number" class="form-control" placeholder="Amount" name="camount" required></td>
+	<td><input type="text" class="form-control" value=" " placeholder="Amount" name="crf" ></td>
+	<td> <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} 'hx-post="{% url 'journal' %}" hx-vals='{"action":"credit","val":"{{val}}"}' hx-target="#entr" hx-include="[name='ckey'],[name='camount'],[name='crf']">Add</button></td>
+	<td>  <button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-delete="{% url 'delete' %}" hx-target="closest tr">Remove</button></td>
+
+
+{% endif %}
+
+{% if sts == 'fdate' %}
+
+{% for i in jrf %}
+<tr style="text-align: center;">
+ <td ><button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"edit","val":"{{i.id}}"}' hx-target="#addrsl">Open</button></td>
+ <td >{{i.ref}}</td>
+ <td >{{i.date|date:"d-m-y" }}</td>
+ <td colspan="2">{{i.description}}</td>
+
+	 <td style="border-left: 1px black solid;">{{i.get_debit.0.key.name}}</td>
+	 <td>{{i.get_debit_total}} </td>
+	 
+	 <td style="border-left: 1px black solid;">{{i.get_credit.0.key.name}}</td>
+	
+	 <td>{{i.get_credit_total}}</td>
+</tr> 
+
+{% endfor %}
+{% endif %}

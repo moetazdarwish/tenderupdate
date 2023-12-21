@@ -1,0 +1,374 @@
+{% if sts == 'cat' %}
+<div class="card" id="adct" style="padding: 2%;">
+	<div class="card-body " style="background-color:#adcdbc54;border-radius: 15px">
+<div class="row" style="padding: 2%;">
+	<div class="col-md-8">
+		<input type="text" class="form-control" placeholder="add Category" id="cate" name="cate" required >
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'customerList' %}" hx-vals='{"action":"catadd"}' hx-trigger="cat" hx-target="#addrsl" hx-include="[name='cate']" _= "on click
+		   if #cate's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end  trigger cat"> Add</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+	</div>
+</div>
+</div>
+</div>
+{% endif %}
+
+{% if sts == 'addcst' %}
+<form action="" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'customerList' %}" hx-vals='{"action":"new"}' hx-target="body">
+	<div class="row">
+		<div class="col-md-4">
+			<select name="categr" id="categr" class="form-control" required>
+				<option value="">Select Category</option>
+				{% for i in cat %}
+				<option value="{{i.id}}">{{i.name}}</option>
+
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col-md-2">
+			<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'customerList' %}" hx-vals='{"action":"cat"}' hx-target="#ctgr" >Create Category</button>
+		</div>
+	</div>
+	<div class="row" id="ctgr" style="padding: 10px;">
+
+	</div>
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Customer Name</h5></label>
+			<input type="text" class="form-control" placeholder="Customer Name" name="name" required>
+		</div>
+		<div class="col-md-6">
+			<label class="label add" > <h5>E-mail</h5></label>
+			<input type="email" name="email" class="form-control" placeholder="Email" required>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Phone</h5></label>
+			<input type="number" class="form-control" placeholder="Customer Phone" name="phone" required>
+		</div>
+		<div class="col-md-6">
+			<label class="label add" > <h5>Important Date</h5></label>
+			<input type="date" name="date" class="form-control" placeholder="Important Date" required>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Address</h5></label>
+			<textarea name="address" id="" class="form-control" cols="30" rows="4" placeholder="Customer Address" required></textarea>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Second Address</h5></label>
+			<textarea name="address1" id="" class="form-control" cols="30" rows="4" placeholder="Second Customer Address" ></textarea>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Third Address</h5></label>
+			<textarea name="address2" id="" class="form-control" cols="30" rows="4" placeholder="Third Customer Address" ></textarea>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Note</h5></label>
+			<textarea name="note" id="" class="form-control" cols="30" rows="2" placeholder="Customer Note" ></textarea>
+			
+		</div>
+		
+	</div>
+	<div class="row" style="margin-top: 10px;">
+		<div class="col-md-4" >
+			<label class="label add" > <h5>How Hear about us</h5></label>
+			<input type="text" class="form-control" placeholder="How Hear about us" name="know_us" required>
+		</div>
+		<div class="col-md-4">
+			<label class="label add" > <h5>VIP</h5></label>
+			<select class="form-control" name="vip">
+			 <option value="True">Yes</option>   
+			 <option value="False">No</option>   
+			</select>
+		</div>
+		<div class="col-md-4">
+			<label class="label add" > <h5>Family</h5></label>
+			<select class="form-control" name="family">
+			 <option value="True">Yes</option>   
+			 <option value="False">No</option>   
+			</select>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 10px;">
+	<div class="col-md-4">
+		<button type="submit" class="btn btn-warning btn-sm">SAVE</button>
+	</div>
+	</div>
+</form>
+{% endif %}
+
+{% if sts == 'detl' %}
+
+
+	<div class="row" style="flex-direction: row-reverse">
+		<div class="col-md-2">
+			<div class="btn btn-primary btn-sm" hx-get="{% url 'customerList' %}"  hx-target="body"> Back</div>
+		</div>
+	</div>
+	<div class="row" style="padding-top: 20px;">
+		<div class="col-md-4">
+			<input type="text" class="form-control" value="{{cst.direct.name}}" disabled>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Customer Name</h5></label>
+			<input type="text" class="form-control" value="{{cst.name}}" name="name" disabled>
+		</div>
+		<div class="col-md-6">
+			<label class="label add" > <h5>E-mail</h5></label>
+			<input type="email" name="email" class="form-control" value="{{cst.mail}}"  disabled>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Phone</h5></label>
+			<input type="number" class="form-control" value="{{cst.phone}}"  disabled>
+		</div>
+		<div class="col-md-6">
+			<label class="label add" > <h5>Important Date</h5></label>
+			<input type="text" name="date" class="form-control" value="{{cst.i_date}}"  disabled>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Address</h5></label>
+			<input name="address" id="" class="form-control" cols="30" rows="4" value="{{cst.addres_0}}"  disabled>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Second Address</h5></label>
+			<input name="address1" id="" class="form-control" cols="30" rows="4" value="{{cst.addres_1}}"  disabled>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Third Address</h5></label>
+			<input name="address2" id="" class="form-control" cols="30" rows="4" value="{{cst.addres_2}}"  disabled>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Note</h5></label>
+			<input name="note" id="" class="form-control" cols="30" rows="2" value="{{cst.note}}"  disabled>
+			
+		</div>
+		
+	</div>
+	<div class="row" style="margin-top: 10px;">
+		<div class="col-md-8" >
+			<label class="label add" > <h5>How Hear about us</h5></label>
+			<input type="text" class="form-control" value="{{cst.know_us}}"  disabled>
+		</div>
+		
+	</div>
+	<div class="row" style="margin-top: 10px;">
+		<div class="col-md-4">
+			<label class="label add" > <h5>VIP</h5></label>
+			<input type="text" class="form-control" value="{{cst.vip}}"  disabled>
+		
+		</div>
+		<div class="col-md-4">
+			<label class="label add" > <h5>Family</h5></label>
+			<input type="text" class="form-control" value="{{cst.famly}}"  disabled>
+		</div>
+	</div>
+	
+{% endif %}
+
+{% if sts == 'ord' %}
+<div class="row" style="flex-direction: row-reverse">
+    <div class="col-md-2">
+        <div class="btn btn-primary btn-sm" hx-get="{% url 'customerList' %}"  hx-target="body"> Back</div>
+    </div>
+</div>
+	<div class="row">
+		<table class="table">
+			<thead>
+			<tr>
+				<th>Order</th>
+				<th>Sub Total</th>
+				<th>Service</th>
+				<th>Discount</th>
+				<th>Delivery</th>
+				<th>VAT</th>
+				<th>Date</th>
+				<th>Action</th>
+			</tr>
+			</thead>
+			<tbody>
+				{% for i in crt %}
+				<tr>
+					<td>{{i.transaction_id}}</td>
+					<td>{{i.sub_total}}</td>
+					<td>{{i.service}}</td>
+					<td>{{i.discount}}</td>
+					<td>{{i.delivery}}</td>
+					<td>{{i.tax_amount}}</td>
+					<td>{{i.create_date}}</td>
+					<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'custmerOrders' pk=i.id %}" hx-target="#addrsl" hx-vals='{"action":"dtl"}'>Details</button></td>
+
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endif %}
+
+{% if sts == 'orddtl' %}
+<div class="row" style="flex-direction: row-reverse">
+	<div class="col-md-2">
+		<div class="btn btn-primary btn-sm" hx-get="{% url 'custmerOrders' pk=crt.customer.id %}"  hx-target="#addrsl"> Back</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<span>Order : {{crt.transaction_id}}</span>
+	</div>
+</div>
+{% for i in cp %}
+<div class="row" style="margin-top: 10px;">
+	<div class="card card-body">
+		<div class="row">
+			<div class="col-md-6">
+				<span> {{i.product.name.name}}</span>
+			</div>
+			<div class="col-md-2">
+				<span> {{i.quantity}}</span>
+			</div>
+			<div class="col-md-2">
+				<span> {{i.price}}</span>
+			</div>
+			<div class="col-md-2">
+				<span> {{i.get_total}}</span>
+			</div>
+
+		</div>
+		{% if i.feat %}
+		<div class="row" style="margin-top: 10px;">
+			<div class="card card-body">
+				{% for f in i.get_subfeatuers %}
+				<div class="row">
+					<div class="col-md-6">
+						<span>{% if f.product.raw %}{{f.product.raw.name}}{% else %} {{f.product.ingre.name}} {% endif %}</span>
+					</div>
+					<div class="col-md-6">
+						<span>{{f.quantity}}</span>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if sts == 'disc' %}
+<div class="row" style="flex-direction: row-reverse">
+                                                                            
+	<div class="col-md-3">
+		<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createDiscount' %}"  hx-target="body">Back</button>
+	</div>
+	<div class="col-md-3"></div>
+	
+</div>
+<form hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createDiscount' %}"  hx-vals='{"action":"add"}'  hx-target="body">
+<div class="row">
+	<div class="col-md-4">
+		<label class="label add" > <h5>Name</h5></label>
+		<input type="text" name="nme" class="form-control" placeholder="Discount Name." required>
+	</div>
+	<div class="col-md-4">
+		<label class="label add" > <h5>Category</h5></label>
+		<select name="cat" id="" class="form-control" required>
+			{% for i in cag %}
+			<option value="{{i.id}}">{{i.name}}</option>
+			{% endfor %}
+		</select>
+	</div>
+</div>
+<div class="row" style="margin-top: 20px;">
+	<div class="col-md-4">
+		<label class="label add" > <h5>Flat</h5></label>
+		<input type="text" name="flt" value="0" class="form-control" placeholder="Discount Flat." >
+	</div>
+	<div class="col-md-4">
+		<label class="label add" > <h5>Percentage %</h5></label>
+		<input type="text" name="percent" value="0.0" class="form-control" placeholder="Discount Percentage 0.0%." >
+	</div>
+</div>
+<div class="row" style="margin-top: 20px;">
+	<div class="col-md-2">
+		<label class="label add" > <h5>New Customer</h5></label>
+		<select name="new" id="" class="form-select">
+			<option value="True"> True</option>
+			<option value="False"> False</option>
+		</select>
+	</div>
+	<div class="col-md-2">
+		<label class="label add" class="form-select" > <h5>VIP</h5></label>
+		<select name="vip" id="" class="form-select">
+			<option value="True"> True</option>
+			<option value="False"> False</option>
+		</select>
+	</div>
+	<div class="col-md-2">
+		<label class="label add" > <h5>Family</h5></label>
+		<select name="fmly" id="" class="form-select">
+			<option value="True"> True</option>
+			<option value="False"> False</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label class="label add" > <h5>Category " All Memeber "</h5></label>
+		<select name="categr" id="" class="form-select">
+			<option value="True"> True</option>
+			<option value="False"> False</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label class="label add" > <h5>On Site</h5></label>
+		<select name="site" id="" class="form-select">
+			<option value="True"> True</option>
+			<option value="False"> False</option>
+		</select>
+	</div>
+</div>
+<div class="row" style="margin-top: 20px;">
+	<div class="col-md-4">
+		<button class="btn btn-warning btn-sm" type="submit">Save</button>
+	</div>
+</div>
+</form>
+{% endif %}

@@ -1,0 +1,530 @@
+<!-- subpos.html -->
+
+{% if sts == 'add' %}
+<div class="col-md-4" style="margin-top: 20px;" id="r-{{rp.id}}">
+	<div class="card" style="padding: 5px;background-color: #47c078;">
+		
+		<div class="card-body" style="padding: 0%;">
+			<div class="row " style="justify-content: center;padding-top: 10px;">
+				<div class="container-fluid d-flex" style="justify-content: center">
+					<h4 >{{rp.name.name}}</h4>
+				</div>
+			
+				
+			</div>
+			<div class="row" style="margin-left: 20px;">
+				<h4>Price : {{rp.price}}</h4>
+				
+			</div>
+		<div class="card card-body" style="margin-top: 5px;">
+			<div class="row " style="margin-top: 10px;justify-content: space-between">
+				{% if rp.feature %}
+				<div class="col-md-5">
+					<div class="row" style="align-items: center;">
+					<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#featuer{{rp.id}}">Extra</button>
+					</div>
+				</div>
+				{% endif %}
+				<div class="col-md-5" >
+					<div class="row" style="align-items: center;">
+						<button class="btn btn-warning btn-sm" type="button" data-toggle="collapse" data-target="#reciepe{{rp.id}}">Info</button>
+					</div>
+				</div>
+			
+				{% if rp.feature %}
+		
+				<div class="col-md-12 col-md-12 col-sm-12">
+					<div class="collapse multi-collapse" id="featuer{{rp.id}}">
+						<div class="card card-body">
+					{%for  f in rp.get_featuers %}
+							<div class="row">
+								<div class="col-md-4">{% if f.extra.raw %} {{f.extra.raw.name}} {% else %} {{f.extra.ingre.name}} {% endif %} </div>
+								<div class="col-md-4">{{f.price}}</div>
+								<div class="col-md-4"><button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"feat","code":"{{code}}","item":"{{rp.id}}","extr":"{{f.id}}"}'  hx-target="#r-{{rp.id}}" hx-swap="outerHTML" >Add</button></div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					</div>
+					{% endif %}
+					<div class="col-md-12 col-md-12 col-sm-12">
+						<div class="collapse multi-collapse" id="reciepe{{rp.id}}">
+							<div class="card card-body">
+								{{rp.name.s_descrip}}
+							</div>
+						</div>
+						</div>
+			</div>
+			<div class="row" style="margin-top: 20px;">
+	<button class="btn btn-primary btn-sm" style="padding: 20px 50px;"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"add","code":"{{code}}","item":"{{rp.id}}"}'  hx-target="#r-{{rp.id}}" hx-swap="outerHTML" >ADD</button>
+			</div>
+		</div>
+				
+			</div>
+			
+		</div>
+	</div>
+{% endif %}
+
+{% if sts == 'ctg' %}
+{% for i in rp %}
+<div class="col-md-4" style="margin-top: 20px;" id="r-{{i.id}}">
+	<div class="card" style="padding: 5px;">
+		
+		<div class="card-body" style="padding: 0%;">
+			<div class="row " style="justify-content: center;padding-top: 10px;">
+				<div class="container-fluid d-flex" style="justify-content: center">
+					<h4 >{{i.name.name}}</h4>
+				</div>
+			
+				
+			</div>
+			<div class="row" style="margin-left: 20px;">
+				<h4>Price : {{i.price}}</h4>
+				
+			</div>
+		<div class="card card-body" style="margin-top: 5px;">
+			<div class="row " style="margin-top: 10px;justify-content: space-between">
+				{% if i.feature %}
+				<div class="col-md-5">
+					<div class="row" style="align-items: center;">
+					<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#featuer{{i.id}}">Extra</button>
+					</div>
+				</div>
+				{% endif %}
+				<div class="col-md-5" >
+					<div class="row" style="align-items: center;">
+						<button class="btn btn-warning btn-sm" type="button" data-toggle="collapse" data-target="#reciepe{{i.id}}">Info</button>
+					</div>
+				</div>
+			
+				{% if i.feature %}
+		
+				<div class="col-md-12 col-md-12 col-sm-12">
+					<div class="collapse multi-collapse" id="featuer{{i.id}}">
+						<div class="card card-body">
+					{%for  f in i.get_featuers %}
+							<div class="row">
+								<div class="col-md-4">{% if f.extra.raw %} {{f.extra.raw.name}} {% else %} {{f.extra.ingre.name}} {% endif %} </div>
+								<div class="col-md-4">{{f.price}}</div>
+								<div class="col-md-4"><button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"feat","code":"{{code}}","item":"{{i.id}}","extr":"{{f.id}}"}'  hx-target="#r-{{i.id}}" hx-swap="outerHTML" >Add</button></div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+					</div>
+					{% endif %}
+					<div class="col-md-12 col-md-12 col-sm-12">
+						<div class="collapse multi-collapse" id="reciepe{{i.id}}">
+							<div class="card card-body">
+								{{i.name.s_descrip}}
+							</div>
+						</div>
+						</div>
+			</div>
+			<div class="row" style="margin-top: 20px;">
+<button class="btn btn-primary btn-sm" style="padding: 20px 50px;"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"add","code":"{{code}}","item":"{{i.id}}"}'  hx-target="#r-{{i.id}}" hx-swap="outerHTML" >ADD</button>
+			</div>
+		</div>
+				
+			</div>
+			
+		</div>
+	</div>
+{% endfor %}
+{% endif %}
+
+{% if sts == 'svd' %}
+
+<table class="table">
+	<thead>
+	<tr style="text-align: center;">
+		<th>Cart No.</th>
+		<th>Name</th>
+		<th colspan="3">Action</th>
+	</tr>
+	</thead>
+	<tbody>
+		{% for i in crt %}
+		<tr style="text-align: center;">
+			<td>{{i.transaction_id}}</td>
+			<td>{{i.name}}</td>
+			<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"slssvd","val":"{{i.id}}"}'   hx-target="body">Select</button></td>
+			
+			<td><button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"rmvsvd","val":"{{i.id}}"}'   hx-target="#dspsvd">Delete</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+  </table>
+{% endif %}
+
+{% if sts == 'cart' %}
+<div class="row" style="padding: 5px;">
+	<div class="col-md-10" style="padding: 5px;">
+		{% if g_c.customer %}
+		<div class="row">
+			<div class="col-md-6">
+				<span> <h4>Customer : {{g_c.customer.name}}</h4></span>
+			</div>
+			<div class="col-md-6">
+				<button class="btn btn-warning btn-sm" data-bs-toggle="offcanvas" data-bs-target="#gtcustdtail"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartSubTotal' pk=pk %}" hx-vals='{"action":"custm","cst":"{{g_c.customer.id}}"}'   hx-target="#dspcudst">Detail</button>
+			</div>
+		</div>
+		{% else %}
+		<span> <h4>Customer : InSite</h4></span>
+		{% endif %}
+	</div>
+</div>
+{% for i in cp %}
+<div class="row" >
+	<div class="card card-body" style="margin-bottom:15px;background-color:  #f4f4eb;">
+	  <div class="row" style="padding: 5px;">
+		  <div class="col-md-4">{{i.product.name.name}}</div>
+		  <div class="col-md-2">{{i.quantity}}</div>
+		  <div class="col-md-2">{{i.price}}</div>
+		  <div class="col-md-2" style="text-align: center;">{{i.get_total}}</div>
+		  <div class="col-md-1"><button class="btn btn-danger btn-sm" style="padding: 8px 8px;"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartSubTotal' pk=pk %}" hx-vals='{"action":"rmv","code":"{{code}}","val":"{{i.id}}"}'  hx-target="#crtlst">Remove</button></div>
+	  </div>
+	  {% if i.feat %}
+	  <div class="col-md-8">
+		  <div class="row card card-body" style="padding: 5px;margin-left: 10px; background-color: #c7f0ee94;">
+			  <div class="row" style="padding-left: 10px;"><div class="col-md-4">EXTRA</div></div>
+			  {% for f in i.get_subfeatuers %}
+				  <div class="row" >
+					  <div class="col-md-5">-{% if f.product.raw %} {{f.product.raw.name}}{% else %}{{f.product.ingre.name}}{% endif %}</div>
+					  <div class="col-md-5" >{{f.quantity}}</div>
+					  
+					  <div class="col-md-2"><button class="btn btn-danger btn-sm" style="padding: 8px 8px;" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartSubTotal' pk=pk %}" hx-vals='{"action":"subrmv","code":"{{code}}","val":"{{f.id}}"}'  hx-target="#crtlst">Remove</button></div>
+				  </div>
+				  {% endfor %}
+			  
+			  
+		  </div>
+	  </div>
+	  {% endif %}
+	</div>
+  </div>
+  {% endfor %}
+  <div class="row" style="margin-left: 10px;margin-right: 10px;">
+	  <div class="card card-body" style="margin-bottom:15px;background-color:  #f4f4eb;text-align: center;">
+		  <table>
+			  <tbody>
+				  <tr>
+					  <td></td>
+					  <td class="h4">Sub Total</td>
+					  <td class="h4">{{g_c.get_cart_sub_total}}</td>
+				  </tr>
+				  <tr>
+					  <td style="width: 120px;"><button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#discount" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'checkDiscount' pk=pk %}" hx-vals='{"code":"{{code}}"}'  hx-target="#crtdiscount" >Add Discount</button></td>
+					  <td class="h4">Discount</td>
+					  <td class="h4">{{g_c.get_cart_discount}}</td>
+				  </tr>
+				  <tr>
+					  <td></td>
+					  <td class="h4">Other Fees</td>
+					  <td class="h4">{{g_c.get_otherFees}}</td>
+				  </tr>
+				  {% if g_c.customer %}
+				  <tr>
+					<td style="width: 120px;"><button class="btn btn-primary btn-sm" data-bs-toggle="offcanvas" data-bs-target="#delivery" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'checkDelivery' pk=pk %}" hx-vals='{"code":"{{code}}"}'  hx-target="#crtdelivery" >Add Delivery</button></td>
+					<td class="h4">Delivery Fees</td>
+					<td class="h4">{{g_c.get_delivery}}</td>
+				</tr>
+				{% endif %}
+				  <tr>
+					  <td></td>
+					  <td class="h4">VAT Tax</td>
+					  <td class="h4">{{g_c.get_VAT}}</td>
+				  </tr>
+				  <tr>
+					  <td></td>
+					  <td class="h4">Total</td>
+					  <td class="h4">{{g_c.get_cart_total}}</td>
+				  </tr>
+			  </tbody>
+		  </table>
+		  </div>{%% if g_c.id }
+		  <div class="row" style="margin: 10px"  >
+		  <div class="col-md-2">
+			<div class="row">
+				
+				<a class="btn btn-primary btn-sm " href="{% url 'cartPrint' pk=g_c.id %}" target="_blank" ><h4>Print</h4></a>
+			</div>
+		</div>
+		  </div>{% endif %}
+		  <div class="row" style="margin: 10px" id="pymt" >
+			<div class="col-md-5">
+				<div class="row">
+					<button class="btn btn-primary btn-sm " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'paymnt' pk=pk  %}" hx-vals='{"action":"cash","code":"{{code}}"}'  hx-target="#pymt"><h4>Cash</h4></button>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-5">
+				<div class="row">
+					<button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'paymnt' pk=pk  %}" hx-vals='{"action":"visa","code":"{{code}}"}'  hx-target="#pymt"><h4>Visa</h4></button>
+				</div>
+				
+			</div>
+		  </div>
+		  
+	  
+  </div>
+
+{% endif %}
+
+{% if sts == 'cash' %}
+<div class="row" style="margin-left: 10px;margin-right: 10px;" >
+	<div class="row"><div class="col-md-5">
+		<div class="row">
+				<input type="number" class="form-control" name="amut" id="amut" placeholder="add Amount" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'paymnt' pk=pk %}" hx-vals='{"action":"amt","code":"{{code}}"}'  hx-target="#chng" hx-trigger="change">
+			</div>
+		</div>
+		<div class="col-md-2"></div>
+		<div class="col-md-5">
+			<div class="row">
+				<span id="chng"></span>
+			</div>
+		
+		</div>
+	</div>
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-md-5">
+			<div class="row">
+				<button class="btn btn-primary btn-sm " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'paymnt' pk=pk %}" hx-vals='{"action":"paid","code":"{{code}}"}'  hx-target="body" ><h4>Pay</h4></button>
+			</div>
+		</div>
+	</div>
+  </div>
+{% endif %}
+{% if sts == 'visa' %}
+<div class="row" style="margin-left: 10px;margin-right: 10px;" >
+	<div class="row"><div class="col-md-5">
+		<div class="row">
+				<input type="number" class="form-control" name="amut" id="amut" placeholder="add refrence" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'paymnt' pk=pk %}" hx-vals='{"action":"ref","code":"{{code}}"}'  >
+			</div>
+		</div>
+		<div class="col-md-2"></div>
+		
+	</div>
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-md-5">
+			<div class="row">
+				<button class="btn btn-primary btn-sm " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'paymnt' pk=pk %}" hx-vals='{"action":"visapaid","code":"{{code}}"}'  hx-target="body" hx-include="[name='amut']"   hx-trigger="vsa" _= "on click
+				if #amut's value is empty Swal.fire({title: 'Missing Data', 
+			 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger vsa" ><h4>Pay</h4></button>
+			</div>
+		</div>
+	</div>
+  </div>
+{% endif %}
+
+{% if sts == 'chng'%}
+Change : {{change}} 
+{% endif %}
+
+
+
+{% if sts == 'bgadd' %}
+<td>{{rp.name.name}}</td>
+<td>{{rp.name.cate}}</td>
+<td>{{rp.price}}</td>
+<td><input type="number" class="form-control" value="{{prd_obj.quantity }}" name="qty" disabled></td>
+<td><button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartbusiness' pk=pk %}" hx-vals='{"action":"rmv","code":"{{code}}","item":"{{rp.id}}","val":"{{prd_obj.id}}"}'  hx-target="#tr-{{rp.id}}"  >Remove</button></td>
+{% endif %}
+
+{% if sts == 'rmv' %}
+<td>{{rp.name.name}}</td>
+<td>{{rp.name.cate}}</td>
+<td>{{rp.price}}</td>
+<td><input type="number" class="form-control" id="qty{{rp.id}}" name="qty"></td>
+<td><button class="btn btn-dark btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartbusiness' pk=pk %}" hx-vals='{"action":"add","code":"{{code}}","item":"{{rp.id}}"}' hx-include="[id='qty{{rp.id}}']"  hx-target="#tr-{{rp.id}}" hx-trigger="bgadd{{rp.id}}" _= "on click
+	if #qty{{rp.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+ text:'Hey!  There are Missing Data!!! '}) then halt end  trigger bgadd{{rp.id}}">Add</button></td>
+{% endif %}
+
+
+{% if sts == 'disc' %}
+<div class="row" style="padding: 20px;">
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Discount</th>
+			<th>Amount</th>
+			<th>Action</th>
+		</tr>
+		</thead>
+		<tbody>
+			{% for i in data %}
+			<tr>
+				<td>{{i.Discount}}
+					
+				</td>
+				<td>{{i.amount}}</td>
+		<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"disc","code":"{{code}}","amut":"{{i.amount}}"}' hx-target="" >Select</button></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+</div>
+{% endif %}
+{% if sts == 'delvry' %}
+<div class="row" style="padding: 20px;" id="dltble">
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Address</th>
+			
+			<th>Action</th>
+		</tr>
+		</thead>
+		<tbody>
+			
+			<tr>
+				<td>{{data.customer.addres_0}}
+					
+				</td>
+				
+		<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'checkDelivery' pk=pk %}" hx-vals='{"action":"add","code":"{{code}}","add":"{{data.customer.addres_0}}"}' hx-target="#dltble" >Select</button></td>
+			</tr>
+			<tr>
+				<td>{{data.customer.addres_1}}
+					
+				</td>
+				
+				<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'checkDelivery' pk=pk %}" hx-vals='{"action":"add","code":"{{code}}","add":"{{data.customer.addres_1}}"}' hx-target="#dltble" >Select</button></td>
+			</tr>
+			<tr>
+				<td>{{data.customer.addres_2}}
+					
+				</td>
+				
+				<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'checkDelivery' pk=pk %}" hx-vals='{"action":"add","code":"{{code}}","add":"{{data.customer.addres_2}}"}' hx-target="#dltble" >Select</button></td>
+			</tr>
+			
+		</tbody>
+	</table>
+
+</div>
+{% endif %}
+
+{% if sts == 'dlvryara' %}
+<div class="row">
+	<div class="col-md-10">
+		<span>Address : {{od.add}}</span>
+	</div>
+</div>
+<table class="table">
+	<thead>
+	<tr>
+		<th>Area</th>
+		
+		<th>Action</th>
+	</tr>
+	</thead>
+	<tbody>
+		{% for i in area %}
+		<tr>
+			<td>{{i.area}}
+				
+			</td>
+			
+	<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'checkDelivery' pk=pk %}" hx-vals='{"action":"addara","code":"{{code}}","val":"{{i.id}}","ord":"{{od.id}}"}' hx-target="#dltble" >Select</button></td>
+		</tr>
+		{% endfor %}
+		
+	</tbody>
+</table>
+{% endif %}
+
+{% if sts == 'getpad' %}
+
+<table class="table">
+	<thead>
+	<tr style="text-align: center;">
+		<th>Order No.</th>
+		<th>Invoice No.</th>
+		<th>Online</th>
+		<th>Status</th>
+		<th colspan="3">Action</th>
+	</tr>
+	</thead>
+	<tbody>
+		{% for i in crt %}
+		<tr style="text-align: center;">
+			<td>{{i.transaction_id}}</td>
+			<td>{{i.invoice}}</td>
+			<td>{{i.online}}</td>
+			<td>{% if i.status == 'PAID' %} Processing {% elif i.status == 'READY' %} Ready To Delivery {% endif %}</td>
+			<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"slssvd","val":"{{i.id}}"}'   hx-target="body">Select</button></td>
+			<td><a class="btn btn-warning btn-sm"  href="{% url 'cartPrint' pk=i.id %}" target="_blank">Print</a></td>
+			<td><button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"delvsvd","val":"{{i.id}}"}'   hx-target="#dspallorder">Deliver</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+  </table>
+
+{% endif %}
+
+
+{% if sts == 'custm' %}
+<div class="row" style="padding: 10px;">
+	<div class="col-md-6">
+		<h4>{{data.name}}</h4>
+	</div>
+</div>
+<div class="row" style="padding: 10px;">
+	<div class="col-md-6">
+		<label class="label add" > <h5>Phone</h5></label>
+		<h4>{{data.phone}}</h4>
+	</div>
+	<div class="col-md-6">
+		<label class="label add" > <h5>E-mail</h5></label>
+		<h4>{{data.mail}}</h4>
+	</div>
+</div>
+<div class="row" style="padding: 10px;">
+	<div class="col-md-3">
+		
+		<h4>Is VIP : {{data.vip}}</h4>
+	</div>
+	<div class="col-md-3">
+		<h4>Is Family : {{data.famly}}</h4>
+	</div>
+	<div class="col-md-6">
+		<h4>Special Date : {{data.i_date|date:" d M, y"}}</h4>
+	</div>
+</div>
+<div class="row" style="padding: 10px;">
+	<div class="col-md-8">
+		<label class="label add" > <h5>Note</h5></label>
+		<h4>{{data.note}}</h4>
+	</div>
+	<div class="col-md-4">
+		<label class="label add" > <h5>Know Us</h5></label>
+		<h4>{{data.know_us}}</h4>
+	</div>
+	
+</div>
+<div class="row" style="padding: 10px;">
+	<div class="col-md-10">
+		<label class="label add" > <h5>Address 1</h5></label>
+		<h4>{{data.addres_0}}</h4>
+	</div>
+	
+</div>
+<div class="row" style="padding: 10px;">
+	<div class="col-md-10">
+		<label class="label add" > <h5>Address 2</h5></label>
+		<h4>{{data.addres_1}}</h4>
+	</div>
+	
+</div>
+<div class="row" style="padding: 10px;">
+	<div class="col-md-10">
+		<label class="label add" > <h5>Address 2</h5></label>
+		<h4>{{data.addres_2}}</h4>
+	</div>
+	
+</div>
+{% endif %}

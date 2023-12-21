@@ -1,0 +1,268 @@
+{% if sts == 'cat' %}
+<div class="card" id="adct" >
+	<div class="card-body " style="background-color:#adcdbc54;border-radius: 15px">
+<div class="row" style="padding: 2%;">
+	<div class="col-md-8">
+		<input type="text" class="form-control" placeholder="add Category" id="cate" name="cate" required >
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productCreation' %}" hx-vals='{"action":"catadd"}' hx-trigger="cat" hx-target="#addrsl" hx-include="[name='cate']" _= "on click
+		   if #cate's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end  trigger cat"> Add</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+	</div>
+</div>
+</div>
+</div>
+{% endif %}
+{% if sts == 'pcat' %}
+<div class="card" id="adct" >
+	<div class="card-body " style="background-color:#adcdbc54;border-radius: 15px">
+		<div class="row" style="padding: 2%;">
+			<div class="col-md-8">
+				<input type="text" class="form-control" placeholder="add Category" id="cate" name="cate" required >
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'product_category' %}" hx-vals='{"action":"catadd"}' hx-trigger="cat" hx-target="#tbls" hx-include="[name='cate']" _= "on click
+				if #cate's value is empty Swal.fire({title: 'Missing Data', 
+				text:'Hey!  There are Missing Data!!! '}) then halt end  trigger cat" > Add</button>
+			</div>
+			<div class="col-md-2">
+				<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% if sts == 'pman' %}
+{% for i in cat %}
+	<tr>
+		<td>{{forloop.counter }}</td>
+	<td>{{i.cate}}</td>
+	<td><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'product_category' %}" hx-vals='{"action":"catrmv","cate":"{{i.id}}"}' hx-target="#tbls" >Remove</button></td>
+</tr>
+{% endfor %}
+{% endif %}
+
+{% if sts == 'man' %}
+<div class="row justify-content-center mb-3">
+	<div class="col-md-12 col-l-12">
+		<div class="card shadow-0 border rounded-3">
+			<div class="card-body" id="addrsl">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-6" style="margin-bottom: 1%;">
+							<select name="cate" class="form-select" ><option value="">Select Category Required</option>
+							{% for i in cat %}
+							<option value="{{i.id}}">{{i.cate}}</option>
+							{% endfor %}
+							</select>
+						</div>
+						<div class="col-md-6">
+							<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productCreation' %}" hx-vals='{"action":"cat"}' hx-target="#edt">Add Category</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-6" style="margin-bottom: 1%;">
+							<select name="cate" class="form-select" ><option value="">Please Select Supplier</option>
+								{% for i in suplir %}
+								<option value="{{i.id}}">{{i.name}}</option>
+								{% endfor %}
+								</select>
+						</div>
+						<div class="col-md-6" >
+							<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productCreation' %}" hx-vals='{"action":"sup"}' hx-target="#edt">Add Supplier</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div  id="edt">
+				
+			</div>
+				<div class="row" style="padding-top: 3%;">
+					<div class="col-md-6" >
+						<label class="label add" > <h5>Product Name</h5></label>
+						<input type="text" class="form-control" placeholder="Product Name" required>
+					</div>
+					<div class="col-md-6">
+						<label class="label add" > <h5>Unit</h5></label>
+						<input type="text" class="form-control" placeholder="Unit" required>
+					</div>
+				</div>
+		  
+			<div class="row" style="padding-top: 2%;">
+				<div class="col-md-6" >
+					<label class="label add" > <h5>Stock Quantiy</h5></label>
+					<input type="number" class="form-control" placeholder="Stock Quantiy" required>
+				</div>
+				<div class="col-md-6">
+					<label class="label add" > <h5>Low Stock Level Percentage %</h5></label>
+					<input type="number" class="form-control" placeholder="Level Percentage" required> 
+				</div>
+			</div>
+			<div class="row" style="padding-top: 2%;">
+				<div class="col-md-2">
+					<button class="btn btn-primary btn-sm"> Save</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+		
+   
+
+</div>
+
+{% endif %}
+
+{% if sts == 'sup' %}
+<div class="card"  id="adct" >
+	<div class="card-body " style="background-color:#adcdbc54;border-radius: 15px">
+		<div class="row" style="padding: 2%;">
+			<div class="col-md-6">
+				<label class="label add" > <h5>Supplier Name</h5></label>
+					<input type="text" class="form-control" name="supl" id="supl"  placeholder="Supplier Name" required>
+			</div>
+			<div class="col-md-6">
+				<label class="label add" > <h5>Supplier Phone</h5></label>
+					<input type="text" class="form-control" name="phone" placeholder="Supplier Phone" required>
+			</div>
+		</div>
+		<div class="row" style="padding: 2%;">
+			<div class="col-md-8">
+				<label class="label add" > <h5>Supplier Address</h5></label>
+					<input type="text" class="form-control" name="add" placeholder="Supplier Address" >
+			</div>
+			<div class="col-md-4 d-flex flex-column" style="justify-content: flex-end">
+				<div class="row">
+					<div class="col-md-4"><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productSupplier' %}" hx-vals='{"action":"supadd"}' hx-trigger="cat" hx-target="#tbls" hx-include="[name='supl'],[name='phone'],[name='add']" _= "on click
+						if #supl's value is empty Swal.fire({title: 'Missing Data', 
+					 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger cat">Add</button></div>
+					<div class="col-md-4"><button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')" >Cancel</button></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+{% endif %}
+
+{% if sts == 'psup' %}
+<div class="card" id="adct" >
+	<div class="card-body " style="background-color:#adcdbc54;border-radius: 15px">
+		<div class="row" style="padding: 2%;">
+			<div class="col-md-6">
+				<label class="label add" > <h5>Supplier Name</h5></label>
+					<input type="text" class="form-control" name="supl" id="supl"  placeholder="Supplier Name" required>
+			</div>
+			<div class="col-md-6">
+				<label class="label add" > <h5>Supplier Phone</h5></label>
+					<input type="text" class="form-control" name="phone" placeholder="Supplier Phone" required>
+			</div>
+		</div>
+		<div class="row" style="padding: 2%;">
+			<div class="col-md-8">
+				<label class="label add" > <h5>Supplier Address</h5></label>
+					<input type="text" class="form-control" name="add" placeholder="Supplier Address" >
+			</div>
+			<div class="col-md-4 d-flex flex-column" style="justify-content: flex-end">
+				<div class="row">
+					<div class="col-md-4"><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productSupplier' %}" hx-vals='{"action":"supadd"}' hx-trigger="cat" hx-target="#tbls" hx-include="[name='supl'],[name='phone'],[name='add']" _= "on click
+						if #supl's value is empty Swal.fire({title: 'Missing Data', 
+					 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger cat">Add</button></div>
+					<div class="col-md-4"><button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')" >Cancel</button></div>
+				</div>
+				
+				
+			 
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+{% endif %}
+{% if sts == 'spman' %}
+{% for i in sup %}
+	<tr>
+		<td>{{forloop.counter }}</td>
+		<td>{{i.name}}</td>
+		<td>{{i.phone}}</td>
+		<td>{{i.add}}</td>
+	<td><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productSupplier' %}" hx-vals='{"action":"catrmv","cate":"{{i.id}}"}' hx-target="#tbls" >Remove</button></td>
+</tr>
+{% endfor %}
+{% endif %}
+
+{% if sts == 'prd' %}
+<form hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productCreation' %}" hx-vals='{"action":"supadd"}'  hx-target="#addrsl"  >
+	<div class="row">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-6" style="margin-bottom: 1%;">
+					<select name="cate" class="form-select required" required ><option value="" >Select Category Required</option>
+					{% for i in cat %}
+					<option value="{{i.id}}">{{i.cate}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div class="col-md-6">
+					<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productCreation' %}" hx-vals='{"action":"cat"}' hx-target="#edt">Add Category</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-6" style="margin-bottom: 1%;">
+					<select name="suply" class="form-select required" required ><option value="">Please Select Supplier</option>
+					{% for i in suplir %}
+					<option value="{{i.id}}">{{i.name}}</option>
+					{% endfor %}
+					</select>
+				</div>
+				<div class="col-md-6" >
+					<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productCreation' %}" hx-vals='{"action":"sup"}' hx-target="#edt">Add Supplier</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div  id="edt"></div>
+<div class="row" style="padding-top: 3%;">
+	<div class="col-md-6" >
+		<label class="label add" > <h5>Product Name</h5></label>
+		<input type="text" class="form-control" placeholder="Product Name" name="prod" required>
+	</div>
+	<div class="col-md-6">
+		<label class="label add" > <h5>Unit</h5></label>
+		<input type="text" name="unt" class="form-control" placeholder="Unit" required>
+	</div>
+</div>
+
+
+<div class="row" style="padding-top: 2%;">
+<div class="col-md-6" >
+	<label class="label add" > <h5>Stock Quantiy</h5></label>
+	<input type="number" name="qty" class="form-control" placeholder="Stock Quantiy" required>
+</div>
+<div class="col-md-6">
+	<label class="label add" > <h5>Low Stock Level Percentage %</h5></label>
+	<input type="number" name="lvl" class="form-control" placeholder="Level Percentage" required> 
+</div>
+</div>
+<div class="row" style="padding-top: 2%;">
+<div class="col-md-2">
+	<button class="btn btn-primary btn-sm" hx-trigger='cat' type="submit" _= "on click
+	for elt in <[required]:invalid/>
+	   if the elt's value is empty Swal.fire({title: 'Missing Data', 
+	text:'Hey!  There are Missing Data!!! '}) then halt end end trigger cat"> Save</button>
+</div>
+
+</div>
+{% endif %}

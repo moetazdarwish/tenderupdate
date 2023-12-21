@@ -1,0 +1,221 @@
+{% load static  %}
+
+<nav class="navbar bg-body-tertiary fixed-top">
+	<div class="container-fluid">
+		
+		<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start" style="height: 20px;">
+			
+			<div>
+				<a class="navbar-brand brand-logo" href="">
+					<img src="{% static 'dash/images/logo.png'%}" alt="logo" />
+				</a>
+				<a class="navbar-brand brand-logo-mini" href="">
+					<img src="{% static 'dash/images/logo.png'%}" alt="logo" />
+				</a>
+			</div>
+			
+		</div>
+		<h3 >{{cr.name}} </h3>
+		<h3 >{{code}} </h3>
+		{% if cr.online %}
+		{% if messages %}
+
+   
+    <h4 style="color: rgb(202 16 16);">{{ messages|length }}</h4>   <h4  class="" style="color: rgb(243, 9, 9);" >ONLINE</h4> 
+	{% for itm in messages  %}
+	  <input type="text" value="{{itm}}" hidden>
+	{% endfor %}
+
+{% endif %}
+{% endif %}
+		<div class="dropdown">
+						
+			<div class="btn-group">
+				<button class="btn btn-warning dropdown-toggle button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					B2C Mode<span class="caret"></span>
+				</button>
+					<ul class="dropdown-menu">
+					
+						<li><button class="dropdown-item " type="button" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posMode' pk=pk %}" hx-vals='{"action":"b2c"}'  hx-target="body">B2c Mode</button></li>
+					<li><button class="dropdown-item " type="button" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posMode' pk=pk %}" hx-vals='{"action":"b2b"}'  hx-target="body">B2B Mode</button></li>
+					
+					</ul>
+			</div>
+		</div>
+	  <button class="navbar-toggler btn btn-warning " data-bs-toggle="offcanvas" data-bs-target="#Order" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Order</button>
+	 
+	  <button class="navbar-toggler btn btn-warning " data-bs-toggle="offcanvas" data-bs-target="#cust" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Customer</button>
+	  
+	  <button class="navbar-toggler btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#checkout" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartSubTotal' pk=pk %}" hx-vals='{"action":"cart","code":"{{code}}"}'  hx-target="#crtlst">
+		Checkout
+	  </button>
+	  <button class="navbar-toggler btn btn-danger" type="button" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posClose' pk=pk %}"    hx-target="body">
+		Close
+	  </button>
+	  <!-- chart -->
+	  <div class="offcanvas offcanvas-end" tabindex="-1" id="checkout" aria-labelledby="offcanvasNavbarLabel" style="width: 70%;">
+		<div class="offcanvas-header">
+		  <h5 class="offcanvas-title" id="checkoutNavbarLabel" >Checkout</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body"  id="crtlst">
+		
+		  
+		</div>
+	  </div>
+
+	  <!-- customer -->
+	  <div class="offcanvas offcanvas-end" tabindex="-3" id="cust" aria-labelledby="offcanvasNavbarLabel">
+		<div class="offcanvas-header">
+		  <h5 class="offcanvas-title" >Customer</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+		 <div class="row">
+			<div class="col-md-6"><button class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#excust"  >Exist Customer</button></div>
+<div class="col-md-6"><button class="btn btn-warning btn-sm" data-bs-toggle="offcanvas" data-bs-target="#custnew" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartCustomer' %}" hx-vals='{"action":"addnew","pk":"{{pk}}","code":"{{code}}"}' hx-target="#newcust"  >New Customer</button></div>
+			
+		 </div>
+		 <div class="collapse multi-collapse" id="excust" style="padding-top: 20px;">
+			<div class="card card-body" style="width: 100%;">
+				<input type="text" placeholder="Search by Name Or Phone .." maxlength="100" name="cstnm" id="">
+				<button class="btn btn-warning" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"custfnd","code":"{{code}}"}' hx-include="[name='cstnm']"  hx-target="#dspcust" data-bs-toggle="offcanvas" data-bs-target="#custrsl"  data-bs-dismiss="collapse" >Find</button>
+			</div>
+		</div>
+	  </div>
+	</div>
+ <!-- exist customer -->
+ <div class="offcanvas offcanvas-end" tabindex="-2" id="custrsl" aria-labelledby="newLabel" style="width: 50%;">
+	<div class="offcanvas-header" >
+	  <h5 class="offcanvas-title" >Customers</h5>
+	  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body" id="dspcust">
+	  
+	  
+	</div>
+  </div>
+  <!-- exist customer -->
+   <!-- new customer -->
+ <div class="offcanvas offcanvas-end" tabindex="-6" id="custnew" aria-labelledby="newLabel" style="width: 50%;">
+	<div class="offcanvas-header" >
+	  <h5 class="offcanvas-title" >Customer List</h5>
+	  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body" id="newcust">
+	
+	  
+	</div>
+  </div>
+  <!-- new customer -->
+	  <!-- order -->
+	  <div class="offcanvas offcanvas-start" tabindex="-2" id="Order" aria-labelledby="newLabel" style="width: 15%;" >
+		<div class="offcanvas-header" >
+		  <h5 class="offcanvas-title" >Order Menu</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<ul class="list-group" >
+				<li class="list-group-item" style="border: 0px;"><button class="btn btn-primary" hx-get="{% url 'posPage' pk=pk %}" hx-target="body">Open New</button></li>
+				
+				<li class="list-group-item" style="border: 0px;"><button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#allorder" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"getpad"}'   hx-target="#dspallorder">Open All</button></li>
+				
+				<li class="list-group-item" style="border: 0px;"><button class="btn btn-primary" data-toggle="collapse" data-target="#savefle">Save</button></li>
+				
+				<li class="list-group-item" style="border: 0px;"><button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#Savedorder" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"getsvd"}'   hx-target="#dspsvd" >Saved Orders</button></li>
+				<li class="list-group-item" style="border: 0px;"><button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#nte" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">Add Note  </button></li>
+				<li class="list-group-item" style="border: 0px;"><button class=" btn btn-primary "hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'taskPOS' pk=pk %}" hx-vals='{"action":"gtsk"}'  hx-target="#dsp" >Tasks</button></li>
+					<li class="list-group-item" style="border: 0px;"><button class="btn btn-primary " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-get="{% url 'invPOS' pk=pk %}"  hx-target="#dsp" >Inventory</button></li>
+					<li class="list-group-item" style="border: 0px;"><button class="btn btn-primary " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'invPOS' pk=pk %}" hx-vals='{"action":"new"}'  hx-target="#dsp" >Add Inventory</button></li>
+
+			  </ul>
+			
+			  <div class="collapse multi-collapse" id="savefle">
+				<div class="card card-body" style="width: 100%;">
+					<input type="text" placeholder="Add Name .." maxlength="100" name="svenm" id="svenm">
+					<button class="btn btn-warning" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"save","code":"{{code}}"}' hx-include="[name='svenm']"  hx-target="body" hx-trigger="sve" _= "on click
+					if #svenm's value is empty Swal.fire({title: 'Missing Data', 
+				 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger sve">Save</button>
+				</div>
+			</div>
+			</div>
+		</div>
+	  </div>
+	  <!-- saved Orders -->
+	  <div class="offcanvas offcanvas-start" tabindex="-2" id="Savedorder" aria-labelledby="newLabel" style="width: 50%;">
+		<div class="offcanvas-header" >
+		  <h5 class="offcanvas-title" >Saved Order </h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body" id="dspsvd">
+		  
+		  
+		</div>
+	  </div>
+<!-- Note -->
+<div class="offcanvas offcanvas-start" tabindex="-2" id="nte" aria-labelledby="newLabel"  style="width: 40%;">
+	<div class="offcanvas-header" >
+	  <h5 class="offcanvas-title" >Add Note</h5>
+	  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body" >
+	  <div class="row" style="padding: 15px;">
+		<textarea name="txt" id="txt" rows="5" class="form-control"></textarea>
+	
+	  </div>
+		<button class="btn btn-primary btn-sm" style="padding-top: 10px;" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"nte","code":"{{code}}"}' hx-include="[name='txt']" hx-trigger="ndte"  _= "on click
+		if #txt's value is empty Swal.fire({title: 'Missing Data', 
+	 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger ndte" data-bs-dismiss="offcanvas">Add</button>
+	
+	</div>
+  </div>
+	</div>
+  </nav>
+
+  <!-- discount -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="discount" aria-labelledby="offcanvasNavbarLabel" style="width: 70%;">
+	<div class="offcanvas-header">
+	  <h5 class="offcanvas-title"  >Available Discount</h5>
+	  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body"  id="crtdiscount">
+	
+	  
+	</div>
+  </div>
+  <!-- delivery -->
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="delivery" aria-labelledby="offcanvasNavbarLabel" style="width: 70%;">
+	<div class="offcanvas-header">
+	  <h5 class="offcanvas-title"  >Delivery Details</h5>
+	  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body"  id="crtdelivery">
+	
+	  
+	</div>
+  </div>
+
+  <!-- all order -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="allorder" aria-labelledby="offcanvasNavbarLabel" style="width: 70%;">
+	<div class="offcanvas-header">
+	  <h5 class="offcanvas-title"  >All Confirmed Orders</h5>
+	  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body"  id="dspallorder">
+	
+	  
+	</div>
+  </div>
+   <!-- Detail customer -->
+ <div class="offcanvas offcanvas-end" tabindex="-2" id="gtcustdtail" aria-labelledby="newLabel" style="width: 50%;">
+	<div class="offcanvas-header" >
+	  <h5 class="offcanvas-title" >Customers</h5>
+	  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+	</div>
+	<div class="offcanvas-body" id="dspcudst">
+	  
+	  
+	</div>
+  </div>
+  <!-- Detail customer -->

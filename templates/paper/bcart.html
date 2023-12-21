@@ -1,0 +1,101 @@
+{% load static  %}
+{% include "navs/heads.html" %}
+
+
+<div class="main-panel" style="width: 100%;">
+	<div class="content-wrapper" style="padding: 10px;">
+		<div class="row">
+			<div class="col-md-4">
+				<img src="static/dash/images/Logo.png" alt="" style="width: 150px;">
+			
+			</div>
+		</div>
+		<div class="row" >
+			<div class="col-md-4" ><h3 style="padding-left: 600px;">Date : {{order.create_date|date:" d M, y"}}</h3></div>
+		</div>
+		<div class="row" style="padding-left: 50px;padding-top: 10px;">
+			<div class="col-md-4"><h3>Invoice No : {{order.invoice}}</h3></div>
+		</div>
+		<div class="row" style="padding-left: 50px;padding-top: 10px;">
+			<div class="col-md-4"><h3>Order No : {{order.transaction_id}}</h3></div>
+		</div>
+		<div class="row" style="padding-left: 50px;padding-top: 10px;">
+			<div class="col-md-4"><h3> Customer : {{order.customer.name}}</h3></div>
+		</div>
+		<div class="row" style="padding-left: 50px;padding-top: 10px;">
+			<div class="col-md-4"><h3> {{order.customer.addres_0}}</h3></div>
+		</div>
+		
+			<div class="row" style="justify-content: center;">
+				<div class="col-md-10">
+					<table class="table " style="border: 1px black solid;">
+						<thead>
+						<tr>
+							<th><h3>#</h3></th>
+							<th><h3>Item</h3></th>
+							<th><h3>Quantity</h3></th>
+							<th><h3>Price</h3></th>
+							<th><h3>Total</h3></th>
+							
+						</tr>
+						</thead>
+						<tbody >
+							{% for i in data %}
+							<tr>
+								<td><h4>{{forloop.counter}}</h4></td>
+								<td><h4>{{i.product.name.name}}</h4></td>
+								<td><h4>{{i.quantity}} - {{i.product.name.unit}}</h4></td>
+								<td><h4>{{i.price}}</h4></td>
+								<td><h4>{{i.get_total}}</h4></td>
+							</tr>
+							{% endfor %}
+
+							<tr>
+								<td colspan="3"><h4>Sub Total</h4></td>
+								<td><h4>{{order.get_cart_sub_total}}</h4></td>
+							</tr>
+							{% if order.discount %}
+							<tr>
+								<td colspan="3"><h4>Discount</h4></td>
+								<td><h4>{{order.discount}}</h4></td>
+							</tr>
+							{% endif %}
+							{% if order.delivery %}
+							<tr>
+								<td colspan="3"><h4>Delivery</h4></td>
+								<td><h4>{{order.delivery}}</h4></td>
+							</tr>
+							{% endif %}
+							{% if order.tax_amount %}
+							<tr>
+								<td colspan="3"><h4>VAT</h4></td>
+								<td><h4>{{order.tax_amount}}</h4></td>
+							</tr>
+							{% endif %}
+							<tr>
+								<td  colspan="3"><h4>Total</h4></td>
+								<td><h4>{{order.cart_total}}</h4></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+					<div class="row" style="padding-left: 50px">
+						
+							<h4>Amount Of</h4>
+					
+					</div>	
+					<div class="row" >
+						<table>
+							<tbody>
+								<tr>
+									<td><h4>Revewied By</h4></td>
+									<td><h4>Delivered By</h4></td>
+									<td><h4>Received By</h4></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>		
+		</div>
+
+</div>

@@ -1,0 +1,39 @@
+{% load static  %}
+
+
+<nav class="navbar bg-body-tertiary fixed-top">
+	<div class="container-fluid" style="justify-content: space-evenly">
+		<div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start" style="height: 20px;">
+			
+			<div>
+				<a class="navbar-brand brand-logo" href="">
+					<img src="{% static 'dash/images/logo.png'%}" alt="logo" />
+				</a>
+				<a class="navbar-brand brand-logo-mini" href="">
+					<img src="{% static 'dash/images/logo.png'%}" alt="logo" />
+				</a>
+			</div>
+			
+		</div>
+		<h3 >{{task.0.pos.name}} </h3>
+		
+		
+	
+		<button class="navbar-toggler btn btn-warning "hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'taskPOS' pk=pk %}" hx-vals='{"action":"gtsk"}'  hx-target="#dsp" >Tasks</button>
+	 
+		<button class="navbar-toggler btn btn-warning " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-get="{% url 'invPOS' pk=pk %}"  hx-target="#dsp" >Inventory</button>
+		<button class="navbar-toggler btn btn-warning " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'invPOS' pk=pk %}" hx-vals='{"action":"new"}'  hx-target="#dsp" >Add Inventory</button>
+		
+		
+		<button class="navbar-toggler btn btn-danger" type="button" data-bs-toggle="close" data-bs-target="#close" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+		  Close
+		</button>
+	 
+	
+
+
+	
+<!-- Note -->
+
+	</div>
+  </nav>

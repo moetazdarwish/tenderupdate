@@ -1,0 +1,147 @@
+{% if sts == 'po' %}
+<div class="row" style="flex-direction: row-reverse;">
+	<div class="col-md-4">
+		<a class="btn btn-warning btn-sm" href="{% url 'PrintPO' pk=fle.id %}" target="_blank">Print</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<h4>PO No. : {{fle.task}}</h4>
+	</div>
+</div>
+<div class="row">
+	<table class="table">
+		<thead>
+			<tr style="text-align: center;">
+				
+				<th>Serial</th>
+				<th>Date</th>
+				<th>Item</th>
+				<th>Quantity</th>
+				<th >Action</th>
+			</tr>
+		</thead>
+		<tbody id="tbls">
+			{% for i in data %}
+			<tr style="text-align: center;" id="tr-{{i.id}}">
+				
+				<td>{{i.task}}</td>
+				<td>{{i.date|date:" d M, y"}}</td>
+				<td>{{i.product.name}}</td>
+				<td><input type="number" class="form-control" name="qty" id="qty{{i.id}}"></td>
+	<td><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventoryTask' %}" hx-vals='{"action":"poadd","val":"{{fle.id}}","prd":"{{i.product.id}}","tsk":"{{i.id}}"}' hx-target="#tr-{{i.id}}" hx-trigger="po" hx-include="[id='qty{{i.id}}']" _= "on click
+						   if the qty{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+						text:'Hey!  There are Missing Data!!! '}) then halt end  trigger po"  >Add To PO</button></td>
+																
+							</tr>
+							{% endfor %}
+							
+						</tbody>
+					</table>
+					
+</div>
+				
+<div class="col-md-11">
+	<nav aria-label="Page navigation example" >
+		<ul class="pagination" style=" flex-wrap: wrap">
+			{% if data.has_previous  %}
+			<li class="page-item"><button class="page-link"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventoryTask' %}" hx-vals='{"action":"nag","page":"{{ data.previous_page_number}}"}' hx-target="#lst">previous</button></li>
+												{% else %}
+			<li class="page-item"><button class="page-link"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventoryTask' %}" hx-vals='{"action":"nag","page":"1"}' hx-target="#lst" disabled>first</button></li>
+													
+						
+						{% endif %}
+						{% for i in data.paginator.page_range %}
+						{% if data.number == i %}
+				<li class="page-item active">
+					<span class="page-link">
+						Page {{ data.number }} of {{ data.paginator.num_pages }}
+					</span>
+					</li>
+			{% endif %}
+				{% endfor %}
+				{% if data.has_next %}
+			<li class="page-item">
+				<button class="page-link"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventoryTask' %}" hx-vals='{"action":"nag","page":"{{ data.next_page_number}}"}' hx-target="#lst">Next</button>
+			</li>
+													{% else %}
+			<li class="page-item" disabled><a class="page-link" href="" disabled>Last</a></li>
+														{% endif %}
+		</ul>
+												
+	</nav>
+</div>
+
+{% endif %}
+													
+{% if sts == 'poadd' %}
+<td>{{sub.po.task}}</td>
+<td>{{sub.po.date|date:" d M, y"}}</td>
+<td>{{sub.product.name}}</td>
+<td>{{sub.qty}}</td>
+	<td>Done</td>
+{% endif %}
+
+
+{% if sts == 'polst' %}
+
+<div class="row">
+	<table class="table">
+		<thead>
+			<tr style="text-align: center;">
+				
+				<th>Serial</th>
+				<th>Date</th>
+				
+				<th >Action</th>
+			</tr>
+		</thead>
+		<tbody id="tbls">
+			{% for i in data %}
+			<tr style="text-align: center;" >
+				
+				<td>{{i.task}}</td>
+				<td>{{i.date|date:" d M, y"}}</td>
+				
+				<td><a class="btn btn-warning btn-sm" href="{% url 'PrintPO' pk=i.id %}" target="_blank">Print</a></td>
+																
+							</tr>
+							{% endfor %}
+							
+						</tbody>
+					</table>
+					
+</div>
+				
+<div class="col-md-11">
+	<nav aria-label="Page navigation example" >
+		<ul class="pagination" style=" flex-wrap: wrap">
+			{% if data.has_previous  %}
+			<li class="page-item"><button class="page-link"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventoryTask' %}" hx-vals='{"action":"polst","page":"{{ data.previous_page_number}}"}' hx-target="#lst">previous</button></li>
+												{% else %}
+			<li class="page-item"><button class="page-link"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventoryTask' %}" hx-vals='{"action":"polst","page":"1"}' hx-target="#lst" disabled>first</button></li>
+													
+						
+						{% endif %}
+						{% for i in data.paginator.page_range %}
+						{% if data.number == i %}
+				<li class="page-item active">
+					<span class="page-link">
+						Page {{ data.number }} of {{ data.paginator.num_pages }}
+					</span>
+					</li>
+			{% endif %}
+				{% endfor %}
+				{% if data.has_next %}
+			<li class="page-item">
+				<button class="page-link"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventoryTask' %}" hx-vals='{"action":"polst","page":"{{ data.next_page_number}}"}' hx-target="#lst">Next</button>
+			</li>
+													{% else %}
+			<li class="page-item" disabled><a class="page-link" href="" disabled>Last</a></li>
+														{% endif %}
+		</ul>
+												
+	</nav>
+</div>
+
+{% endif %}

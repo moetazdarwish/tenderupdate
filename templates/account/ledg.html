@@ -1,0 +1,186 @@
+{% if sts == 'lgkey' %}
+<div class="row">
+	<div class="col-md-3">
+		<select name="flt" class="form-select" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ledgers' %}" hx-vals='{"action":"flty"}' hx-target="#dspl" hx-trigger="change">
+			<option value=""> Filter By Main Account</option>
+			{% for i in pra %}
+			<option value="{{i.id}}">{{i.name}}</option>
+			{% endfor %}
+		</select>
+		
+	</div>  
+	<div class="col-md-3">
+		<select name="mnth" id="mnth" class="form-select" >
+			<option value=""> Select Month</option>
+			
+			<option value="1">January</option>
+			<option value="2">February</option>
+			<option value="3">March</option>
+			<option value="4">April</option>
+			<option value="5">May</option>
+			<option value="6">June</option>
+			<option value="7">July</option>
+			<option value="8">August</option>
+			<option value="9">Sepetmber</option>
+			<option value="10">October</option>
+			<option value="11">November</option>
+			<option value="12">December</option>
+			
+		</select>
+		
+	</div>  
+	<div class="col-md-2">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ledgers' %}" hx-vals='{"action":"cal"}' hx-target="body" hx-trigger="call" hx-include="[name='chek'],[name='mnth']" _= "on click
+		if #mnth's value is empty Swal.fire({title: 'Missing Data', 
+	 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger call" >Calculate Account</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ledgers' %}" hx-vals='{"action":"comb"}' hx-target="#com"  >Combine Account</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-get="{% url 'ledgers' %}" hx-target="body"  >Back</button>
+	</div>
+</div>
+<div id="com" style="margin-top: 10px;">
+	
+</div>
+<div class="row"><table class="table">
+	<thead>
+		<tr style="text-align: center;">
+			
+		<th>Code</th>
+		<th>Name</th>
+		<th>Parent</th>
+		<th >Action</th>
+		</tr>
+	</thead>
+	<tbody id="dspl">
+		{% for i in acc %}
+		<tr style="text-align: center;">
+			<td>{{i.code}}</td>
+			<td>{{i.name}}</td>
+			<td>{{i.nature.name}}</td>
+			<td> <input type="checkbox" value="{{i.id}}"  name="chek" id=""></td>
+		</tr>
+		{% endfor %}
+	  
+	</tbody>
+</table></div>
+{% endif %}
+{% if sts == 'flty' %}
+
+{% for i in acc %}
+<tr style="text-align: center;" >
+	<td>{{i.code}}</td>
+	<td>{{i.name}}</td>
+	<td>{{i.nature.name}}</td>
+	<td> <input type="checkbox" value="{{i.id}}"  name="chek" id=""></td>
+</tr>
+{% endfor %}
+{% endif %}
+
+{% if sts == 'comb' %}
+<div class="card" id="adct" >
+	<div class="card-body " style="background-color:#adcdbc54;border-radius: 15px">
+<div class="row" style="padding: 2%;">
+	<div class="col-md-8">
+		<input type="text" class="form-control" placeholder="Combine Name" id="combin" name="combin" required >
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ledgers' %}" hx-vals='{"action":"combi"}' hx-trigger="cat" hx-target="body" hx-include="[name='combin'],[name='chek'],[name='mnth']" _= "on click
+		   if #combin's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end if #mnth's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end trigger cat"> Combine</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+	</div>
+</div>
+</div>
+</div>
+{% endif %}
+
+{% if sts == 'invs' %}
+
+<div class="row">
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Patch</th>
+			<th>Invocie</th>
+			<th>Amount</th>
+			<th>Date</th>
+			<th>Action</th>
+		</tr>
+		</thead>
+		<tbody>
+			{% for i in cr %}
+			<tr>
+				<td>{{i.transaction_id}}</td>
+				<td></td>
+				<td>{{i.sub_total}}</td>
+				<td>{{i.create_date|date:"d-M-y"}}</td>
+				<td><button class="btn btn-warning btn-sm " hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartAccount' %}" hx-vals='{"action":"cogs","val":"{{i.id}}"}'  hx-target="#addrsl" >Open</button></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endif %}
+
+{% if sts == 'cogs' %}
+<div class="row" style="flex-direction: row-reverse;">
+<div class="col-md-2"><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-get="{% url 'invoices' %}"  hx-target="body"> Back</button></div>
+</div>
+<form action="" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'invoices' %}"  hx-trigger="submit" hx-vals='{"action":"cst"}' hx-target="body">
+<div class="Row">
+	<div class="col-md-4">
+		<label class="label add" > <h5>Patch</h5></label>
+		<input type="text" value="{{cr.transaction_id}}" name="ptch" hidden> <h5>{{cr.transaction_id}}</h5>
+	</div>
+	<div class="col-md-4">
+		<label class="label add" > <h5>Invoice</h5></label>
+		<input type="text" value="{{cr.transaction_id}}" name="rev" hidden><h5>{{cr.transaction_id}}</h5>
+	</div>
+</div>
+
+<div class="row">
+	
+    <table class="table">
+        <tbody>
+			
+            <tr>
+				<td><h4>Revenue</h4></td><td>Sub Total</td><td><input type="text" value="{{cr.sub_total}}" name="rev" hidden>{{cr.sub_total}}</td></tr>
+            <tr><td><h4>COGS</h4></td><td>Cost Per Items</td><td><input type="text" value="{{cost}}" name="csot" hidden>{{cost}}</td></tr>
+            <tr><td><h4>Variable Expenses</h4></td>
+				<td><select name="vrb" class="form-control"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartAccount' %}" hx-vals='{"action":"vrbl","val":"{{cr.id}}"}' hx-trigger="change"  hx-target="#vt-{{cr.id}}" required ><option value="">Select Variable</option>
+				{% for i in al %}
+					<option value="{{i.id}}">{{i.name}}</option>
+				{% endfor %}
+				</select></td>
+				<td id="vt-{{cr.id}}"></td></tr>
+            <tr>
+				<td><h4>Fixed Expenses</h4></td>
+					<td><select name="fix" class="form-control"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartAccount' %}" hx-vals='{"action":"fixd","val":"{{cr.id}}"}'  hx-trigger="change"  hx-target="#fx-{{cr.id}}" required ><option value="">Select Variable</option>
+					{% for i in al %}
+					<option value="{{i.id}}">{{i.name}}</option>
+					{% endfor %}
+					</select></td>
+					<td id="fx-{{cr.id}}"></td></tr>
+            <tr><td>Net Total</td><td colspan="2"><button class="btn btn-warning btn-sm"   type="submit"  >Calculate</button></td></tr>
+		
+        </tbody>
+    </table>
+	
+
+</div>
+</form>
+{% endif %}
+
+{% if sts == 'vrbl' %}
+<td><input type="text" name="vribl" value="{{varib}}" hidden>{{varib}}</td>
+{% endif %}
+
+{% if sts == 'fixd' %}
+<td><input type="text" name="fxxed" value="{{fixed}}" hidden>{{fixed}}</td>
+{% endif %}

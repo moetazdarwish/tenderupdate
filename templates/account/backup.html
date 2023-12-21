@@ -1,0 +1,143 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+<style>
+    table {
+        table-layout: fixed;
+    }
+    
+    td {
+        white-space: normal !important;
+        word-wrap: break-word;
+    }
+</style>
+
+<body >
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+           {%  if request.user.is_authenticated %}
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">BackUp</h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            <div class="col-md-12 col-l-12">
+                                                                <div class="card shadow-0 border rounded-3">
+                                                                    <div class="card-body" id="addrsl">
+                                                                        
+                                                                        <div class="row">
+                                                                            <div class="col-md-2">
+                                                                                <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"man"}' hx-target="#items">Account</button>
+                                                                            </div>  
+                                                                            <div class="col-md-2">
+                                                                                <button class="btn btn-warning btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"pos"}' hx-target="#items">POS</button>
+                                                                          </div>   
+                                                                                <div class="col-md-2">
+                                                                                    <button class="btn btn-warning btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"crm"}' hx-target="#items">CRM</button>
+                                                                            </div>  
+                                                                            <div class="col-md-2">
+                                                                                <button class="btn btn-warning btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"inv"}' hx-target="#items">Inventory</button>
+                                                                        </div>   
+                                                                        <div class="col-md-2">
+                                                                            <button class="btn btn-warning btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"kit"}' hx-target="#items" >Kitchen</button>
+                                                                                </div>   
+                                                                                <div class="col-md-2">
+                                                                                    <button class="btn btn-warning btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"hr"}' hx-target="#items" >HR</button>
+                                                                                        </div>  
+
+                                                                           
+                                                                           
+                                                                        </div>
+                                                                        <div id="items">
+                                                                            <div class="row" style="padding: 20px;">
+                                                                                <div class="col-md-6">
+                                                                                    <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"allbtn"}' hx-trigger="click" hx-target="#btn" >ALL</button>
+                                                                                </div> 
+                                                                                <div class="col-md-6">
+                                                                                    <button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"btn"}' hx-trigger="click" hx-target="#btn">By Date</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div >
+                                                                                <form method="post"> {% csrf_token %}
+                                                                                    <div class="row" style="padding: 20px;">
+                                                                                        <div class="col-md-6">
+                                                                                            <select name="action" class="form-select" required>
+                                                                                                <option value="">Select Model</option>
+                                                                                                <option value="1">Account Keys</option>
+                                                                                                <option value="2">Journal</option>
+                                                                                                <option value="3">Account Requests</option>
+                                                                                                <option value="4">Account Ledger</option>
+                                                                                                <option value="5">Account COGS</option>
+                                                                                        
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row" style="padding: 20px;" id="btn" >
+                                                                                        <div class="col-md-6">
+                                                                                            <button class="btn btn-primary btn-sm" type="submit" >ALL</button>
+                                                                                        </div> 
+                                                                                        
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        
+                                                                        
+                                                                          </div>
+                                                                </div>
+                                                            </div>
+                                                                       
+                                                          
+                                                                    </div>
+                                                          
+                                                            </div>
+                                                    
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+            {% endif %}
+        </div>
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>

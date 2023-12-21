@@ -1,0 +1,104 @@
+{% load static  %}
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+
+<body onload="date_time()">
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Attendence</h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            
+                                                           
+                                                                
+                                                            <!-- jj -->
+                                                            
+                                                            <div class="row">
+                                                                <div class="col-md-2">
+                                                                    <button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"emply"}' hx-target="#dspl"> Create Advance</button>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"slary"}' hx-target="#sct_dsp"> Salary</button>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="row" id="dspl"></div>
+                                                            <div class="row">
+                                                                <table class="table">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Name</th>
+                                                                        <th>Date</th>
+                                                                        <th>Amount</th>
+                                                                        <th>Installment</th>
+                                                                        <th>Period</th>
+                                                                        <th>Paid</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for i in epad %}
+                                                                        <tr>
+                                                                            <td>{{i.name.name}}</td>
+                                                                            <td>{{i.date}}</td>
+                                                                            <td>{{i.amount}}</td>
+                                                                            <td>{{i.install}}</td>
+                                                                            <td>{{i.period}}</td>
+                                                                            <td>{{i.Remaining}}</td>
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+        </div>
+       
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+<style>
+    .full_screen {
+            width: 100%;
+          
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+</style>
+<body>
+    
+    {% if request.user.is_authenticated %}
+	
+    <div class="container-scroller " style=" position: relative; ">
+        {% include "navs/postopb2b.html" %}
+
+                <section>
+
+                                <div class="row" style="padding-top: 50px;">
+                                        <div class="card overflow-auto overflow-y: auto h-100" style="" >
+                                        <div class="card-body">
+                                        
+                                            <div class="">
+                                                <div >
+                                                    
+                                                    <div style="margin-top: 15px;">
+                                                <div class="row" style="padding-top: 10px; ;" id="dsp" >
+                                                    
+                                                    <div class="row">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Item</th>
+                                                                    <th>Category</th>
+                                                                    <th>Price</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for i in rp %}
+                                                                <tr id="tr-{{i.id}}">
+                                                                    <td>{{i.name.name}}</td>
+                                                                    <td>{{i.name.cate}}</td>
+                                                                    <td>{{i.price}}</td>
+                                                                    <td><input type="number" class="form-control" id="qty{{i.id}}" name="qty"></td>
+                                                                    <td><button class="btn btn-dark btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartbusiness' pk=pk %}" hx-vals='{"action":"add","code":"{{code}}","item":"{{i.id}}"}' hx-include="[id='qty{{i.id}}']"  hx-target="#tr-{{i.id}}" hx-trigger="bgadd{{i.id}}" _= "on click
+                                                                        if #qty{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+                                                                     text:'Hey!  There are Missing Data!!! '}) then halt end  trigger bgadd{{i.id}}">Add</button></td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                        </table>
+                                                        </div>
+                                                </div>
+                                                
+                                                </div>
+                                                </div>
+                                              
+                                              
+                                            </div>
+                                                
+                                        </div>
+                                        </div>
+                               
+                               </div>
+                           
+                        
+                    
+                </section>
+    
+
+            </div>
+        <script>
+            $(".dropdown-menu li .dropdown-item").click(function(){
+  
+  $(".button:first-child").html($(this).text()+' <span class="caret"></span>');
+  
+});
+
+        </script>
+ {% endif %}
+       {% include "navs/scrpt.html" %}
+
+</body>
+
+</html>

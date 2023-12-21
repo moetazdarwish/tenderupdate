@@ -1,0 +1,143 @@
+{% if sts == 'sal' %}
+<tr hx-trigger='cancel' class='editing' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"inf"}' style="text-align: center;" id="tr-{{val}}" hx-target="#tr-{{val}}" hx-swap="outerHTML">
+	<td>{{empy.emp_num}}</td>
+	<td>{{empy.name}}</td>
+	<td>{{empy.salary}}</td>
+	<td colspan="2"><input type="number" min="0" placeholder="amount" class="form-control" name="nw_slry" required></td>
+	<td colspan="2"><input type="text" maxlength="100" placeholder="Description" class="form-control" name="ds_slry" required></td>
+	<td>
+	  <button class="btn btn-danger btn-sm" _="on click send cancel to .editing end" >
+		Cancel
+	  </button></td><td>
+	  <button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}"  hx-vals='{"myVal": "{{empy.id}}","action":"edit"}' hx-target="#tr-{{val}}" hx-swap="outerHTML" hx-include="closest tr" hx-trigger="edit"  _= "on click
+	  for elt in <[required]:invalid/>
+		 if the elt's value is empty Swal.fire({title: 'Missing Data', 
+	  text:'Hey!  There are Missing Data!!! '}) then halt end end trigger edit">
+		Request
+	  </button>
+	</td>
+  </tr>
+  {% endif %}
+  {% if sts == 'buns' %}
+<tr hx-trigger='cancel' class='editing' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"inf"}' style="text-align: center;" id="tr-{{val}}" hx-target="#tr-{{val}}" hx-swap="outerHTML">
+	<td>{{empy.emp_num}}</td>
+	<td>{{empy.name}}</td>
+	<td>{{empy.salary}}</td>
+	<td colspan="2"><input type="number" min="0" placeholder="amount" class="form-control" name="nw_slry" required></td>
+	<td colspan="2"><input type="text" maxlength="100" placeholder="Description" class="form-control" name="ds_slry" required></td>
+	<td>
+	  <button class="btn btn-danger btn-sm" _="on click send cancel to .editing end" >
+		Cancel
+	  </button></td><td>
+	  <button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"bns"}' hx-target="#tr-{{val}}" hx-swap="outerHTML" hx-include="closest tr" hx-trigger="edit"  _= "on click
+	  for elt in <[required]:invalid/>
+		 if the elt's value is empty Swal.fire({title: 'Missing Data', 
+	  text:'Hey!  There are Missing Data!!! '}) then halt end end trigger edit">
+		Request
+	  </button>
+	</td>
+  </tr>
+  {% endif %}
+  {% if sts == 'ded' %}
+  <tr hx-trigger='cancel' class='editing' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"inf"}' style="text-align: center;" id="tr-{{val}}" hx-target="#tr-{{val}}" hx-swap="outerHTML">
+	  <td>{{empy.emp_num}}</td>
+	  <td>{{empy.name}}</td>
+	  <td>{{empy.salary}}</td>
+	  <td colspan="2"><input type="number" min="0" placeholder="amount" class="form-control" name="nw_slry" required></td>
+	  <td colspan="2"><input type="text" maxlength="100" placeholder="Description" class="form-control" name="ds_slry" required ></td>
+	  <td>
+		<button class="btn btn-danger btn-sm" _="on click send cancel to .editing end" >
+		  Cancel
+		</button></td><td>
+		<button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"addded"}' hx-target="#tr-{{val}}" hx-swap="outerHTML" hx-include="closest tr" hx-trigger="edit"  _= "on click
+		for elt in <[required]:invalid/>
+		   if the elt's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end end trigger edit">
+		  Add
+		</button>
+	  </td>
+	</tr>
+	{% endif %}
+	{% if sts == 'adv' %}
+	<tr hx-trigger='cancel' class='editing' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"inf"}' style="text-align: center;" id="tr-{{val}}" hx-target="#tr-{{val}}" hx-swap="outerHTML">
+		<td>{{empy.emp_num}}</td>
+		<td>{{empy.name}}</td>
+		<td>{{empy.salary}}</td>
+		<td colspan="2"><input type="number" min="0" placeholder="amount" class="form-control" name="nw_slry" required></td>
+		<td colspan="2"><input type="text" maxlength="100" placeholder="Description" class="form-control" name="ds_slry" required></td>
+		<td>
+		  <button class="btn btn-danger btn-sm" _="on click send cancel to .editing end" >
+			Cancel
+		  </button></td><td>
+		  <button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"rqadv"}' hx-target="#tr-{{val}}" hx-swap="outerHTML" hx-include="closest tr" hx-trigger="edit"  _= "on click
+		  for elt in <[required]:invalid/>
+			 if the elt's value is empty Swal.fire({title: 'Missing Data', 
+		  text:'Hey!  There are Missing Data!!! '}) then halt end end trigger edit">
+			Request
+		  </button>
+		</td>
+	  </tr>
+	  {% endif %}
+	  {% if sts == 'vtn' %}
+	<tr hx-trigger='cancel' class='editing' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"inf"}' style="text-align: center;" id="tr-{{val}}" hx-target="#tr-{{val}}" hx-swap="outerHTML">
+		<td>{{empy.emp_num}}</td>
+		<td>{{empy.name}}</td>
+		
+		<td colspan="2"><input type="text" min="0" maxlength="100" placeholder="Description" value="" class="form-control" name="decrp" required/></td>
+		<td colspan="2"><input type="date" min="0" placeholder="From" class="form-control" name="f_date" required/></td>
+		<td colspan="2"><input type="date"  placeholder="Until" class="form-control" name="t_date" required/></td>
+		<td>
+		  <button class="btn btn-danger btn-sm" _="on click send cancel to .editing end" >
+			Cancel
+		  </button></td><td>
+		  <button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}"  hx-vals='{"myVal": "{{empy.id}}","action":"vcat"}'  hx-target="#tr-{{val}}" hx-swap="outerHTML"  hx-include="closest tr" hx-trigger="edit"  _= "on click
+		  for elt in <[required]:invalid/>
+			 if the elt's value is empty Swal.fire({title: 'Missing Data', 
+		  text:'Hey!  There are Missing Data!!! '}) then halt end end trigger edit">
+			Request
+		  </button>
+		</td>
+	  </tr>
+	  {% endif %}
+  {% if sts == 'inf' %}
+<tr id="tr-{{val}}">
+	<td>{{empy.emp_num}}</td>
+		<td>{{empy.name}}</td>
+		<td>{{empy.salary}}</td>
+		<td><button class="btn btn-warning btn-sm clr" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"detl"}'
+			hx-trigger="edit"
+			_="on click if .editing is not empty Swal.fire({title: 'Already Editing',  showCancelButton: true, confirmButtonText: 'Yep, Edit This Row!',
+			 text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+			if the result's isConfirmed is false halt end
+				send cancel to .editing
+				end trigger edit" hx-target="#tr-{{val}}" hx-swap="outerHTML">Salary Update</button></td>
+		<td><button class="btn btn-warning btn-sm clr" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"bouns"}'
+			hx-trigger="edit"
+			_="on click if .editing is not empty Swal.fire({title: 'Already Editing',  showCancelButton: true, confirmButtonText: 'Yep, Edit This Row!',
+			 text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+			if the result's isConfirmed is false halt end
+				send cancel to .editing
+				end trigger edit" hx-target="#tr-{{val}}" hx-swap="outerHTML">Add Bonus</button></td>
+		<td><button class="btn btn-danger btn-sm clr" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"dedct"}'
+			hx-trigger="edit"
+			_="on click if .editing is not empty Swal.fire({title: 'Already Editing',  showCancelButton: true, confirmButtonText: 'Yep, Edit This Row!',
+			 text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+			if the result's isConfirmed is false halt end
+				send cancel to .editing
+				end trigger edit" hx-target="#tr-{{val}}" hx-swap="outerHTML" >Add deduction</button></td>
+		<td><button class="btn btn-warning btn-sm clr" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"adv"}'
+			hx-trigger="edit"
+			_="on click if .editing is not empty Swal.fire({title: 'Already Editing',  showCancelButton: true, confirmButtonText: 'Yep, Edit This Row!',
+			 text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+			if the result's isConfirmed is false halt end
+				send cancel to .editing
+				end trigger edit" hx-target="#tr-{{val}}" hx-swap="outerHTML">Salary advance</button></td>
+		<td><button class="btn btn-warning btn-sm clr" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'salary_employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"vtn"}'
+			hx-trigger="edit"
+			_="on click if .editing is not empty Swal.fire({title: 'Already Editing',  showCancelButton: true, confirmButtonText: 'Yep, Edit This Row!',
+			 text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+			if the result's isConfirmed is false halt end
+				send cancel to .editing
+				end trigger edit" hx-target="#tr-{{val}}" hx-swap="outerHTML">vacation Request</button></td>
+	</tr>
+	{% endif %}

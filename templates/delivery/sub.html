@@ -1,0 +1,259 @@
+{% if sts == 'area' %}
+<div class="card" id="adct" >
+	<div class="card-body " style="background-color:#adcdbc54;border-radius: 15px ;margin: 10px;">
+<div class="row" style="padding: 2%;">
+	<div class="col-md-4">
+		<input type="text" class="form-control" placeholder="Add Area" id="area" name="area" required >
+	</div>
+	<div class="col-md-4">
+		<input type="number" class="form-control" placeholder="Add Max Cost Per Area " id="cost" name="cost" required >
+	</div>
+	<div class="col-md-4">
+		<input type="number" class="form-control" placeholder="Add Customer Selling Price" id="price" name="price" required >
+	</div>
+	
+</div>
+<div class="row" style="padding: 2%;">
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"action":"aread"}' hx-trigger="area" hx-target="body" hx-include="[name='area'],[name='cost'],[name='price']" _= "on click
+		   if #area's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end if #cost's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end
+		if #price's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end trigger area"> Add</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+	</div>
+</div>
+</div>
+</div>
+{% endif %}
+{% if sts == 'man' %}
+<div class="card" id="adct" >
+	<div class="card-body " style="background-color:#adcdbc54;border-radius: 15px ;margin: 10px;">
+<div class="row" style="padding: 2%;">
+	<div class="col-md-4">
+		<input type="text" class="form-control" placeholder="Name" id="name" name="name" required >
+	</div>
+	<div class="col-md-4">
+		<input type="number" class="form-control" placeholder="Phone..." id="phone" name="phone" required >
+	</div>
+	
+	
+</div>
+<div class="row" style="padding: 2%;">
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"action":"manad"}' hx-trigger="man" hx-target="#addrsl" hx-include="[name='name'],[name='phone']" _= "on click
+		   if #name's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end if #phone's value is empty Swal.fire({title: 'Missing Data', 
+		text:'Hey!  There are Missing Data!!! '}) then halt end
+		trigger man"> Add</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+	</div>
+</div>
+</div>
+</div>
+{% endif %}
+
+{% if sts == 'btnarea' %}
+<div class="row">
+	<div class="col-md-3">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"action":"btnman"}' hx-target="#addrsl">Delivery Man</button>
+	</div>                                                           
+	<div class="col-md-3">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"action":"area"}' hx-target="#areaadd">Create Area</button>
+	</div>
+	
+   
+</div>
+<div class="row" style="padding: 20px;" id="areaadd"></div>
+<div class="row"><table class="table">
+	<thead>
+		<tr style="text-align: center;">
+			
+		<th>Area</th>
+		<th>Cost</th>
+		<th>Price</th>
+		
+		<th colspan="3">Action</th>
+		</tr>
+	</thead>
+	<tbody >
+		{% for i in dlv %}
+		<tr style="text-align: center;" id="tr-{{i.id}}">
+			<td>{{i.area}}</td>
+			<td>{{i.cost}}</td>
+			<td>{{i.price}}</td>
+
+			
+			<td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"Val": "{{i.id}}","action":"detl"}' 
+			   
+			hx-target="#addrsl"> Details</button></td>
+			<td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery'  %}" hx-target="#areaadd" hx-vals='{"val": "{{i.id}}","action":"ardata"}'> Mens</button></td>
+<td> <button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"val": "{{i.id}}","action":"delt"}' hx-target="body"> Delete</button></td>
+		</tr>
+		{% endfor %}
+	  
+	</tbody>
+</table></div>
+{% endif %}
+
+{% if sts == 'btnman' %}
+<div class="row">
+	<div class="col-md-3">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"action":"btnarea"}' hx-target="#addrsl">Area</button>
+	</div>
+	<div class="col-md-3">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"action":"man"}' hx-target="#areaadd">Add Man</button>
+	</div>
+   
+   
+</div>
+<div class="row" style="padding: 20px;" id="areaadd"></div>
+<div class="row"><table class="table">
+	<thead>
+		<tr style="text-align: center;">
+			
+		<th>name</th>
+		<th>phone</th>
+		
+		
+		<th colspan="4">Action</th>
+		</tr>
+	</thead>
+	<tbody >
+		{% for i in man %}
+		<tr style="text-align: center;" id="tr-{{i.id}}">
+			<td>{{i.name}}</td>
+			<td>{{i.phone}}</td>
+			
+
+			
+			<td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"Val": "{{i.id}}","action":"select"}' 
+			   
+			hx-target="#areaadd"> Areas</button></td>
+			<td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"man": "{{i.id}}","action":"work"}' 
+			   
+				hx-target="#areaadd"> Working Areas</button></td>
+<td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery'  %}" hx-target="#addrsl"> Orders</button></td>
+<td> <button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"val": "{{i.id}}","action":"mandelt"}' hx-target="#addrsl"> Delete</button></td>
+		</tr>
+		{% endfor %}
+	  
+	</tbody>
+</table></div>
+{% endif %}
+
+{% if sts == 'areaselct' %}
+<td>{{ara.area}} </td>
+                                                                                        
+                                                                                        
+                                                                            
+<td> <button class="btn btn-primary btn-sm" disabled> Done</button></td>
+{% endif %}
+{% if sts == 'datselct' %}
+<td>{{ara.name}} </td>                             
+<td> <button class="btn btn-primary btn-sm" disabled> Done</button></td>
+{% endif %}
+
+{% if sts == 'select' %}
+<div id="mnslct">
+	<div class="row" style="flex-direction: row-reverse">
+		<div class="col-md-2">
+			<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#mnslct')">Cancel</button>
+		</div>
+	</div>
+	<div class="row" >
+		<div class="col-md-2">
+			<span>Name : {{man.name}}</span>
+		</div>
+	</div>
+	<div class="row"><table class="table">
+		<thead>
+			<tr style="text-align: center;">
+			<th>Area</th>
+			<th >Action</th>
+			</tr>
+		</thead>
+		<tbody >
+			{% for i in dlv %}
+			<tr style="text-align: center;" id="tr-{{i.id}}">
+				<td>{{i.area}}</td>
+				
+	<td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"val": "{{i.id}}","action":"areaselct","man":"{{man.id}}"}' hx-target="#tr-{{i.id}}"> Select</button></td>
+			</tr>
+			{% endfor %}
+		  
+		</tbody>
+	</table></div>
+</div>
+{% endif %}
+
+{% if sts == 'work' %}
+<div id="mnslct">
+	<div class="row" style="flex-direction: row-reverse">
+		<div class="col-md-2">
+			<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#mnslct')">Cancel</button>
+		</div>
+	</div>
+	<div class="row" >
+		<div class="col-md-2">
+			<span>Name : {{man.name}}</span>
+		</div>
+	</div>
+	<div class="row"><table class="table">
+		<thead>
+			<tr style="text-align: center;">
+			<th>Area</th>
+			<th >Action</th>
+			</tr>
+		</thead>
+		<tbody >
+			{% for i in dlv %}
+			<tr style="text-align: center;" id="tr-{{i.id}}">
+				<td>{{i.area.area}}</td>
+				
+	<td> <button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"val": "{{i.id}}","action":"areadlt","man":"{{man.id}}"}' hx-target="#tr-{{i.id}}"> Delete</button></td>
+			</tr>
+			{% endfor %}
+		  
+		</tbody>
+	</table></div>
+</div>
+{% endif %}
+
+{% if sts == 'ardata' %}
+<div id="mnslct">
+	<div class="row" style="flex-direction: row-reverse">
+		<div class="col-md-2">
+			<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#mnslct')">Cancel</button>
+		</div>
+	</div>
+	<div class="row" >
+		<div class="col-md-2">
+			<span>Area : {{man.area}}</span>
+		</div>
+	</div>
+	<div class="row"><table class="table">
+		<thead>
+			<tr style="text-align: center;">
+			<th>Name</th>
+			<th >Action</th>
+			</tr>
+		</thead>
+		<tbody >
+			{% for i in dlv %}
+			<tr style="text-align: center;" id="tr-{{i.id}}">
+				<td>{{i.name.name}}</td>
+				
+	<td> <button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'delivery' %}" hx-vals='{"val": "{{i.id}}","action":"datadlt","man":"{{man.id}}"}' hx-target="#tr-{{i.id}}"> Delete</button></td>
+			</tr>
+			{% endfor %}
+		  
+		</tbody>
+	</table></div>
+</div>
+{% endif %}

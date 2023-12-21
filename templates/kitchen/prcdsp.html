@@ -1,0 +1,140 @@
+{% if sts == 'list' %}
+{% for i in pr %}
+<div class="row" style="padding: 1%;">
+	<div class="card" style="padding: 2%;">
+		<div class="card-title">
+			<div class="row">
+				<div class="col-md-6">{{forloop.counter}} - {{i.name.name}}</div>
+				<div class="col-md-6 " ><div class="row" style="flex-direction: row-reverse"><div class="col-md-4 float-end"><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"remv","val":"{{i.id}}","syst":"{{val}}"}' hx-target="#dtalst">Remove</button></div></div></div>
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="col-md-12">
+				<div class="row">
+				   
+					<div class="col-md-2">Price :  {{i.price}}</div>
+					<div class="col-md-6 "> <div class="form-floating mb-3"><input type="text" class="form-control" name="prc" id="prc-{{i.id}}" placeholder="Update Price">
+						<label for="prc-{{i.id}}">Price</label></div></div>
+					<div class="col-md-2"> <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"upd","val":"{{i.id}}","syst":"{{val}}"}' hx-target="#dtalst" hx-include="[id='prc-{{i.id}}']" hx-trigger="prupd{{i.id}}"  _= "on click
+						if #prc-{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+						text:'Hey!  There are Missing Data!!! '}) then halt end trigger prupd{{i.id}}" >Update</button></div>
+				</div>
+				{% if i.feature %}
+				<div class="row" style="padding: 2%;">
+					<div class="col-md-2"> <h4>Features</h4></div>
+				</div>
+				{% for f in i.get_featuers %}
+				<div class="row">
+					
+				   <div class="col-md-3"> {% if f.extra.raw %} {{f.extra.raw.name}} {% else %} {{f.extra.ingre.name}} {% endif %}</div>
+					<div class="col-md-2">Price: {{f.price}}</div>
+					<div class="col-md-3"> <input type="text" class="form-control" name="sbprc" id="sbprc-{{f.id}}" placeholder="Update Price">
+						</div>
+<div class="col-md-2"> <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"fetupd","val":"{{f.id}}","syst":"{{val}}"}' hx-target="#dtalst" hx-include="[id='sbprc-{{f.id}}']" hx-trigger="sbupd{{f.id}}"  _= "on click if #sbprc-{{f.id}}'s value is empty Swal.fire({title: 'Missing Data',text:'Hey!  There are Missing Data!!! '}) then halt end trigger sbupd{{f.id}}">Update</button></div>
+					<div class="col-md-2"> <button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"fetdel","val":"{{f.id}}","syst":"{{val}}"}' hx-target="#dtalst">Remove</button></div>
+				</div>
+				{% endfor %}
+				{% endif %}
+				
+			</div>
+		</div>
+	</div>
+	
+  
+	
+</div>
+{% endfor %}
+
+{% endif %}
+
+{% if sts == 'new' %}
+<div class="card" style="margin: 2%;border-radius: 15px;background-color: rgba(255, 228, 196, 0.584);" id="inpcat">
+	<div class="card-body" >
+		<div class="row" >
+			<div class="col-md-8"><input class="form-control" type="text" name="adprc" id="adprc" maxlength="50" placeholder="system Name"></div>
+			<div class="col-md-2"><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"addnew"}' hx-target="#dtalst" hx-include="[id='adprc']" hx-trigger="adprc"  _= "on click
+				if #adprc's value is empty Swal.fire({title: 'Missing Data', 
+			 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger adprc" hx-swap="innerHTML" hx-on:htmx:before-request="htmx.remove('#inpcat')" >Create</button></div>
+			<div class="col-md-2"><button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#inpcat')"> Cancel</button></div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<!-- Create NBew  -->
+{% if sts == 'addnew' %}
+{% for i in data %}
+<div class="row" style="padding: 1%;">
+	<div class="card" style="padding: 2%;">
+		<div class="card-title">
+			<div class="row">
+				<div class="col-md-6">{{forloop.counter}} - {{i.name}}</div>
+				<div class="col-md-6 " ><div class="row" style="flex-direction: row-reverse"><div class="col-md-4 float-end"><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"newlst","val":"{{i.id}}","pr":"{{pr}}"}' hx-trigger="edit" hx-target="#itemselt{{i.id}}" _="on click if .editing is not empty Swal.fire({title: 'Already Editing',  showCancelButton: true, confirmButtonText: 'Yep, Edit This Row!',
+					text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+				   if the result's isConfirmed is false halt end
+					   send cancel to .editing
+					   end trigger edit">Select</button></div></div></div>
+			</div>
+		</div>
+		<div class="card-body " id="itemselt{{i.id}}">	
+		</div>
+	</div>
+</div>
+{% endfor %}
+
+{% endif %}
+
+{% if sts == 'newlst' %}
+<div class="col-md-12 editing"  hx-on:cancel="htmx.remove('#mainedit')" id="mainedit" >
+	<div class="row" id="mnprie">
+		<div class="col-md-8"> <div class="form-floating mb-3"><input type="text" class="form-control" name="prc" id="prc-{{rp.id}}" placeholder="Update Price">
+			<label for="prc-{{rp.id}}"> Recipe Price</label></div></div>
+		<div class="col-md-2"> <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"adnepc","rp":"{{rp.id}}"}' hx-target="#mnprie" hx-include="[id='prc-{{rp.id}}']" hx-trigger="prupd{{rp.id}}"  _= "on click
+			if #prc-{{rp.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+			text:'Hey!  There are Missing Data!!! '}) then halt end trigger prupd{{rp.id}}" >Add</button></div>
+	</div>
+	{% if rp.feature %}
+	<div class="row" style="padding: 2%;">
+		<div class="col-md-2"> <h4>Features</h4></div>
+	</div>
+	<div id="feturlst">
+		{% for f in rp.get_featuers %}
+		<div class="row">
+			
+		   <div class="col-md-3"> {% if f.extra.raw %} {{f.extra.raw.name}} {% else %} {{f.extra.ingre.name}} {% endif %}</div>
+			<div class="col-md-4"> <input type="text" class="form-control" name="sbprc" id="sbprc-{{f.id}}" placeholder="Extra Price">
+				</div>
+	<div class="col-md-2"> <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"nefetur","val":"{{f.id}}","rp":"{{rp.id}}"}' hx-target="#feturlst" hx-include="[id='sbprc-{{f.id}}']" hx-trigger="sbupd{{f.id}}"  _= "on click if #sbprc-{{f.id}}'s value is empty Swal.fire({title: 'Missing Data',text:'Hey!  There are Missing Data!!! '}) then halt end trigger sbupd{{f.id}}">Add</button></div>
+			
+		</div>
+		{% endfor %}
+	</div>
+	
+	{% endif %}
+	
+	
+</div>
+{% endif %}
+
+{% if sts == 'adnepc' %}
+<div class="col-md-2"><h5>Recipe Price : {{rp.price}}</h5></div>
+<div class="col-md-6"> <div class="form-floating mb-3"><input type="text" class="form-control" name="prc" id="prc-{{rp.id}}" placeholder="Update Price">
+	<label for="prc-{{rp.id}}">Price</label></div></div>
+<div class="col-md-2"> <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"adnepc","rp":"{{rp.id}}"}' hx-target="#mnprie" hx-include="[id='prc-{{rp.id}}']" hx-trigger="prupd{{rp.id}}"  _= "on click
+	if #prc-{{rp.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+	text:'Hey!  There are Missing Data!!! '}) then halt end trigger prupd{{rp.id}}" >Update</button></div>
+{% endif %}
+
+{% if sts == 'nefetur' %}
+{% for f in rf %}
+	<div class="row">
+		
+	   <div class="col-md-3"> {% if f.extra.raw %} {{f.extra.raw.name}} {% else %} {{f.extra.ingre.name}} {% endif %}</div>
+		<div class="col-md-2">Price: {{f.price}}</div>
+		<div class="col-md-4"> <input type="text" class="form-control" name="sbprc" id="sbprc-{{f.id}}" placeholder="Update Price">
+			</div>
+<div class="col-md-2"> <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'btn_price' %}" hx-vals='{"action":"nefetur","val":"{{f.id}}","rp":"{{rp}}"}' hx-target="#feturlst" hx-include="[id='sbprc-{{f.id}}']" hx-trigger="sbupd{{f.id}}"  _= "on click if #sbprc-{{f.id}}'s value is empty Swal.fire({title: 'Missing Data',text:'Hey!  There are Missing Data!!! '}) then halt end trigger sbupd{{f.id}}">Update</button></div>
+		
+	</div>
+	{% endfor %}
+{% endif %}

@@ -1,0 +1,103 @@
+{% if sts == 'inginfo' %}
+<div class="row" style="flex-direction: row-reverse">
+	<div class="col-md-2"><button class="btn btn-primary btn-sm" hx-get="{% url 'task' %}" hx-target="body">Cancel</button></div>
+</div>
+<div class="row" style="padding: 1%;">
+	<div class="col-md-6">{{raw.name}}</div>
+</div>
+<div class="row" style="padding: 1%;">
+	<div class="col-md-6"><h5>Standard Patch Quantity: {{raw.quantity}}</h5></div>
+	<div class="col-md-6"><h5>Weight : {{raw.weight}}  - {{raw.unit}}</h5></div>
+</div>
+<div class="row" style="padding: 1%;">
+	<div class="row" style="padding: 1%;"> <div class="col-md-4"><h5>Recipt :-</h5></div></div>
+   <div class="row" style="padding: 1%;">
+	<div class="col-md-10"><h5>{{raw.receipt}}</h5></div>
+   </div>
+	
+</div>
+<div class="row" style="padding: 1%;">
+<table class="table">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Item</th>
+		<th>Section</th>
+		<th>Quantity</th>  
+	</tr>
+	</thead>
+	<tbody>
+		{% for i in sub %}
+		<tr>
+			<td>{{ forloop.counter}}</td>
+			{% if i.items %}
+			<td>{{ i.items }}</td>
+			<td>Raw</td>
+			{% else %}
+			<td>{{ i.ingre }}</td>
+			<td>Raw</td>
+			{% endif %}
+			<td>{{i.quantity}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if sts == 'info' %}
+<div class="row" style="flex-direction: row-reverse">
+	<div class="col-md-2"><button class="btn btn-primary btn-sm" hx-get="{% url 'task' %}" hx-target="body">Back</button></div>
+</div>
+<div class="row" style="padding: 1%;">
+	<div class="col-md-6">{{raw.name}}</div>
+</div>
+<div class="row" style="flex-direction: row-reverse" >
+	<img src="/img/{{raw.photo}}" alt="" style="width: 20%; border-radius: 100%;">
+</div>
+<div class="row" style="padding: 1%;">
+	<div class="col-md-6"><h5>Standard Patch Quantity: {{raw.quantity}}</h5></div>
+	<div class="col-md-6"><h5>Weight : {{raw.weight}}  - {{raw.unit}}</h5></div>
+</div>
+<div class="row" style="padding: 1%;">
+	<div class="row" style="padding: 1%;"> <div class="col-md-4"><h5>Customer Description :-</h5></div></div>
+   <div class="row" style="padding: 1%;">
+	<div class="col-md-10"><h5>{{raw.s_descrip}}</h5></div>
+   </div>
+	
+</div>
+<div class="row" style="padding: 1%;">
+	<div class="row" style="padding: 1%;"> <div class="col-md-4"><h5>Kitchen Description :-</h5></div></div>
+   <div class="row" style="padding: 1%;">
+	<div class="col-md-10"><h5>{{raw.l_descrip}}</h5></div>
+   </div>
+	
+</div>
+<div class="row" style="padding: 1%;">
+<table class="table">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Item</th>
+		<th>Section</th>
+		<th>Quantity</th>  
+	</tr>
+	</thead>
+	<tbody>
+		{% for i in sub %}
+		<tr>
+			<td>{{ forloop.counter}}</td>
+			{% if i.raw %}
+			<td>{{ i.raw }}</td>
+			<td>Raw</td>
+			{% else %}
+			<td>{{ i.ingredient }}</td>
+			<td>Ingredients</td>
+			{% endif %}
+			<td>{{i.quantity}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endif %}

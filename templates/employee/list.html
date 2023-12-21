@@ -1,0 +1,133 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+<style>
+    table {
+        table-layout: fixed;
+    }
+    
+    td {
+        white-space: normal !important;
+        word-wrap: break-word;
+    }
+</style>
+
+<body >
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        {% if request.user.is_authenticated %}
+        <div class="container-fluid page-body-wrapper">
+
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Employees List </h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            <div class="col-md-12 col-l-12">
+                                                                <div class="card shadow-0 border rounded-3">
+                                                                    <div class="card-body" id="addrsl">
+																		<table class="table">
+                                                                            <thead>
+                                                                                <tr style="text-align: center;">
+                                                                                    <th>Code</th>
+                                                                                <th>Name</th>
+                                                                                <th>Phone</th>
+                                                                                <th>UserName</th>
+                                                                                <th>Password</th>
+                                                                                <th>Salary</th>
+                                                                                <th colspan="3">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody >
+                                                                                {% for i in empy %}
+                                                                                <tr style="text-align: center;" id="tr-{{i.id}}">
+                                                                                    <td>{{i.emp_num}}</td>
+                                                                                    <td>{{i.name}}</td>
+                                                                                    <td>{{i.phone}}</td>
+                                                                                    <td>{{i.urname}}</td>
+                                                                                    <td>{{i.pwd}}</td>
+                                                                                    <td>{{i.salary}}</td>
+                                                                                    <td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{i.id}}","action":"detl"}' 
+                                                                                       
+                                                                                    hx-trigger="edit"
+                                                                                    _="on click
+                                                                                        if .editing is not empty Swal.fire({title: 'Already Editing',
+                                                                                                    showCancelButton: true,
+                                                                                                    confirmButtonText: 'Yep, Edit This Row!',
+                                                                                                    text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+                                                                                        if the result's isConfirmed is false
+                                                                                            halt
+                                                                                        end
+                                                                                        send cancel to .editing
+                                                                                        end
+                                                                                        trigger edit" hx-target="#tr-{{i.id}}" hx-swap="outerHTML"> Edit</button></td>
+                     <td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{i.id}}","action":"prm"}' 
+                                                                                       
+                        hx-trigger="edit"
+                        _="on click
+                             if .editing is not empty Swal.fire({title: 'Already Editing',
+                                          showCancelButton: true,
+                                          confirmButtonText: 'Yep, Edit This Row!',
+                                          text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+                               if the result's isConfirmed is false
+                                 halt
+                               end
+                               send cancel to .editing
+                             end
+                             trigger edit" hx-target="#tr-{{i.id}}" hx-swap="outerHTML"> Permission</button></td>
+                                             <td> <button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{i.id}}","action":"dlt"}' hx-target="#addrsl"> Delete</button></td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                              
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+        </div>
+        {% endif %}
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+{% load static  %}
+
+<div class="container">
+	<nav class="navbar navbar-light navbar-expand-lg py-4">
+		<a href="{% url 'home' %}" class="navbar-brand">
+			<h1 class="text-primary fw-bold mb-0">Tender<span class="text-dark">Frozen</span> </h1>
+		</a>
+		<button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			<span class="fa fa-bars text-primary"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<div class="navbar-nav mx-auto">
+				<a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
+				<a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+				
+				<a href="{% url 'cartDetails' %}" class="nav-item nav-link">Cart</a>
+				<a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
+				<a href="{% url 'user_attendence' %}" class="nav-item nav-link">Attendence</a>
+				
+				
+			</div>
+		   
+			<a href="{% url 'cartDetails' %}" class="btn btn-primary py-2 px-4 d-none d-xl-inline-block rounded-pill"><span id="counter">{{ request.COOKIES.count }}</span> <i class="fas fa-cart-plus fa-lg" style="color: #ffffff;"></i></a>
+		</div>
+	</nav>
+</div>

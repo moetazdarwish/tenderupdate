@@ -1,0 +1,149 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/homehead.html" %}
+
+<body>
+
+    <!-- Spinner Start -->
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar start -->
+    <div class="container-fluid nav-bar">
+        {% include "navs/homenav.html" %}
+    </div>
+    <!-- Navbar End -->
+
+
+
+        <!-- About Satrt -->
+        <div class="container-fluid py-6">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-5 wow bounceInUp" data-wow-delay="0.1s">
+                        <img src="{% static 'home/img/about.jpg'%}" class="img-fluid rounded" alt="">
+                    </div>
+                    <div class="col-lg-7 wow bounceInUp" data-wow-delay="0.3s">
+                        <small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-4 py-1 mb-3">About Us</small>
+                        <h1 class="display-5 mb-4">{{title.text}}</h1>
+                        <p class="mb-4">{{about.text}}</p>
+                        <div class="row g-4 text-dark mb-5">
+                            <div class="col-sm-6">
+                                <i class="fas fa-share text-primary me-2"></i>Fresh and Fast food Delivery
+                            </div>
+                            <div class="col-sm-6">
+                                <i class="fas fa-share text-primary me-2"></i>24/7 Customer Support
+                            </div>
+                            <div class="col-sm-6">
+                                <i class="fas fa-share text-primary me-2"></i>Easy Customization Options
+                            </div>
+                            <div class="col-sm-6">
+                                <i class="fas fa-share text-primary me-2"></i>Delicious Deals for Delicious Meals
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+  <!-- Service Start -->
+  <div class="container-fluid service py-6">
+    <div class="container">
+        <div class="text-center wow bounceInUp" data-wow-delay="0.1s">
+           
+            <h1 class="display-5 mb-5">What We Offer</h1>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 col-sm-12 wow bounceInUp" data-wow-delay="0.1s">
+                <div class="bg-light rounded service-item">
+                    <div class="service-content d-flex align-items-center justify-content-center p-4">
+                        <div class="service-content-icon text-center">
+                            <i class="fas fa-cheese fa-7x text-primary mb-4"></i>
+                            <h4 class="mb-3">Wedding Services</h4>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 wow bounceInUp" data-wow-delay="0.3s">
+                <div class="bg-light rounded service-item">
+                    <div class="service-content d-flex align-items-center justify-content-center p-4">
+                        <div class="service-content-icon text-center">
+                            <i class="fas fa-pizza-slice fa-7x text-primary mb-4"></i>
+                            <h4 class="mb-3">Corporate Catering</h4>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 wow bounceInUp" data-wow-delay="0.5s">
+                <div class="bg-light rounded service-item">
+                    <div class="service-content d-flex align-items-center justify-content-center p-4">
+                        <div class="service-content-icon text-center">
+                            <i class="fas fa-hotdog fa-7x text-primary mb-4"></i>
+                            <h4 class="mb-3">Cocktail Reception</h4>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 wow bounceInUp" data-wow-delay="0.7s">
+                <div class="bg-light rounded service-item">
+                    <div class="service-content d-flex align-items-center justify-content-center p-4">
+                        <div class="service-content-icon text-center">
+                            <i class="fas fa-hamburger fa-7x text-primary mb-4"></i>
+                            <h4 class="mb-3">Bento Catering</h4>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 col-sm-12 wow bounceInUp" data-wow-delay="0.3s">
+                <div class="bg-light rounded service-item">
+                    <div class="service-content d-flex align-items-center justify-content-center p-4">
+                        <div class="service-content-icon text-center">
+                            <i class="fas fa-walking fa-7x text-primary mb-4"></i>
+                            <h4 class="mb-3">Home Delivery</h4>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="col-lg-3 col-md-6 col-sm-12 wow bounceInUp" data-wow-delay="0.7s">
+                <div class="bg-light rounded service-item">
+                    <div class="service-content d-flex align-items-center justify-content-center p-4">
+                        <div class="service-content-icon text-center">
+                            <i class="fas fa-utensils fa-7x text-primary mb-4"></i>
+                            <h4 class="mb-3">Buffet Catering</h4>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Service End -->
+  
+
+       
+        {% include "navs/homefooter.html" %}
+
+        <!-- Back to Top -->
+        <a href="https://wa.me/6281228430523?text=Hi%20Qiscus" class="floating" target="_blank">
+            <i class="fab fa-whatsapp fab-icon"></i> 
+            </a>
+
+        
+        {% include "navs/homedown.html" %}
+    </body>
+</html>

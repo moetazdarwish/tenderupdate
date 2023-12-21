@@ -1,0 +1,101 @@
+{% load static  %}
+{% include "navs/heads.html" %}
+
+
+<div class="main-panel" style="width: 100%;">
+	<div class="content-wrapper" style="padding: 10px;">
+		<div class="row">
+			<div class="col-md-4">
+				<img src="static/dash/images/Logo.png" alt="" style="width: 150px;">
+			
+			</div>
+		</div>
+		<div class="row" >
+			<div class="col-md-4" ><h3 style="padding-left: 300px;">Payment Receipt</h3></div>
+		</div>
+		<div class="row" >
+			<div class="col-md-4" ><h3 style="padding-left: 600px;">Date : {{data.date|date:" d M, y"}}</h3></div>
+		</div>
+		<div class="row" style="padding-left: 50px;padding-top: 10px;">
+			<div class="col-md-4"><h3>Ref No : {{data.ref}}</h3></div>
+		</div>
+			<div class="row" style="padding-left: 50px;padding-top: 10px;">
+				<div class="col-md-10">
+					<table class="table " style="border: 1px black solid;">
+						<thead>
+						<tr>
+							<th colspan="3"><h4>Description</h4></th>
+							<th><h4>Amount</h4></th>
+						</tr>
+						</thead>
+						<tbody >
+							<tr>
+								<td colspan="3"><h4>{{data.section}} - {{data.item}}</h4></td>
+								<td><h4>{{data.amount}}</h4></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+					<div class="row" style="padding-top: 10px;padding-left: 50px"><h4>Amount Of</h4></div>	
+					<div class="row" >
+						<table>
+							<tbody>
+								<tr>
+									<td><h4>Revewied By</h4></td>
+									
+									<td><h4>Received By</h4></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>		
+		</div>
+		<div class="content-wrapper" style="padding: 10px;">
+			<div class="row">
+				<div class="col-md-4">
+					<img src="static/dash/images/Logo.png" alt="" style="width: 150px;">
+				
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-md-4" ><h3 style="padding-left: 300px;">Payment Receipt</h3></div>
+			</div>
+			<div class="row" >
+				<div class="col-md-4" ><h3 style="padding-left: 600px;">Date : {{data.date|date:" d M, y"}}</h3></div>
+			</div>
+			<div class="row" style="padding-left: 50px;padding-top: 10px;">
+				<div class="col-md-4"><h3>Ref No : {{data.ref}}</h3></div>
+			</div>
+				<div class="row" style="padding-left: 50px;padding-top: 10px;">
+					<div class="col-md-10">
+						<table class="table " style="border: 1px black solid;">
+							<thead>
+							<tr>
+								<th colspan="3"><h4>Description</h4></th>
+								<th><h4>Amount</h4></th>
+							</tr>
+							</thead>
+							<tbody >
+								<tr>
+									<td colspan="3"><h4>{{data.section}} - {{data.item}}</h4></td>
+									<td><h4>{{data.amount}}</h4></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+						<div class="row" style="padding-top: 10px;padding-left: 50px"><h4>Amount Of</h4></div>	
+						<div class="row" >
+							<table>
+								<tbody>
+									<tr>
+										<td><h4>Revewied By</h4></td>
+										
+										<td><h4>Received By</h4></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>		
+			</div>
+
+</div>

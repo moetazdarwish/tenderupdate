@@ -1,0 +1,94 @@
+{% if sts == 'edt' %}
+<tr hx-trigger='cancel' class='editing' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"inf"}' style="text-align: center;" id="tr-{{val}}" hx-target="#tr-{{val}}" hx-swap="outerHTML">
+	<td><input class="form-control" name='code' value={{empy.emp_num}}></td>
+	<td><input class="form-control" name='name' value={{empy.name}}></td>
+	<td><input class="form-control" name='phone' value={{empy.phone}}></td>
+	<td><input class="form-control" name='urnam' value={{empy.urname}}></td>
+	<td><input class="form-control" name='pwd' value={{empy.pwd}}></td>
+	<td><input class="form-control" name='salary' value={{empy.salary}} disabled></td>
+	<td>
+	  <button class="btn btn-danger btn-sm" _="on click send cancel to .editing end" >
+		Cancel
+	  </button></td><td>
+	  <button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-include="closest tr" hx-vals='{"myVal": "{{empy.id}}","action":"edit"}'  style="color: aliceblue;" hx-target="#tr-{{val}}" hx-swap="outerHTML" >
+		Save
+	  </button>
+	</td>
+  </tr>
+ {% endif %}
+  {% if sts == 'inf' %}
+<tr id="tr-{{val}}">
+	<td>{{empy.emp_num}}</td>
+	<td>{{empy.name}}</td>
+	<td>{{empy.phone}}</td>
+	<td>{{empy.urname}}</td>
+	<td>{{empy.pwd}}</td>
+	<td>{{empy.salary}}</td>
+	<td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"detl"}' 
+	   
+hx-trigger="edit"
+_="on click
+if .editing is not empty Swal.fire({title: 'Already Editing',
+showCancelButton: true,
+confirmButtonText: 'Yep, Edit This Row!',
+text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+if the result's isConfirmed is false
+halt
+end
+send cancel to .editing
+end
+trigger edit" hx-target="#tr-{{val}}" hx-swap="outerHTML"> Edit</button></td>
+<td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"prm"}' 
+                                                                                       
+	hx-trigger="edit"
+	_="on click
+		 if .editing is not empty Swal.fire({title: 'Already Editing',
+					  showCancelButton: true,
+					  confirmButtonText: 'Yep, Edit This Row!',
+					  text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+		   if the result's isConfirmed is false
+			 halt
+		   end
+		   send cancel to .editing
+		 end
+		 trigger edit" hx-target="#tr-{{val}}" hx-swap="outerHTML"> Permission</button></td>
+<td> <button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{empy.id}}","action":"dlt"}' hx-target="#addrsl"> Delete</button></td>
+</tr>
+{% endif %}
+
+{% if sts == 'grp' %}
+<tr hx-trigger='cancel'class='editing' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{nme.id}}","action":"inf"}'  style="text-align: center;" id="tr-{{val}}" hx-target="#tr-{{val}}" hx-swap="outerHTML">
+	<td >
+		{{nme.name}}
+	</td>
+	
+	<td  colspan="5">
+		<table>
+			<tbody>
+				<tr style="text-align: center;" hx-trigger='cancel' class='editing' >
+					{% for i in groups %}
+				  <td>{{i.name}}</td>
+				  {% endfor %}
+				</tr>
+				<tr style="text-align: center;" hx-trigger='cancel' class='editing' >
+					{% for i in groups %}
+					{% if i.stat %}
+					<td><input type="checkbox" value="{{i.name}}" checked  name="groups"></td>
+					{% else %}
+					<td><input type="checkbox"  value="{{i.name}}" name="groups" ></td>
+					{% endif %}
+					{% endfor %}
+				</tr>
+			</tbody>
+		</table>
+		
+	</td>
+	<td > <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{nme.id}}","action":"grpupt" }' hx-include="[name='groups']"  hx-target="#tr-{{val}}" hx-swap="outerHTML"> Update</button></td>
+<td><button class="btn btn-danger btn-sm" _="on click send cancel to .editing end">
+		Cancel
+	  </button></td>
+	
+</tr>
+
+  
+{% endif %}

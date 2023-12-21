@@ -1,0 +1,95 @@
+{% if sts == 'fltr' %}
+{% for i in data %}
+<tr>
+	<td>{{i.name}}</td>
+	<td>{{i.cate}}</td>
+	<td>{{i.qty}} - {{i.unit}}</td>
+	<td>{{i.price}}</td>
+	<td><button class="btn btn-warning btn-sm">Buy</button></td>
+	<td><button class="btn btn-primary btn-sm">Details</button></td>
+</tr>
+{% endfor %}
+{% endif %}
+
+{% if sts == 'buy' %}
+
+<td><input type="number" class="form-control" name="qty" id="qty" placeholder="Quantity" ></td>
+<td><input type="number" class="form-control"  name="price" id="price" placeholder="Price per Item" ></td>
+<td><input type="number" class="form-control"  name="extr" id="extr" placeholder="Other Cost" ></td>
+<td colspan="2"><div class="row" ><select class="form-select" name="suply" id="suply" ><option value="">Select Suppliers</option>
+{% for i in suplir %}
+<option value="{{i.id}}">{{i.name}}</option>
+{% endfor %}
+</select></div></td> 
+<td><button class="btn btn-warning btn-sm" style="margin: 1%;" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventory' %}" hx-vals='{"action":"crtsp","val":"{{val}}"}' hx-trigger="click" hx-target="#tr-{{val}}">Add Supplier</button></td>
+
+<td><button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'inventory' %}" hx-vals='{"action":"recd","val":"{{val}}"}' hx-target="#tr-{{val}}" hx-trigger="additem" _= "on click 
+	if #qty's value is empty Swal.fire({title: 'Missing Data', 
+ text:'Hey!  There are Missing Data!!! '}) then halt end if #price's value is empty Swal.fire({title: 'Missing Data', 
+ text:'Hey!  There are Missing Data!!! '}) then halt end if #extr's value is empty Swal.fire({title: 'Missing Data', 
+ text:'Hey!  There are Missing Data!!! '}) then halt end if #suply's value is empty Swal.fire({title: 'Missing Data', 
+ text:'Hey!  There are Missing Data!!! '}) then halt end trigger additem" hx-include="closest tr">Buy</button></td>
+
+<td><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'inventory' %}" hx-vals='{"action":"cnl","val":"{{val}}"}' hx-target="#tr-{{val}}" hx-trigger="click" >cancel</button></td>
+{% endif %}
+{% if sts == 'adsp' %}
+<td><input type="text" class="form-control" name="supl" id="supl"  placeholder="Supplier Name" required></td>
+<td><input type="text" class="form-control" name="phone" placeholder="Supplier Phone" required></td>
+<td><input type="text" class="form-control" name="add" placeholder="Supplier Address" ></td>
+<td><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventory' %}" hx-vals='{"action":"addsup","val":"{{val}}"}' hx-trigger="cat" hx-target="#tr-{{val}}" hx-include="[name='supl'],[name='phone'],[name='add']" _= "on click
+	if #supl's value is empty Swal.fire({title: 'Missing Data', 
+ text:'Hey!  There are Missing Data!!! '}) then halt end  trigger cat">Add</button></td>
+ <td><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'inventory' %}" hx-vals='{"action":"buy","val":"{{val}}"}' hx-target="#tr-{{val}}" hx-trigger="click" >Cancel</button></td>
+
+ {% endif %}
+
+ {% if sts == 'cnl' %}
+ <td>{{data.0.name}}</td>
+<td>{{data.0.cate}}</td>
+<td>{{data.0.qty}} - {{data.0.unit}}</td>
+<td>{{data.0.price}}</td>
+<td><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventory' %}" hx-vals='{"action":"buy","val":"{{data.0.id}}"}' hx-target="#tr-{{data.0.id}}" hx-trigger="click" >Buy</button></td>
+<td colspan="3"><button class="btn btn-primary btn-sm">Details</button></td>
+ {% endif %}
+
+ {% if sts == 'dtil' %}
+ <div class="row">
+	<table class="table">
+		<thead>
+			<tr style="text-align: center;">
+				<th>Patch</th>
+				<th>Product</th>
+				<th>Supplier</th>
+				<th>Quantity IN</th>
+				<th>Remaining Qty</th>
+				<th>Price</th>
+				<th>Extr Price</th>
+				<th>Amount</th>
+				<th>Date</th>
+				<th>Remark</th>
+				<th colspan="1">Action</th>
+			</tr>
+		</thead>
+		<tbody id="tbls">
+			{% for i in data %}
+			<tr style="text-align: center;" id="tr-{{i.id}}">
+				<td>{{i.patch}}</td>
+				<td>{{i.product.name}}</td>
+				<td>{{i.supplier.name}}</td>
+				<td>{{i.q_in}} </td>
+				<td>{{i.q_out}}</td>
+				<td>{{i.unt_price}}</td>
+				<td>{{i.ext_cost}}</td>
+				<td>{{i.amount}}</td>
+				<td>{{i.date|date:"SHORT_DATE_FORMAT"}}</td>
+				<td>{% if i.action is None %} No Remark {% else %} {{i.action}} {% endif %}</td>
+				
+				<td colspan="1"><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'inventory' %}" hx-vals='{"action":"cler","val":"{{i.id}}"}' hx-target="#lst" hx-trigger="click">Clear Stock</button></td>
+			</tr>
+			{% endfor %}
+		   
+		</tbody>
+	</table>
+
+</div>
+ {% endif %}

@@ -1,0 +1,175 @@
+{% load custom_tags %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+	<ul class="nav">
+		<li class="nav-item">
+			<a class="nav-link" href="/index.html">
+				
+				<i class=" menu-icon fa-solid fa-user" style="color: #24447f;"></i>
+				<span class="menu-title">{{request.user}}</span>
+			</a>
+		</li>
+		<!-- {% if request.user|group:"admin" %}
+		<li class="nav-item">
+			<a class="nav-link" href="{% url 'adminPage' %}">
+				
+				<i class=" menu-icon fa-solid fa-gauge" style="color: #24447f;"></i>
+				<span class="menu-title">DashBoard</span>
+			</a>
+		</li>
+		{% endif %} -->
+		{% if request.user|group:"Hr" %}
+		<li class="nav-item">
+			<a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+
+				<i class="menu-icon fa-solid fa-users" style="color: #24447f;"></i>
+				<span class="menu-title">Employees</span>
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="ui-basic">
+				<ul class="nav flex-column sub-menu"> 
+					
+					<li class="nav-item"> <a class="nav-link" href="{% url 'attendence_employee' %}">Attendence</a></li>
+
+					<li class="nav-item"> <a class="nav-link" href="{% url 'create_Employee' %}">Add Employee</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'list_Employee' %}">Employees List</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'salary_employee' %}">Employees Requests</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'ticket_employee' %}">Open Tickets </a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'ticket_List' %}">Closed Tickets </a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'attendenceList' %}">Attendence Detail</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'createAdvance' %}">Salary</a></li>
+				</ul>
+			</div>
+		</li>
+{% endif %}
+{% if request.user|group:"Inventory,admin" %}
+
+		<li class="nav-item">
+			<a class="nav-link" data-bs-toggle="collapse" href="#inv-basic" aria-expanded="false" aria-controls="inv-basic">
+
+				<i class="menu-icon fa-solid fa-warehouse" style="color: #24447f;"></i>
+				<span class=" menu-title">Inventory</span>
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="inv-basic">
+				<ul class="nav flex-column sub-menu">
+
+					<li class="nav-item"> <a class="nav-link" href="{% url 'inventoryTask' %}">Requests</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'productCreation' %}">Add</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'inventory' %}">Stock</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'product_category' %}">Category List</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'productSupplier' %}">Suppliers List</a></li>
+				</ul>
+			</div>
+		</li>
+		{% endif %}
+		{% if request.user|group:"Kitchen,admin" %}
+		
+		<li class="nav-item">
+			<a class="nav-link" data-bs-toggle="collapse" href="#ing-basic" aria-expanded="false" aria-controls="inv-basic">
+
+				<i class="menu-icon fa-solid fa-fire-burner" style="color: #24447f;"></i>
+				<span class=" menu-title">Kitchen</span>
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="ing-basic">
+				<ul class="nav flex-column sub-menu">
+					
+					
+					<li class="nav-item"> <a class="nav-link" href="{% url 'task' %}">Tasks</a></li>
+				
+					<li class="nav-item"> <a class="nav-link" href="{% url 'btn_price' %}">Pricing</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'reciptls' %}">Recipe</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'ingredient' %}">Ingredients</a></li>
+				</ul>
+			</div>
+		</li>
+{% endif %}
+{% if request.user|group:"POS Manager,admin,POS Task" %}
+
+		<li class="nav-item">
+			<a class="nav-link" data-bs-toggle="collapse" href="#pos-basic" aria-expanded="false" aria-controls="inv-basic">
+
+				<i class="menu-icon fa-solid fa-cash-register" style="color: #24447f;"></i>
+				<span class=" menu-title">Sales</span>
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="pos-basic">
+				<ul class="nav flex-column sub-menu">
+					{% if request.user|group:"POS Manager,admin" %}
+					<li class="nav-item"> <a class="nav-link" href="{% url 'createCart' %}">Create</a></li>
+					{% endif %}
+					<li class="nav-item"> <a class="nav-link" href="{% url 'posLogin' %}">POS</a></li>
+			
+
+					
+				</ul>
+			</div>
+		</li>
+		{% endif %}
+		{% if request.user|group:"POS Manager,admin" %}
+		<li class="nav-item">
+			<a class="nav-link" data-bs-toggle="collapse" href="#crm-basic" aria-expanded="false" aria-controls="inv-basic">
+				<i class="menu-icon fa-solid fa-bell-concierge" style="color: #24447f;"></i>
+				<span class=" menu-title">CRM</span>
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="crm-basic">
+				<ul class="nav flex-column sub-menu">
+					<li class="nav-item"> <a class="nav-link" href="{% url 'customerList'  %}">CRM</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'createDiscount'  %}">Discount</a></li>
+				
+
+				</ul>
+			</div>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" data-bs-toggle="collapse" href="#dly-basic" aria-expanded="false" aria-controls="inv-basic">
+				<i class="menu-icon fa-solid fa-motorcycle" style="color: #24447f;"></i>
+
+				<span class=" menu-title">Delivery</span>
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="dly-basic">
+
+				<ul class="nav flex-column sub-menu">
+					<li class="nav-item"> <a class="nav-link" href="{% url 'delivery'  %}">Delivery</a></li>
+				
+				</ul>
+			</div>
+		</li>
+		{% endif %}
+		{% if request.user|group:"Account,admin" %}
+		
+		<li class="nav-item">
+			<a class="nav-link" data-bs-toggle="collapse" href="#acc-basic" aria-expanded="false" aria-controls="inv-basic">
+
+				<i class="menu-icon fa-solid fa-sack-dollar" style="color: #24447f;"></i>
+				<span class=" menu-title">Account</span>
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="acc-basic">
+				<ul class="nav flex-column sub-menu">
+					<li class="nav-item"> <a class="nav-link" href="{% url 'accRequest'  %}">Requests</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'journal'  %}">Journal</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'ledgers'  %}">Ledgers</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'creatAccount'  %}">Keys</a></li>
+					<li class="nav-item"> <a class="nav-link" href="{% url 'backUp'  %}">BackUp</a></li>
+		
+
+				</ul>
+			</div>
+		</li>
+		{% endif %}
+		<li class="nav-item">
+			<a class="nav-link"  href="{% url 'logout' %}" >
+
+				<i class="menu-icon fa-solid fa-right-from-bracket" style="color: #24447f;"></i>
+				<span class=" menu-title">LogOut</span>
+		
+			
+			</a>
+			
+		</li>
+
+	</ul>
+</nav>

@@ -1,0 +1,135 @@
+{% load static  %}
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+<style>
+    table {
+        table-layout: fixed;
+    }
+    
+    td {
+        white-space: normal !important;
+        word-wrap: break-word;
+    }
+</style>
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        {% if request.user.is_authenticated %}
+        <div class="container-fluid page-body-wrapper">
+
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Tickets</h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            <div class="col-md-12 col-l-12">
+                                                                <div class="card shadow-0 border rounded-3">
+                                                                    <div class="card-body" id="addrsl">
+																		<table class="table">
+                                                                            <thead>
+                                                                                <tr style="text-align: center;">
+                                                                                
+                                                                                <th>Name</th>
+                                                                                <th>Requestor</th>
+                                                                                <th>Date</th>
+                                                                                <th>action</th>
+                                                                             
+                                                                                <th>amount</th>
+                                                                                <th>status</th>
+                                                                                
+                                                                                <th colspan="2">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody >
+                                                                                {% for i in empy %}
+                                                                                <tr style="text-align: center; border: 1px black solid" >
+                                                                                    <tr >
+                                                                                        <td>{{i.name.name}}</td>
+                                                                                        <td>{{i.request_by.employeedetail.name}}</td>
+                                                                                        <td>{{i.date}}</td>
+                                                                                        {% if i.vctn %}
+                                                                                        <td colspan="2">{{i.action}} - From:{{i.d_from}}- To:{{i.d_to}} </td>
+                                                                                        {% else %}
+                                                                                        <td>{{i.action}}</td>
+                                                                                        <td>{{i.amount}}</td>
+                                                                                        {% endif %}
+                                                                                        <td id="tr-{{i.id}}">
+                                                                                        {% if i.status == 'CONFIRMED' %}
+                                                                                       <a class="badge badge-outline-success">Confirmed</a>
+                                                                                       {% elif i.status == 'PENDING' %}
+                                                                                       <a class="badge badge-outline-warning">Pending</a>
+                                                                                       {% else %}
+                                                                                       <a class="badge badge-outline-danger">Reject</a>
+                                                                                       {% endif %}
+                                                                                    </td>
+                                                                                       
+                                                                                       {% if request.user|group:"admin" %}
+        <td rowspan="2"><button class="btn btn-warning btn-sm " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'ticket_employee' %}" hx-vals='{"myVal": "{{i.id}}","action":"acc"}' hx-target="#tr-{{i.id}}" hx-swap="outerHTML">Confirm</button></td>
+        <td rowspan="2"><button class="btn btn-danger btn-sm clr" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ticket_employee' %}" hx-vals='{"myVal": "{{i.id}}","action":"decl"}' hx-target="#tr-{{i.id}}" hx-swap="outerHTML">Decline</button></td>
+        {% else %}
+        <td></td><td></td>
+        {% endif %}
+        
+                                                                                                
+                                                                                        
+                                                                                    </tr><tr>
+                                                                                        <td>Description :</td>
+                                                                                        <td colspan="5">{{i.decription}}</td>
+                                                                                    </tr>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                              
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+        </div>
+        {% endif %}
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>

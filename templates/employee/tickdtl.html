@@ -1,0 +1,10 @@
+
+		<td id="tr-{{empy.id}}">
+		{% if empy.status == 'CONFIRMED' %}
+		<a class="badge badge-outline-success">Confirmed</a>
+		{% elif empy.status == 'PENDING' %}
+		<a class="badge badge-outline-warning">Pending</a>
+		{% else %}
+		<a class="badge badge-outline-danger">Reject</a>
+		{% endif %}
+		</td>

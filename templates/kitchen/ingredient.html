@@ -1,0 +1,135 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        {% if request.user.is_authenticated %}
+        <div class="container-fluid page-body-wrapper">
+
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Ingredients</h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            <div class="col-md-12 col-l-12">
+                                                                <div class="card shadow-0 border rounded-3">
+                                                                    <div class="card-body" id="addrsl">
+                                                                        
+																	<div class="row">
+                                                                        <div class="col-md-10">
+                                                                            <div class="row">
+                                                                               
+                                                                                <div class="col-md-6" style="margin-bottom: 1%;">
+                                                                                    <input type="text" name="prdc" id="prdc" placeholder="Search By Name" value="" class="form-control">
+                                                                                </div>
+                                                                                <div class="col-md-2" style="margin-bottom: 1%;">
+                                                                                <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ingredient' %}" hx-vals='{"action":"srch"}' hx-target="#tbls" hx-include="[name='prdc']" hx-trigger="edt" _= "on click 
+                                                                                if #prdc's value is empty Swal.fire({title: 'Missing Data', 
+                                                                                text:'Hey!  There are Missing Data!!! '}) then halt end trigger edt"  > Search</button>
+                                                                                </div>
+                                                                                <div class="col-md-4">
+                                                                                    <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ingredient' %}" hx-vals='{"action":"btn_add"}' hx-target="#lst" >Create</button>
+                                                                                </div>
+                                                                               
+                                                                            </div>
+                                                                        </div>
+                                                                       
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        
+                                                                            <div style="padding: 2%;" id="lst">
+                                                                               
+                                                                                <div class="row">
+                                                                                <table class="table">
+                                                                                    <thead>
+                                                                                        <tr style="text-align: center;">
+                                                                                            <th>Name</th>
+                                                                                            
+                                                                                            <th>Quantity</th>
+                                                                                            <th>Avg Cost</th>
+                                                                                            
+                                                                                            <th colspan="4">Action</th>
+                                                                                            
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody id="tbls">
+                                                                                        {% for i in ing %}
+                                                                                        <tr style="text-align: center;" id="tr-{{i.id}}">
+                                                                                            <td>{{i.name}}</td>
+                                                                                            <td>{{i.qty}} - {{i.unit}}</td>
+                                                                                            <td>{{i.price}}</td>
+                                                                                            <td><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ingredient' %}" hx-vals='{"action":"info","val":"{{i.id}}"}' hx-target="#lst" >Info</button></td>
+                                                                                            <td ><button class="btn btn-success btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ingredient' %}" hx-vals='{"action":"stock","val":"{{i.id}}"}' hx-target="#lst" hx-trigger="click">Details</button></td>
+                                                                                            <td ><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'kitchenTask' %}" hx-vals='{"action":"tsk","val":"{{i.id}}"}' hx-target="#addrsl" hx-trigger="click">Cook</button></td>
+                                                                                            <td ><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'ingredient' %}" hx-vals='{"action":"delete","val":"{{i.id}}"}' hx-target="body" >Remove</button></td>
+                                                                                        </tr>
+                                                                                        {% endfor %}
+                                                                                       
+                                                                                    </tbody>
+                                                                                </table>
+                                                                                </div>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                  
+
+                                                                    </div>
+                                                                   
+                                                                   
+                                                              
+                                                                </div>
+                                                            </div>
+                                                     
+                                                                
+                                                           
+                                                       
+                                                    </div>
+                                                       
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+        </div>
+        {% endif %}
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+<style>
+    .full_screen {
+            width: 100%;
+          
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+</style>
+<body>
+    
+ 
+    {% if request.user.is_authenticated %}
+    <div class="container-scroller " style=" position: relative; ">
+        {% include "navs/postop.html" %}
+
+                <section>
+
+                                <div class="row" style="padding-top: 50px;">
+                                        <div class="card overflow-auto overflow-y: auto h-100" style="" >
+                                        <div class="card-body">
+                                        
+                                            <div class="">
+                                                <div >
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <select class="form-control" name="cate" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"slcate","code":"{{code}}"}'  hx-target="#dsp" hx-trigger="change">
+                                                                <option value="">Filter By Category</option>
+                                                                {% for i in cat %}
+                                                            <option value="{{i.id}}">{{i.cate}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="row">
+                                                                <div class="col-md-8"><input type="text" name="search" id="search" class="form-control" placeholder="Filter by Name"></div>
+                                                            <div class="col-md-4"><button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"fnd","code":"{{code}}"}' hx-include="[name='search']"  hx-target="#dsp" hx-trigger="find" _= "on click
+                                                                if #search's value is empty Swal.fire({title: 'Missing Data', 
+                                                             text:'Hey!  There are Missing Data!!! '}) then halt end  trigger find">Find</button></div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div style="margin-top: 15px;">
+                                                <div class="row" style="padding-top: 10px; ;" id="dsp" >
+                                                   
+                                                    {% for i in rp %}
+                                                <div class="col-md-4" style="margin-top: 20px;" id="r-{{i.id}}">
+                                                    <div class="card" style="padding: 5px;">
+                                                        
+                                                        <div class="card-body" style="padding: 0%;">
+                                                            <div class="row " style="justify-content: center;padding-top: 10px;">
+                                                                <div class="container-fluid d-flex" style="justify-content: center">
+                                                                    <h4 >{{i.name.name}}</h4>
+                                                                </div>
+                                                            
+                                                                
+                                                            </div>
+                                                            <div class="row" style="margin-left: 20px;">
+                                                                <h4>Price : {{i.price}}</h4>
+                                                                
+                                                            </div>
+                                                        <div class="card card-body" style="margin-top: 5px;">
+                                                            <div class="row " style="margin-top: 10px;justify-content: space-between">
+                                                                {% if i.feature %}
+                                                                <div class="col-md-5">
+                                                                    <div class="row" style="align-items: center;">
+                                                                    <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#featuer{{i.id}}">Extra</button>
+                                                                    </div>
+                                                                </div>
+                                                                {% endif %}
+                                                                <div class="col-md-5" >
+                                                                    <div class="row" style="align-items: center;">
+                                                                        <button class="btn btn-warning btn-sm" type="button" data-toggle="collapse" data-target="#reciepe{{i.id}}">Info</button>
+                                                                    </div>
+                                                                </div>
+                                                            
+                                                                {% if i.feature %}
+                                                        
+                                                                <div class="col-md-12 col-md-12 col-sm-12">
+                                                                    <div class="collapse multi-collapse" id="featuer{{i.id}}">
+                                                                        <div class="card card-body">
+                                                                    {%for  f in i.get_featuers %}
+                                                                            <div class="row">
+                                                                                <div class="col-md-4">{% if f.extra.raw %} {{f.extra.raw.name}} {% else %} {{f.extra.ingre.name}} {% endif %} </div>
+                                                                                <div class="col-md-4">{{f.price}}</div>
+                                                                                <div class="col-md-4"><button class="btn btn-primary btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"feat","code":"{{code}}","item":"{{i.id}}","extr":"{{f.id}}"}'  hx-target="#r-{{i.id}}" hx-swap="outerHTML" >Add</button></div>
+                                                                            </div>
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                    </div>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="col-md-12 col-md-12 col-sm-12">
+                                                                        <div class="collapse multi-collapse" id="reciepe{{i.id}}">
+                                                                            <div class="card card-body">
+                                                                                {{i.name.s_descrip}}
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>
+                                                            </div>
+                                                            <div class="row" style="margin-top: 20px;">
+                                                <button class="btn btn-primary btn-sm" style="padding: 20px 50px;"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"add","code":"{{code}}","item":"{{i.id}}"}'  hx-target="#r-{{i.id}}" hx-swap="outerHTML" >ADD</button>
+                                                            </div>
+                                                        </div>
+                                                                
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                                
+                                                </div>
+                                                </div>
+                                              
+                                              
+                                            </div>
+                                                
+                                        </div>
+                                        </div>
+                               
+                               </div>
+                           
+                        
+                    
+                </section>
+    
+
+            </div>
+        <script>
+            $(".dropdown-menu li .dropdown-item").click(function(){
+  
+  $(".button:first-child").html($(this).text()+' <span class="caret"></span>');
+  
+});
+
+        </script>
+ {% endif %}
+       {% include "navs/scrpt.html" %}
+
+</body>
+
+</html>

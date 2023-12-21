@@ -1,0 +1,204 @@
+{% if sts == 'catg' %}
+{% for r in recipe %}
+<div class="col-lg-6 wow bounceInUp" data-wow-delay="0.05s">
+	<div class="menu-item d-flex align-items-center">
+		<img class="flex-shrink-0 img-fluid rounded-circle" src="{{r.name.photo.url}}" alt="" width="20%">
+		<div class="w-100 d-flex flex-column text-start ps-4">
+			<div class="d-flex justify-content-between border-bottom border-primary pb-2 mb-2">
+				<h4>{{r.name.name}}</h4>
+				<h4 class="text-primary">{{r.price}}</h4>
+			</div>
+			<p class="mb-0">{{r.name.s_descrip}}</p>
+		</div>
+		<div class="d-flex  pb-2 mb-2" >
+			<ul class="nav nav-pills d-inline-flex  wow bounceInUp" >
+				<li class="nav-item p-2">
+					<a class="d-flex py-2 mx-2 border border-primary bg-white rounded-pill " >
+						<span class="text-dark" style="width: 150px;">Add</span>
+					</a>
+				</li>
+				<li class="nav-item p-2">
+					<a class="d-flex py-2 mx-2 border border-primary bg-white rounded-pill " >
+				 <span class="text-dark" style="width: 150px;">Info</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% endfor %}
+
+{% endif %}
+
+{% if sts == 'cut' %}
+{{count}}
+<script>
+	
+Swal.fire({
+  title: "Item Added ",
+  
+  timer: 1000,
+  
+  didOpen: () => {
+    Swal.showLoading();
+    const timer = Swal.getPopup().querySelector("b");
+    timerInterval = setInterval(() => {
+      timer.textContent = `${Swal.getTimerLeft()}`;
+    }, 100);
+  },
+  willClose: () => {
+    clearInterval(timerInterval);
+  }
+}).then((result) => {
+  /* Read more about handling dismissals below */
+  if (result.dismiss === Swal.DismissReason.timer) {
+    console.log("I was closed by the timer");
+  }
+});
+</script>
+{% endif %}
+
+{% if sts == 'ara' %}
+{{area.price}}
+{% endif %}
+
+{% if sts == 'chcart' %}
+{% for item in obj.get_orderlst %}
+
+<tr style="text-align: center;">
+	<td>{{item.product.name.name}}</td>
+	<td><button class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-2 py-1 mb-1" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"mins","val":"{{item.id}}"}' hx-target="#tbdy"><i class="fas fa-minus"></i></button><small class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-3 py-2 mb-1">{{item.quantity}}</small><button class="d-inline-block fw-bold text-dark text-uppercase bg-light border border-primary rounded-pill px-2 py-1 mb-1" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"add","val":"{{item.id}}"}' hx-target="#tbdy" ><i class="fas fa-plus" ></i></button></td>
+	<td>{{item.price}}</td>
+	<td>{{item.get_total}}</td>
+</tr>
+{% endfor %}
+<tr style="text-align: center;">
+	<td colspan="3">Sub Total</td>
+	<td>{{obj.get_cart_sub_total}}</td>
+</tr>
+<tr style="text-align: center;">
+	<td colspan="3"><select class="form-select border-primary p-2" name="slarea" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartDetails' %}" hx-vals='{"action":"ara","val":"{{obj.id}}"}' hx-target="#dsparea" hx-trigger="change">
+		<option selected="">Select Delivery Area</option>
+		{% for i in area %}
+		<option value="{{i.id}}">{{i.area}}</option>
+	   {% endfor %}
+	</select></td>
+	<td id="dsparea">{{obj.get_delivery}}</td>
+</tr>
+<tr style="text-align: center;">
+	<td colspan="3">VAT</td>
+	<td>{{obj.get_VAT}}</td>
+</tr>
+<tr style="text-align: center;">
+	<td colspan="3">Total</td>
+	<td>{{obj.get_cart_total}}</td>
+</tr>
+<script>
+	
+	Swal.fire({
+	  title: "Cart Update",
+	  
+	  timer: 500,
+	  
+	  didOpen: () => {
+		Swal.showLoading();
+		const timer = Swal.getPopup().querySelector("b");
+		timerInterval = setInterval(() => {
+		  timer.textContent = `${Swal.getTimerLeft()}`;
+		}, 100);
+	  },
+	  willClose: () => {
+		clearInterval(timerInterval);
+	  }
+	}).then((result) => {
+	  /* Read more about handling dismissals below */
+	  if (result.dismiss === Swal.DismissReason.timer) {
+		console.log("I was closed by the timer");
+	  }
+	});
+	</script>
+{% endif %}
+
+{% if sts == 'cust' %}
+<div class="row g-4 text-dark mb-5" style="padding: 10px;">
+	<div class="col-md-12">
+		<h4  >Welcome Back  : &nbsp<span> {{cp.0.name}}</span></h4>
+	   
+	</div>
+	
+</div>
+
+
+{% endif %}
+
+{% if sts == 'netcust' %}
+<div class="row g-4 text-dark mb-5" style="padding: 10px;">
+	<div class="col-md-12">
+		<h4  >Welcome   : &nbsp<span> {{cp.name}}</span></h4>
+	   
+	</div>
+	
+</div>
+
+
+{% endif %}
+
+{% if sts == 'confirm' %}
+<script>
+	
+	Swal.fire({
+	  title: "Order Confirmed",
+	  
+	  timer: 1000,
+	  
+	  didOpen: () => {
+		Swal.showLoading();
+		const timer = Swal.getPopup().querySelector("b");
+		timerInterval = setInterval(() => {
+		  timer.textContent = `${Swal.getTimerLeft()}`;
+		}, 100);
+	  },
+	  willClose: () => {
+		clearInterval(timerInterval);
+	  }
+	}).then((result) => {
+	  /* Read more about handling dismissals below */
+	  if (result.dismiss === Swal.DismissReason.timer) {
+		console.log("I was closed by the timer");
+	  }
+	});
+	window.location.href = "{% url 'home' %}";
+	</script>
+
+{% endif %}
+
+
+
+{% if sts == 'error' %}
+<script>
+	
+	Swal.fire({
+	  title: "Missing Contact Details",
+	  
+	  timer: 1000,
+	  
+	  didOpen: () => {
+		Swal.showLoading();
+		const timer = Swal.getPopup().querySelector("b");
+		timerInterval = setInterval(() => {
+		  timer.textContent = `${Swal.getTimerLeft()}`;
+		}, 100);
+	  },
+	  willClose: () => {
+		clearInterval(timerInterval);
+	  }
+	}).then((result) => {
+	  /* Read more about handling dismissals below */
+	  if (result.dismiss === Swal.DismissReason.timer) {
+		console.log("I was closed by the timer");
+	  }
+	});
+	
+	</script>
+
+{% endif %}

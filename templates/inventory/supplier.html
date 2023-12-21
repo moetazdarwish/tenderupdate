@@ -1,0 +1,113 @@
+{% load static  %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+
+<body>
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        {% if request.user.is_authenticated %}
+        <div class="container-fluid page-body-wrapper">
+
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Suppliers</h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            <div class="col-md-12 col-l-12">
+                                                                <div class="card shadow-0 border rounded-3">
+                                                                    <div class="card-body" id="addrsl">
+																	<div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <div class="row">
+                                                                                
+                                                                                <div class="col-md-6">
+                                                                                    <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productSupplier' %}" hx-vals='{"action":"sup"}' hx-target="#edt">Add Supplier</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                       
+                                                                    </div>
+                                                                    <div  id="edt">
+                                                                        
+                                                                    </div>
+                                                                  
+                                                                    <div class="row" style="padding-top: 2%;">
+                                                                        <table class="table">
+																			<thead>
+																				<tr>
+																					<th>#</th>
+																					<th>Name</th>
+																					<th>Phone</th>
+																					<th>Address</th>
+																					<th>Action</th>
+																				</tr>
+																			</thead>
+																			<tbody id="tbls">
+																				{% for i in sup %}
+																				<tr>
+																					<td>{{forloop.counter }}</td>
+																				<td>{{i.name}}</td>
+																				<td>{{i.phone}}</td>
+																				<td>{{i.add}}</td>
+																				<td><button class="btn btn-danger btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'productSupplier' %}" hx-vals='{"action":"catrmv","cate":"{{i.id}}"}' hx-target="#tbls">Remove</button></td>
+																			</tr>
+																			{% endfor %}
+																		</tbody>
+																		</table>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                
+                                                           
+                                                       
+                                                    </div>
+                                                       
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+        </div>
+        {% endif %}
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>

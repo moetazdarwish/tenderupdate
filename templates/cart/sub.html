@@ -1,0 +1,38 @@
+{% if sts == 'crf' %}
+<div class="row" style="justify-content: center"><div class="col-md-6"><h3>POS : {{cn.name}} had Been Created</h3></div></div>
+
+{% endif %}
+
+
+{% if sts == 'inv' %}
+<div class="col-md-6"><h5>- POS Sperate Inventory</h5>
+	<input type="text" name="inv2" value="True" hidden></div>
+	<div class="col-md-6"><button class="btn btn-danger btn-sm" type="submit" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createCart' %}" hx-vals='{"action":"dinv"}' hx-target="#dsinv" >Remove</button></div>
+	
+{% endif %}
+{% if sts == 'dinv' %}
+	<input type="text" name="inv2" value="False" hidden>	
+{% endif %}
+
+{% if sts == 'tsk' %}
+<div class="col-md-6">
+	<label class="label add" > <h5>Task Screen Password</h5></label>
+	<input type="text" class="form-control" placeholder="Task Screen Password" name="pwd2" >
+	<input type="text" name="task" value="True" hidden>
+</div>
+<div class="col-md-6"><button class="btn btn-danger btn-sm" type="submit" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createCart' %}" hx-vals='{"action":"dtsk"}' hx-target="#dstsk" >Remove</button></div>
+{% endif %}
+{% if sts == 'dtsk' %}
+<input type="text" class="form-control" placeholder="Task Screen Password" name="pwd2" hidden >	
+<input type="text" name="task" value="False" hidden>
+{% endif %}
+
+{% if sts == 'onln' %}
+<div class="col-md-6"><h5>- POS Connected To Online Order</h5>
+	<input type="text" name="onlin" value="True" hidden></div>
+	<div class="col-md-6"><button class="btn btn-danger btn-sm" type="submit" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createCart' %}" hx-vals='{"action":"donln"}' hx-target="#dsonline">Remove</button></div>
+{% endif %}
+
+{% if sts == 'donln' %}
+<input type="text" name="onlin" value="False" hidden>
+{% endif %}

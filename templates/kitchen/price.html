@@ -1,0 +1,193 @@
+{% if sts == 'prf' %}
+<select class="form-control" name="syst" id="syst">
+	<option value="">Please Select Pricing Profile</option>
+	{% for i in prc %}
+	<option value="{{i.id}}">{{i.point}}</option>
+	{% endfor %}
+</select>
+{% endif %}
+
+{% if sts == 'adprf' %}
+<div class="card" style="margin: 2%;border-radius: 15px;background-color: rgba(255, 228, 196, 0.584);" id="inpcat">
+	<div class="card-body" >
+		<div class="row" >
+			<div class="col-md-8"><input class="form-control" type="text" name="adprc" id="adprc" maxlength="50"></div>
+			<div class="col-md-2"><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"prf"}' hx-target="#selprc" hx-include="[id='adprc']" hx-trigger="adprc"  _= "on click
+				if #adprc's value is empty Swal.fire({title: 'Missing Data', 
+			 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger adprc" hx-swap="innerHTML" hx-on:htmx:before-request="htmx.remove('#inpcat')" >Add</button></div>
+			<div class="col-md-2"><button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#inpcat')"> Cancel</button></div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+{% if sts == 'feat' %}
+<div class="row" style="padding: 2%;" >
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"gtraw","prce":"{{prce}}"}' hx-target="#featdata"   hx-swap="innerHTML"> Raw Products</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"gting","prce":"{{prce}}"}' hx-target="#featdata"   hx-swap="innerHTML" > Ingredients</button>
+	</div>
+	
+</div>
+<div class="row" id="featdata">
+	<table class="table" >
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Item</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th >Action</th>
+	
+			</tr>
+		</thead>
+		<tbody>
+			{% for i in data %}
+			<tr id="tr-{{i.id}}">
+				<td>{{forloop.counter}}</td>
+				<td>{{i.name}}</td>
+				<td><input type="number" class="form-control" name="qty" id="qty-{{i.id}}" required></td>
+				<td><input type="number" class="form-control" name="prc" id="prc-{{i.id}}" required></td>
+<td><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"featraw","prce":"{{prce}}","raw":"{{i.id}}"}' hx-include="[id='qty-{{i.id}}'],[id='prc-{{i.id}}']" hx-target="#tr-{{i.id}}" hx-trigger="fetraw"  _= "on click
+if #qty-{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end if #prc-{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end  trigger fetraw" hx-swap="outerHTML">Add</button></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endif %}
+
+
+
+{% if sts == 'featraw' %}
+<tr>
+	<td>--</td>
+	<td> {% if rf.raw %}{{rf.raw}} {% else %}{{rf.ingre}}{% endif %}</td>
+	<td>{{rf.quantity}}</td>
+	<td>{{fp.price}}</td>
+	<td><h5>Done</h5></td>
+</tr>
+
+{% endif %}
+
+{% if sts == 'gtraw' %}
+<table class="table" >
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Item</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th >Action</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		{% for i in data %}
+		<tr id="tr-{{i.id}}">
+			<td>{{forloop.counter}}</td>
+			<td>{{i.name}}</td>
+			<td><input type="number" class="form-control" name="qty" id="qty-{{i.id}}" required></td>
+			<td><input type="number" class="form-control" name="prc" id="prc-{{i.id}}" required></td>
+<td><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"featraw","prce":"{{prce}}","raw":"{{i.id}}"}' hx-include="[id='qty-{{i.id}}'],[id='prc-{{i.id}}']" hx-target="#tr-{{i.id}}" hx-trigger="fetraw"  _= "on click
+if #qty-{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end if #prc-{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end  trigger fetraw" hx-swap="outerHTML">Add</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}
+
+
+
+{% if sts == 'gting' %}
+<table class="table" >
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Item</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th >Action</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		{% for i in data %}
+		<tr id="tr-{{i.id}}">
+			<td>{{forloop.counter}}</td>
+			<td>{{i.name}}</td>
+			<td><input type="number" class="form-control" name="qty" id="qty-{{i.id}}" required></td>
+			<td><input type="number" class="form-control" name="prc" id="prc-{{i.id}}" required></td>
+<td><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"feating","prce":"{{prce}}","raw":"{{i.id}}"}' hx-include="[id='qty-{{i.id}}'],[id='prc-{{i.id}}']" hx-target="#tr-{{i.id}}" hx-trigger="fetraw"  _= "on click
+if #qty-{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end if #prc-{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end  trigger fetraw" hx-swap="outerHTML">Add</button></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}
+
+{% if sts == 'prcsys' %}
+<div class="row" style="flex-direction: row-reverse">
+	<div class="col-md-2"><button class="btn btn-primary btn-sm" hx-get="{% url 'reciptls' %}" hx-target="body">Cancel</button></div>
+	<div class="col-md-2">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'reciptls' %}" hx-vals='{"action":"cook","val":"{{val}}"}' hx-target="#lst"   hx-swap="innerHTML" > Cooking & Items</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"val":"{{val}}"}' hx-target="#tbldata"   hx-swap="innerHTML" > Pricing & Features</button>
+	</div>
+   
+</div>
+<div class="row">
+	<div class="col-md-4" id="selprc">
+		<select class="form-control" name="syst" id="syst">
+			<option value="">Please Select Pricing Profile</option>
+			{% for i in prc %}
+			<option value="{{i.id}}">{{i.point}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="col-md-2"><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"adprf","val":"{{val}}"}' hx-target="#prf"   hx-swap="innerHTML">Add Profile</button></div>
+</div>
+<div id="prf">
+	
+</div>
+<div class="row" style="padding: 2%;">
+	<div class="row"><div class="col-md-4"><h4>Name : {{rp.name}} </h4></div></div>
+	<div class="row" style="padding: 2%;">
+		<div class="col-md-6">
+			
+			<div class="form-floating mb-3">
+				<input type="number" class="form-control" id="inprice" placeholder="Price" name="inprice">
+				<label for="inprice">Price</label>
+			  </div></div>
+			  
+		
+	</div>
+	<div class="row" style="flex-direction: row-reverse">
+<div class="col-md-2"><button class="btn btn-primary btn-sm" style="padding: 10px 25px;" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"price","val":"{{val}}"}' hx-target="body" hx-include="[name='inprice'],[name='syst']" hx-trigger="inprice" _= "on click 
+if #inprice's value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end
+if #syst's value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end trigger inprice">Confirm</button></div>
+<div class="col-md-2"><button class="btn btn-warning btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'pricing' %}" hx-vals='{"action":"feat","val":"{{val}}"}' hx-target="#fetitm" hx-include="[name='inprice'],[name='syst']" hx-trigger="fetclk" _= "on click 
+if #inprice's value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end
+if #syst's value is empty Swal.fire({title: 'Missing Data', 
+text:'Hey!  There are Missing Data!!! '}) then halt end trigger fetclk">Add Features</button></div>
+	   
+	</div>
+</div>
+<div id="fetitm" >
+   
+
+</div>
+
+{% endif %}

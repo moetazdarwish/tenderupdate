@@ -1,0 +1,232 @@
+{% if sts == 'ginv' %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Recipe</th>
+        <th>Extra</th>
+        <th>Quantity</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i in inv %}
+        <tr id="tr-{{i.id}}">
+            <td>{{forloop.counter}}</td>
+            <td>{% if i.recipe %}{{i.recipe.name}}{% else %}{{i.feat.name.name}}{% endif %}</td>
+            <td>{% if i.feat.raw %}{{i.feat.raw.name}}{% else %}{{i.feat.ingre.name}}{% endif %}</td>
+            <td>{{i.qty}}</td>
+            <td><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'invPOS' pk=pk %}" hx-vals='{"action":"req","val":"{{i.id}}"}' hx-target="#tr-{{i.id}}" >Request</button></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+ </table>
+{% endif %}
+{% if sts == 'req' %}
+<td>Request Sent</td>
+            <td>{% if inv.recipe %}{{inv.recipe.name}}{% else %}{{inv.feat.name.name}}{% endif %}</td>
+            <td>{% if inv.feat.raw %}{{inv.feat.raw.name}}{% else %}{{inv.feat.ingre.name}}{% endif %}</td>
+            <td>{{inv.qty}}</td>
+            <td>Request Sent</td>
+{% endif %}
+{% if sts == 'gtsk' %}
+{% for tsk in task %}
+<div class="col-md-4" style="padding-top:2% ;">
+    <div class="card">
+        <div class="card-body">
+        <h4 class="card-title">Task : {{tsk.task}}</h4>
+        <div class="product-detail-container p-2">
+            {% for x in tsk.order.get_orderlst %}
+            <div class="row" style="margin-top: 15px;">
+               
+                <div class="col-md-9"><h5>{{x.product.name.name}}</h5></div>
+                <div class="col-md-3">{{x.quantity}}</div>
+                
+                
+                {% for sb in x.get_subfeatuers %}
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-6">
+                        {% if sb.product.ingre %}
+                    <h6>{{sb.product.ingre.name}}</h6>
+                    {% elif sb.product.raw %}
+                    <h6>{{sb.product.raw.name}}</h6>
+                    {% endif %}
+                    </div>
+                    <div class="col-md-4"><h6>{{sb.quantity}}</h6></div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+    <div class="mt-4">
+        <div class="card voutchers">
+            {% if tsk.status == 'PENDING' %}
+            <button class="btn btn-warning btn-sm" style="padding: 10px  ;" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'taskPOS' pk=pk %}" hx-vals='{"action":"start","val":"{{tsk.id}}"}' hx-target="body"> <h2>Start</h2></button>
+            {% elif tsk.status == 'START' %}
+            <button class="btn btn-success btn-sm" style="padding: 10px  ;" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'taskPOS' pk=pk %}" hx-vals='{"action":"end","val":"{{tsk.id}}"}' hx-target="body"> <h2>End</h2></button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endif %}
+
+
+{% if sts == 'new' %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Recipe</th>
+        <th>Extra</th>
+        <th>Quantity</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i in inv %}
+        <tr id="tr-{{i.id}}">
+            <td>{{forloop.counter}}</td>
+            <td>{% if i.recipe %}{{i.recipe.name}}{% else %}{{i.feat.name.name}}{% endif %}</td>
+            <td>{% if i.feat.raw %}{{i.feat.raw.name}}{% else %}{{i.feat.ingre.name}}{% endif %}</td>
+            <td><input type="number" class="form-control" name="rec" id="rec{{i.id}}" placeholder="Add Quantity"></td>
+            <td><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'invPOS' pk=pk %}" hx-vals='{"action":"add","val":"{{i.id}}"}' hx-include="[id='rec{{i.id}}']" hx-target="#tr-{{i.id}}" hx-trigger="rec{{i.id}}" _= "on click
+                if #rec{{i.id}}'s value is empty Swal.fire({title: 'Missing Data', 
+             text:'Hey!  There are Missing Data!!! '}) then halt end  trigger rec{{i.id}}" >Add</button></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+ </table>
+{% endif %}
+
+{% if sts == 'add' %}
+<td>Record Add </td>
+            <td>{% if inv.recipe %}{{inv.recipe.name}}{% else %}{{inv.feat.name.name}}{% endif %}</td>
+            <td>{% if inv.feat.raw %}{{inv.feat.raw.name}}{% else %}{{inv.feat.ingre.name}}{% endif %}</td>
+            <td>{{inv.qty}}</td>
+            <td><button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'invPOS' pk=pk %}" hx-vals='{"action":"req","val":"{{inv.id}}"}' hx-target="#tr-{{inv.id}}" >Request</button></td>
+{% endif %}
+
+{% if sts == 'custfnd' %}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>phone</th>
+        <th>address</th>
+        <th>action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i in cst %}
+        <tr>
+            <td>{{i.name}}</td>
+            <td>{{i.phone}}</td>
+            <td>{{i.addres_0}}</td>
+            <td><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'posPage' pk=pk %}" hx-vals='{"action":"sel","val":"{{i.id}}","code":"{{code}}"}' hx-target="" data-bs-dismiss="offcanvas">Select</button></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endif %}
+
+{% if sts == 'addnew'%}
+
+<form action="" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'cartCustomer' %}" hx-vals='{"action":"new","pk":"{{pk}}","code":"{{code}}"}'>
+	<div class="row">
+		<div class="col-md-4">
+			<select name="categr" id="categr" class="form-control" required>
+				<option value="">Select Category</option>
+				{% for i in cat %}
+				<option value="{{i.id}}">{{i.name}}</option>
+
+				{% endfor %}
+			</select>
+		</div>
+		
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Customer Name</h5></label>
+			<input type="text" class="form-control" placeholder="Customer Name" name="name" required>
+		</div>
+		<div class="col-md-6">
+			<label class="label add" > <h5>E-mail</h5></label>
+			<input type="email" name="email" class="form-control" placeholder="Email" required>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6" >
+			<label class="label add" > <h5>Phone</h5></label>
+			<input type="number" class="form-control" placeholder="Customer Phone" name="phone" required>
+		</div>
+		<div class="col-md-6">
+			<label class="label add" > <h5>Important Date</h5></label>
+			<input type="date" name="date" class="form-control" placeholder="Important Date" required>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Address</h5></label>
+			<textarea name="address" id="" class="form-control" cols="30" rows="4" placeholder="Customer Address" required></textarea>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Second Address</h5></label>
+			<textarea name="address1" id="" class="form-control" cols="30" rows="4" placeholder="Second Customer Address" ></textarea>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Third Address</h5></label>
+			<textarea name="address2" id="" class="form-control" cols="30" rows="4" placeholder="Third Customer Address" ></textarea>
+			
+		</div>
+		
+	</div>
+	<div class="row">
+		<div class="col-md-10" >
+			<label class="label add" > <h5>Note</h5></label>
+			<textarea name="note" id="" class="form-control" cols="30" rows="2" placeholder="Customer Note" ></textarea>
+			
+		</div>
+		
+	</div>
+	<div class="row" style="margin-top: 10px;">
+		<div class="col-md-4" >
+			<label class="label add" > <h5>How Hear about us</h5></label>
+			<input type="text" class="form-control" placeholder="How Hear about us" name="know_us" required>
+		</div>
+		<div class="col-md-4">
+			<label class="label add" > <h5>VIP</h5></label>
+			<select class="form-control" name="vip">
+			 <option value="True">Yes</option>   
+			 <option value="False">No</option>   
+			</select>
+		</div>
+		<div class="col-md-4">
+			<label class="label add" > <h5>Family</h5></label>
+			<select class="form-control" name="family">
+			 <option value="True">Yes</option>   
+			 <option value="False">No</option>   
+			</select>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 10px;">
+	<div class="col-md-4">
+		<button type="submit" class="btn btn-warning btn-sm">SAVE</button>
+	</div>
+	</div>
+</form>
+
+{% endif %}

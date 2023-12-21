@@ -1,0 +1,18 @@
+
+{% if sts == 'nme' %}
+{{empy.0.name}}
+{% endif %}
+
+{% if sts == 'new' %}
+<div class="col-md-6 "><div class="form-group row "><label class="col-sm-3 col-form-label " style="padding: 0%; ">Employee Id</label><div class="col-sm-9 " id="em_inpt"><input type="text " name="emp_id" value="" placeholder="Search By Name or Code" class="form-control " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'attendence_employee' %}" hx-vals='{"action":"chk"}'
+	hx-trigger="keyup changed delay:500ms"
+	hx-target="#em_name" hx-swap="innerHTML" required></div> </div></div><div class="col-md-6 "><div class="form-group row "><span id="em_name"></span></div></div>
+{% endif %}
+
+
+{% if sts == 'error' %}
+<span style="color: red;"> Not Found </span>
+<input type="text " name="emp_id" class="form-control " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'attendence_employee' %}" hx-vals='{"action":"chk"}'
+                                                                hx-trigger="keyup changed delay:500ms"
+                                                                hx-target="#em_name" hx-swap="innerHTML" required>
+{% endif %}

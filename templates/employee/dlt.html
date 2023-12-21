@@ -1,0 +1,38 @@
+<table class="table">
+	<thead>
+		<th>Code</th>
+		<th>Name</th>
+		<th>Phone</th>
+		<th>UserName</th>
+		<th>Password</th>
+		<th>Salary</th>
+		<th>Action</th>
+	</thead>
+	<tbody>
+		{% for i in empy %}
+                                                                                <tr style="text-align: center;">
+                                                                                    <td>{{i.emp_num}}</td>
+                                                                                    <td>{{i.name}}</td>
+                                                                                    <td>{{i.phone}}</td>
+                                                                                    <td>{{i.urname}}</td>
+                                                                                    <td>{{i.pwd}}</td>
+                                                                                    <td>{{i.salary}}</td>
+                                                                                    <td> <button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{i.id}}","action":"detl"}' 
+                                                                                       
+                hx-trigger="edit"
+                _="on click
+                     if .editing is not empty Swal.fire({title: 'Already Editing',
+                                  showCancelButton: true,
+                                  confirmButtonText: 'Yep, Edit This Row!',
+                                  text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+                       if the result's isConfirmed is false
+                         halt
+                       end
+                       send cancel to .editing
+                     end
+                     trigger edit"> Edit</button></td>
+                                             <td> <button class="btn btn-danger btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'list_Employee' %}" hx-vals='{"myVal": "{{i.id}}","action":"dlt"}' hx-target="#addrsl"> Delete</button></td>
+                                                                                </tr>
+                                                                                {% endfor %}
+	</tbody>
+</table>

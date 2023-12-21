@@ -1,0 +1,48 @@
+{% load static  %}
+{% include "navs/heads.html" %}
+
+
+<div class="main-panel" style="width: 100%;">
+	<div class="content-wrapper" style="padding: 10px;">
+		<div class="row">
+			<div class="col-md-4">
+				<img src="static/dash/images/Logo.png" alt="" style="width: 150px;">
+				
+			</div>
+		</div>
+		<div class="row" >
+			<div class="col-md-4" ><h3 style="padding-left: 600px;">Date : {{po.date|date:" d M, y"}}</h3></div>
+		</div>
+		<div class="row" style="padding-left: 50px;">
+			<div class="col-md-4"><h3>PO : {{po.task}}</h3></div>
+		</div>
+		
+			<div class="row" style="justify-content: center">
+				<div class="col-md-10">
+					<table class="table " style="border: 1px black solid;">
+						<thead>
+						<tr>
+							<th><h3>#</h3></th>
+							<th><h3>Item</h3></th>
+							<th><h3>Quantity</h3></th>
+							<th><h3>Unit</h3></th>
+							
+						</tr>
+						</thead>
+						<tbody>
+							{% for i in data %}
+							<tr>
+								<td><h4>{{forloop.counter}}</h4></td>
+								<td><h4>{{i.product.name}}</h4></td>
+								<td><h4>{{i.qty}}</h4></td>
+								<td><h4>{{i.unit}}</h4></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+							
+		</div>
+
+</div>

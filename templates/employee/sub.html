@@ -1,0 +1,206 @@
+{% if sts == 'emply' %}
+<div id="adct">
+	<div class="row" style="flex-direction: row-reverse;">
+		<div class="col-md-2">
+			<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<select name="emp" class="form-control" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"adv"}'
+			hx-trigger="change"
+			hx-target="#dtd">
+				<option value="">Select Employee</option>
+				{% for i in empy %}
+	
+				<option value="{{i.id}}">{{i.name}}</option>
+	
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+	<div id="dtd" style="padding-top: 20px;">
+																	
+	</div>
+
+</div>
+
+{% endif %}
+
+{% if sts == 'adv' %}
+<div class="row" style="padding-top: 20px;">
+	<div class="col-md-6">
+		<span><h4>{{empy.name}}</h4></span>
+	</div>
+	
+	</div>
+	<form hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"add","empy":"{{empy.id}}"}' hx-target="body">
+		<div class="row">
+			<div class="col-md-4">
+				<label class="label add" > <h5>Amount</h5></label>
+						<input type="number" class="form-control" placeholder="Advance Amount" name="amt" required>
+			</div>
+			<div class="col-md-4">
+				<label class="label add" > <h5>Period </h5></label>
+						<input type="number" class="form-control" placeholder="Total Month Count" name="mnth" required>
+			</div>
+			
+		</div>
+		<div class="row" style="flex-direction: row-reverse;padding: 20px;">
+			<div class="col-md-2">
+				<button class="btn btn-warning btn-sm" type="submit">save</button>
+			</div>
+		</div>
+	</form>
+{% endif %}
+
+{% if sts == ' jjj' %}
+
+	
+		
+		                                                      
+	</div>
+
+</div>
+
+{% endif %}
+
+{% if sts == 'slary' %}
+<div class="row justify-content-center mb-3">
+<div class="row">
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm"  hx-get="{% url 'createAdvance' %}"  hx-target="body">Salary Advance</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-primary btn-sm"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"lstslr"}' hx-target="#dspl"> Create Salary</button>
+	</div>
+	
+</div>
+<div class="row" id="dspl"></div>
+<div class="row">
+	<table class="table">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Date</th>
+			<th>Base Salary</th>
+			<th>Bounce</th>
+			<th>Deduction</th>
+			<th>Installment</th>
+			<th>Total</th>
+		</tr>
+		</thead>
+		<tbody>
+			{% for i in slar %}
+			<tr>
+				<td>{{i.name.name}}</td>
+				<td>{{i.date}}</td>
+				<td>{{i.salary}}</td>
+				<td>{{i.bonus}}</td>
+				<td>{{i.deducte}}</td>
+				<td>{{i.sal_adv}}</td>
+				<td>{{i.total}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+</div>
+
+{% endif %}
+
+{% if sts == 'lstslr' %}
+
+<div id="adct">
+	<div class="row" style="flex-direction: row-reverse;">
+		<div class="col-md-2">
+			<button class="btn btn-danger btn-sm" hx-on:click="htmx.remove('#adct')"> Cancel</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<select name="emp" class="form-control" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"sldetl"}'
+			hx-trigger="change"
+			hx-target="#dtd">
+				<option value="">Select Employee</option>
+				{% for i in empy %}
+	
+				<option value="{{i.id}}">{{i.name}}</option>
+	
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+	<div id="dtd" style="padding-top: 20px;">
+	</div>
+</div>
+{% endif %}
+
+{% if sts == 'sldetl' %}
+
+<div class="row" style="padding-top: 20px;">
+	<div class="col-md-6">
+		<span><h4>{{empy.name}}</h4></span>
+	</div>
+</div> 
+<div class="row" style="padding-top: 10px;">
+	<div class="col-md-6">
+		<span><h4>Base Salary :  {{empy.salary}} </h4></span>
+	</div>
+</div>
+<div class="row" style="padding-top: 10px;">
+	<div class="col-md-6">
+		<select name="mnth" class="form-control"  hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"detail" ,"val":"{{empy.id}}"}'
+		hx-trigger="change"
+		hx-target="#dsdetl" >
+			<option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option>
+		</select> 
+		</div>
+	</div>
+	
+<div id="dsdetl">
+
+</div>
+
+{% endif %}
+
+{% if sts == 'detail' %}
+<div class="row" style="padding-top: 20px;">
+	<div class="col-md-4">
+		<span><h4>Bounce : {{es.bonus}}</h4></span>
+	</div>
+	<div class="col-md-4">
+		<span><h4>Deduction {{es.deducte}}</h4></span>
+	</div>
+</div>  
+{% if adv.0 %}
+<div class="row" style="padding-top: 20px;">
+	<div class="col-md-4">
+		<span><h4>Salary Advance : {{adv.0.amount}}</h4></span>
+	</div>
+	<div class="col-md-4">
+		<span><h4>Installment {{adv.0.install}}</h4></span>
+	</div>
+	
+</div> 
+<div class="row" style="padding-top: 10px;">
+	<div class="col-md-4">
+		<label class="label add" > <h5>Installment Amount</h5></label>
+		<input type="number" class="form-control" value="0.00" name="amut" placeholder="Installment Amount" required>
+	</div>
+</div>   
+<div class="row" style="padding-top: 10px; flex-direction:row-reverse ;">
+	<div class="col-md-4">
+		<button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"adslry","es":"{{es.id}}","adv":"{{adv.0.id}}"}' hx-target="#sct_dsp"  hx-include="[name='amut']">Save</button>
+	</div>
+</div>  
+{% else %}
+<div class="row" style="padding-top: 10px; flex-direction:row-reverse ;">
+	<div class="col-md-4">
+		<button class="btn btn-warning btn-sm" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'createAdvance' %}" hx-vals='{"action":"adslry","es":"{{es.id}}","adv":"{{adv.0.id}}","amut":"0"}' hx-target="#sct_dsp"  >Save</button>
+	</div>
+</div>  
+{% endif %}
+{% endif %}
+
+

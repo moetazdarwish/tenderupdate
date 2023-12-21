@@ -1,0 +1,245 @@
+{% if sts == 'btn' %}
+
+<div class="row">
+    <div class="col-md-4">
+        <input type="month" name="dat1" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+        <input type="month" name="dat2" class="form-control" required>
+    </div>
+</div>
+<div class="row" style="padding: 20px;">
+   
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+    </div>
+</div>
+
+{% endif %}
+
+{% if sts ==  'allbtn' %}
+
+
+<div class="row" style="padding: 20px;">
+   
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+    </div>
+</div>
+
+{% endif %}
+
+{% if sts == 'man' %}
+<div class="row" style="padding: 20px;">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"allbtn"}' hx-trigger="click" hx-target="#btn" >ALL</button>
+    </div> 
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"btn"}' hx-trigger="click" hx-target="#btn">By Date</button>
+    </div>
+</div>
+<div >
+    <form method="post"> {% csrf_token %}
+        <div class="row" style="padding: 20px;">
+            <div class="col-md-6">
+                <select name="action" class="form-select" required>
+                    <option value="">Select Model</option>
+                    <option value="1">Account Keys</option>
+                    <option value="2">Journal</option>
+                    <option value="3">Account Requests</option>
+                    <option value="4">Account Ledger</option>
+                    <option value="5">Account COGS</option>
+            
+                </select>
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;" id="btn" >
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-sm" type="submit" >ALL</button>
+            </div> 
+            
+        </div>
+    </form>
+</div>
+{% endif %}
+
+{% if sts == 'pos' %}
+<div class="row" style="padding: 20px;">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"allbtn"}' hx-trigger="click" hx-target="#btn" >ALL</button>
+    </div> 
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"btn"}' hx-trigger="click" hx-target="#btn">By Date</button>
+    </div>
+</div>
+<div >
+    <form method="post" action="{% url 'posbackUp' %}"> {% csrf_token %}
+        <div class="row" style="padding: 20px;">
+            <div class="col-md-6">
+                <select name="action" class="form-select" required>
+                    <option value="">Select Model</option>
+                    <option value="1">POS Name</option>
+                    <option value="2">POS Inv</option>
+                    <option value="3">POS Cash</option>
+                    <option value="4">POS</option>
+                    <option value="5">POS Products</option>
+                    <option value="6">POS Task</option>
+            
+                </select>
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;" id="btn" >
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-sm" type="submit" >ALL</button>
+            </div> 
+            
+        </div>
+    </form>
+</div>
+{% endif %}
+{% if sts == 'crm' %}
+<div class="row" style="padding: 20px;">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"allbtn"}' hx-trigger="click" hx-target="#btn" >ALL</button>
+    </div> 
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"btn"}' hx-trigger="click" hx-target="#btn">By Date</button>
+    </div>
+</div>
+<div >
+    <form method="post" action="{% url 'crmbackUp' %}"> {% csrf_token %}
+        <div class="row" style="padding: 20px;">
+            <div class="col-md-6">
+                <select name="action" class="form-select" required>
+                    <option value="">Select Model</option>
+                    <option value="1">Customer Profile</option>
+                    <option value="2">Customer Discount</option>
+                    
+            
+                </select>
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;" id="btn" >
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-sm" type="submit" >ALL</button>
+            </div> 
+            
+        </div>
+    </form>
+</div>
+{% endif %}
+
+{% if sts == 'inv' %}
+<div class="row" style="padding: 20px;">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"allbtn"}' hx-trigger="click" hx-target="#btn" >ALL</button>
+    </div> 
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"btn"}' hx-trigger="click" hx-target="#btn">By Date</button>
+    </div>
+</div>
+<div >
+    <form method="post" action="{% url 'invbackUp' %}"> {% csrf_token %}
+        <div class="row" style="padding: 20px;">
+            <div class="col-md-6">
+                <select name="action" class="form-select" required>
+                    <option value="">Select Model</option>
+                    <option value="1">Category</option>
+                    <option value="2">Raw Products</option>
+                    <option value="3">Raw Suppliers</option>
+                    <option value="4">Inventory Task</option>
+                    <option value="5">Inventory</option>
+                    <option value="6">Inventory PO</option>
+                    <option value="7">Inventory POSub</option>
+                    
+            
+                </select>
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;" id="btn" >
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-sm" type="submit" >ALL</button>
+            </div> 
+            
+        </div>
+    </form>
+</div>
+{% endif %}
+{% if sts == 'kit' %}
+<div class="row" style="padding: 20px;">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"allbtn"}' hx-trigger="click" hx-target="#btn" >ALL</button>
+    </div> 
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"btn"}' hx-trigger="click" hx-target="#btn">By Date</button>
+    </div>
+</div>
+<div >
+    <form method="post" action="{% url 'kitbackUp' %}"> {% csrf_token %}
+        <div class="row" style="padding: 20px;">
+            <div class="col-md-6">
+                <select name="action" class="form-select" required>
+                    <option value="">Select Model</option>
+                    <option value="1">Ingredients</option>
+                    <option value="2">Sub Ingredients</option>
+                    <option value="3">Kitchen Recipe</option>
+                    <option value="4"> Sub Kitchen Recipe</option>
+                    <option value="5">Recipe Featuers</option>
+                    <option value="6">Pricing System</option>
+                    <option value="7">Recipe Price</option>
+                    <option value="8">Featuers Price</option>
+                    <option value="9">kitchen Task</option>
+                    <option value="10">Kitchen Jobs Assign</option>
+                    <option value="11">Kitchen Inventory</option>
+                    <option value="12">Kitchen Sub Task</option>
+                    
+            
+                </select>
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;" id="btn" >
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-sm" type="submit" >ALL</button>
+            </div> 
+            
+        </div>
+    </form>
+</div>
+{% endif %}
+
+{% if sts == 'hr' %}
+<div class="row" style="padding: 20px;">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"allbtn"}' hx-trigger="click" hx-target="#btn" >ALL</button>
+    </div> 
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'backUp' %}" hx-vals='{"action":"btn"}' hx-trigger="click" hx-target="#btn">By Date</button>
+    </div>
+</div>
+<div >
+    <form method="post" action="{% url 'invbackUp' %}"> {% csrf_token %}
+        <div class="row" style="padding: 20px;">
+            <div class="col-md-6">
+                <select name="action" class="form-select" required>
+                    <option value="">Select Model</option>
+                    <option value="1">Employee Detail</option>
+                    <option value="2">Employee Attendence</option>
+                    <option value="3">Employee Salary</option>
+                    <option value="4">Employee Request</option>
+                    <option value="5">Employee Advance</option>
+                    <option value="6">Advance Account</option>
+                   
+                    
+            
+                </select>
+            </div>
+        </div>
+        <div class="row" style="padding: 20px;" id="btn" >
+            <div class="col-md-6">
+                <button class="btn btn-primary btn-sm" type="submit" >ALL</button>
+            </div> 
+            
+        </div>
+    </form>
+</div>
+{% endif %}

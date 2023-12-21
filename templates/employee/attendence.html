@@ -1,0 +1,77 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+
+<body onload="date_time()">
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        {% if request.user.is_authenticated %}
+        <div class="container-fluid page-body-wrapper">
+
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Attendence</h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            <div class="row" style="padding-bottom: 3%;"><h4 class="card-title " id="">{{today}} - {{totime}}</h4></div>
+                                                            <div class="row " style="padding: 2%;" id="em_inpt"><div class="col-md-6 "><div class="form-group row "><label class="col-sm-3 col-form-label " style="padding: 0%; ">Employee Id</label><div class="col-sm-9 " id="em_inpt"><input type="text " name="emp_id" value="" placeholder="Search By Name or Code" class="form-control " hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'attendence_employee' %}" hx-vals='{"action":"chk"}'
+                                                                hx-trigger="keyup changed delay:500ms"
+                                                                hx-target="#em_name" hx-swap="innerHTML" required></div> </div></div><div class="col-md-6 "><div class="form-group row "><span id="em_name"></span></div></div></div><div class="row "><div class="col-md-6 "><button type="button " class="btn btn-primary btn-rounded btn-lg"  style="padding: 10px 50px;color: #ffffff; "
+                                                                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'attendence_employee' %}" hx-include="[name='emp_id']" hx-vals='{"action":"IN"}'
+                                                                hx-trigger="edit" _= "on click
+                                                                for elt in <[required]/>
+                                                                   if the elt's value is empty Swal.fire({title: 'Missing Data', 
+                                                                text:'Hey!  There are Missing Data!!! '}) then halt end end trigger edit"
+                                                                hx-target="#em_inpt" hx-swap="innerHTML">In</button></div><div class="col-md-6 "><button type="button " class="btn btn-danger btn-rounded btn-lg " style="padding: 10px 50px;color: #ffffff; "hx-headers='{"X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'attendence_employee' %}" hx-include="[name='emp_id']" hx-vals='{"action":"OUT"}'
+                                                                    hx-trigger="edit" _= "on click
+                                                                    for elt in <[required]/>
+                                                                       if the elt's value is empty Swal.fire({title: 'Missing Data', 
+                                                                    text:'Hey!  There are Missing Data!!! '}) then halt end end trigger edit"
+                                                                    hx-target="#em_inpt" hx-swap="innerHTML">Out</button></div></div>
+                                                        </div>
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+        </div>
+       {% endif %}
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>

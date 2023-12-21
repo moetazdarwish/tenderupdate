@@ -1,0 +1,70 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+{% if request.user.is_authenticated %}
+<body>
+    <div class="container-scroller">
+                <div class="content-wrapper">
+                    <div class="row">
+
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h3 >Welcome :  {{cr.name}} </h3>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="row" style="flex-direction: row-reverse">
+                                                                
+                                                                   <div class="col-md-4"> <img src="{% static 'dash/images/receipt.png'%}" alt="logo" style=" width: 150px;" /></div>
+                                                                
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <section>
+
+                                                                <div class="card shadow-0 border rounded-4">
+                                                                    <div class="card-body" id="addrsl">
+                                                                        
+																	
+                                                                    <div class="row">
+                                                                            <div style="padding: 2%;" id="lst">
+                                                                              <form method="post" action="{% url 'posCash' pk=pk %}"> {% csrf_token %}
+																				<div class="row" style="padding: 2%;">
+																					<div class="col-md-4" >
+                                                                                        <label class="label add" > <h5>Start Cash Amount*</h5></label>
+																						<input type="text" class="form-control" name="cash"  placeholder="Add Start Cash Amount" required>
+																					</div>
+                                                                                </div>
+                                                                                    <div class="row " style="padding: 2%;" >
+                                                                                       
+																						<div class="col-md-4" >
+                                                                                            <button class="btn btn-primary btn-sm" style="padding: 10px 25px;">Enter</button>
+                                                                                        </div>
+																					</div>
+														
+                                                                              </form>
+                                                                            </div>
+                                                                    </div>
+                                                                </div>
+                                                    </div>
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                    
+                                        </div>
+                <!-- plugins:js -->
+            </div>
+        </div>
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+{% endif %}
+</html>

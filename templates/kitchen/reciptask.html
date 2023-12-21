@@ -1,0 +1,157 @@
+{% if sts == 'tsk' %}
+<div class="row">
+	<div class="col-md-2">
+	<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'task_Recipe' %}" hx-vals='{"action":"tsk","val":"{{ing.id}}"}' hx-target="#addrsl"> Task</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'task_Recipe' %}" hx-vals='{"action":"chek","val":"{{ing.id}}"}' hx-target="#addrsl"> Availability</button>
+	</div>
+	<div class="col-md-2"><button class="btn btn-primary btn-sm" hx-get="{% url 'reciptls' %}" hx-target="body">Back</button></div>
+</div>
+<div class="row" style="padding: 2%;">
+<div class="col-md-4"><h4>{{ing.name}}</h4></div>
+</div>
+<div class="row" style="padding: 1%;">
+<div class="col-md-5"><label class="label add" > <h5>Quantity</h5></label>
+	<input type="number" class="form-control" placeholder="Cooking Quantity" name="qty" id="qty" required></div>
+	<div class="col-md-5"><label class="label add" > <h5>Inventory</h5></label>
+		<select name="inv" id="inv" class="form-control">
+			<option value="">Select Inventory</option>
+			<option value="1">Main Inventory</option>
+	
+		</select>
+	   
+</div>
+<div class="row" style="flex-direction: row-reverse;padding: 2%;" >
+<div class="col-md-4">
+	<div class="row">
+		<div class="col-md-6"><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'task_Recipe' %}" hx-vals='{"action":"nwtsk","val":"{{ing.id}}"}' hx-include="[id='qty'],[id='inv']" hx-target="#tskdil" hx-trigger="catraw"  _= "on click
+			if #qty's value is empty Swal.fire({title: 'Missing Data', 
+		 	text:'Hey!  There are Missing Data!!! '}) then halt end
+			if #inv's value is empty Swal.fire({title: 'Missing Data', 
+		 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger catraw" hx-swap="innerHTML" >New Task</button></div>
+		<div class="col-md-6"><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'task_Recipe' %}" hx-vals='{"action":"extsk","val":"{{ing.id}}"}' hx-target="#tskdil"  hx-swap="innerHTML" >Add Exit Task</button></div>
+	</div>
+</div>
+</div>
+<div id="tskdil">
+
+</div>
+{% endif %}
+
+{% if sts == 'new' %}
+<div class="row" style="padding:2%;">
+	<span><h5>Task No. : {{patch}}</h5></span>
+	</div>
+<div class="row" style="padding: 2%;" >
+	
+<table class="table">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Item</th>
+		<th>Section</th>
+		<th>Quantity</th>
+		<th>Status</th>
+	</tr>
+	</thead>
+	<tbody>
+		{% for i in data %}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{i.item}}</td>
+			<td>{{i.type}}</td>
+			<td>{{i.qty}}</td>
+			<td>{{i.stats}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if sts == 'extsk' %}
+<div class="row" style="padding: 2%;" >
+	
+	<table class="table">
+		<thead>
+		<tr>
+			<th>#</th>
+			<th>Task No</th>
+			<th>Inventory</th>
+			<th>Action</th>
+			
+		</tr>
+		</thead>
+		<tbody>
+			{% for i in tsk %}
+			<tr>
+				<td>{{forloop.counter}}</td>
+				<td>{{i.task}}</td>
+		
+				<td>{% if i.for_sale %} Main {% else%} Sub {% endif %}</td>
+				<td><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'task_Recipe' %}" hx-vals='{"action":"addext","val":"{{val}}","tsk":"{{i.id}}"}' hx-include="[id='qty'],[id='inv']" hx-target="#tskdil" hx-trigger="ext"  _= "on click
+					if #qty's value is empty Swal.fire({title: 'Missing Data', 
+					 text:'Hey!  There are Missing Data!!! '}) then halt end
+					if #inv's value is empty Swal.fire({title: 'Missing Data', 
+				 text:'Hey!  There are Missing Data!!! '}) then halt end  trigger ext" hx-swap="innerHTML" >Select</button></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	</div>
+{% endif %}
+
+{% if sts == 'chek' %}
+<div class="row">
+	<div class="col-md-2">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'task_Recipe' %}" hx-vals='{"action":"tsk","val":"{{ing.id}}"}' hx-target="#addrsl"> Task</button>
+	</div>
+	<div class="col-md-2">
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'task_Recipe' %}" hx-vals='{"action":"chek","val":"{{ing.id}}"}' hx-target="#addrsl"> Availability</button>
+	</div>
+	<div class="col-md-2"><button class="btn btn-primary btn-sm" hx-get="{% url 'reciptls' %}" hx-target="body">Back</button></div>
+</div>
+<div class="row" style="padding: 2%;">
+<div class="col-md-4"><h4>{{ing.name}}</h4></div>
+</div>
+<div class="row" style="padding: 1%;">
+<div class="col-md-5"><label class="label add" > <h5>Quantity</h5></label>
+	<input type="number" class="form-control" placeholder="Cooking Quantity" name="qty" id="qty" required></div>
+</div>
+<div class="row">
+	<div class="col-md-5"><label class="label add" > <h5></h5></label>
+		<button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'task_Recipe' %}" hx-vals='{"action":"chkrsl","val":"{{ing.id}}"}' hx-include="[id='qty'],[id='inv']" hx-target="#tskdil" hx-trigger="cekcat"  _= "on click
+			if #qty's value is empty Swal.fire({title: 'Missing Data', 
+		 	text:'Hey!  There are Missing Data!!! '}) then halt end
+			trigger cekcat" hx-swap="innerHTML" >Check</button>
+	   
+</div>
+
+<div id="tskdil">
+
+</div>
+{% endif %}
+{% if sts == 'chkrsl' %}
+<div class="row" style="padding: 2%;" >
+	
+	<table class="table">
+		<thead>
+		<tr>
+			<th>#</th>
+			<th>Item</th>
+			<th>Status</th>
+		</tr>
+		</thead>
+		<tbody>
+			{% for i in data %}
+			<tr>
+				<td>{{forloop.counter}}</td>
+				<td>{{i.prod}}</td>
+				<td>{{i.rslt}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	</div>
+{% endif %}

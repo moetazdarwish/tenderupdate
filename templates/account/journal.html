@@ -1,0 +1,176 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "navs/heads.html" %}
+
+<style>
+    table {
+        table-layout: fixed;
+    }
+    
+    td {
+        white-space: normal !important;
+        word-wrap: break-word;
+    }
+</style>
+
+<body >
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+		{% include "navs/topnav.html" %}
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            {% if request.user.is_authenticated %}
+          {% include "navs/sidenav.html" %}
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="home-tab">
+                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+
+
+                                </div>
+                                <div class="tab-content tab-content-basic">
+                                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                                        <div class="col-12 grid-margin">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Account</h4>
+
+                                                    <section style="background-color: #ffffff;" id="sct_dsp">
+
+                                                        <div class="row justify-content-center mb-3">
+                                                            <div class="col-md-12 col-l-12">
+                                                                <div class="card shadow-0 border rounded-3">
+                                                                    <div class="card-body" id="addrsl">
+                                                                        
+                                                                        <div class="row">
+                                                                            <div class="col-md-2">
+                                                                                <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"new"}' hx-target="#addrsl">Add Record</button>
+                                                                            </div>                                                            <div class="col-md-2">
+                                                                               <input type="date" name="dat1" class="form-control" id="">
+                                                                            </div>  
+                                                                            <div class="col-md-2">
+                                                                                <input type="date" name="dat2" class="form-control" id="">
+                                                                             </div> 
+                                                                             <div class="col-md-2">
+                                                                                <button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"fdate"}' hx-target="#filter" hx-include="[name='dat1'],[name='dat2']">Find By date</button>
+                                                                             </div> 
+                                                                             <div class="col-md-2">
+                                                                                <input type="text" name="fref" class="form-control" placeholder="Refrence">
+                                                                             </div> 
+                                                                             <div class="col-md-2"><button class="btn btn-warning btn-sm" hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"fref"}' hx-target="#filter" hx-include="[name='fref']">Find by Ref</button></div>  
+                                                                           
+                                                                           
+                                                                        </div>
+                                                                        <div class="row" style="padding: 20px;" id="areaadd">
+         
+                                                                     </div>
+
+
+
+
+                                                                        <div class="row"><table class="table">
+                                                                            <thead>
+                                                                                <tr style="text-align: center;"> 
+                                                                                <th rowspan="2">#</th>
+                                                                                <th rowspan="2">Ref</th>
+                                                                                <th rowspan="2">Date</th>
+                                                                                <th rowspan="2" colspan="2">Decription</th>
+                                                                                <th colspan="2">Debit</th>
+                                                                                <th colspan="2">Credit</th>
+                                                                                <tr>
+                                                                                    <th style="border-left: 1px black solid;">Acc</th>
+                                                                                    <th>Amount</th>
+                                                                                   
+                                                                                    <th style="border-left: 1px black solid;">Acc</th>
+                                                                                    <th>Amount</th>
+                                                                                </tr>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="filter">
+                                                                                {% for i in jrf %}
+                                                                               <tr style="text-align: center;">
+                                                                                <td ><button class="btn btn-primary btn-sm"  hx-headers='{ "X-CSRFToken": "{{ csrf_token }}"} ' hx-post="{% url 'journal' %}" hx-vals='{"action":"edit","val":"{{i.id}}"}' hx-target="#addrsl">Open</button></td>
+                                                                                <td >{{i.ref}}</td>
+                                                                                <td >{{i.date|date:"d-m-y" }}</td>
+                                                                                <td colspan="2">{{i.description}}</td>
+                                                                               
+                                                                                    <td style="border-left: 1px black solid;">{{i.get_debit.0.key.name}}</td>
+                                                                                    <td>{{i.get_debit_total}} </td>
+                                                                                    
+                                                                                    <td style="border-left: 1px black solid;">{{i.get_credit.0.key.name}}</td>
+                                                                                   
+                                                                                    <td>{{i.get_credit_total}}</td>
+                                                                               </tr> 
+                                                                              
+                                                                              {% endfor %}
+                                                                               
+                                                                            </tbody>
+                                                                        </table></div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-11">
+                                                                  
+                                                                                <nav aria-label="Page navigation example" >
+                                                                                    
+                                                                                <ul class="pagination" style=" flex-wrap: wrap">
+                                                                                    {% if jrf.has_previous  %}
+                                                                                    <li class="page-item"><a class="page-link" href="?page={{ jrf.previous_page_number }}">previous</a></li>
+                                                                                    {% else %}
+                                                                                
+                                                                                <li class="page-item"><a class="page-link" href="?page=1" disabled>first</a></li>
+                                                                                        
+                                                                                                {% endif %}
+                                                                                                {% for i in jrf.paginator.page_range %}
+                                                                                                {% if jrf.number == i %}
+                                                                                        <li class="page-item active">
+                                                                                            <span class="page-link">
+                                                                                                Page {{ jrf.number }} of {{ jrf.paginator.num_pages }}
+                                                                                            </span>
+                                                                                            </li>
+                                                                                        {% endif %}
+                                                                                            {% endfor %}
+                                                                                            {% if jrf.has_next %}
+                                                                                        
+                                                                                        <li class="page-item"><a class="page-link" href="?page={{ jrf.next_page_number }}">Next</a></li>
+                                                                                        {% else %}
+                                                                                            <li class="page-item" disabled><a class="page-link" href="" disabled>Last</a></li>
+                                                                                            {% endif %}
+                                                                                    </ul>
+                                                                                    
+                                                                                    </nav>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </section>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- main-panel ends -->
+                    </div>
+                    <!-- page-body-wrapper ends -->
+                </div>
+                <!-- container-scroller -->
+
+                <!-- plugins:js -->
+            </div>
+        </div>
+        {% endif %}
+       {% include "navs/scrpt.html" %}
+    </div>
+</body>
+
+</html>
